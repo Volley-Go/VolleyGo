@@ -16,7 +16,7 @@ import numpy as np
 # ChatGPT API配置
 try:
     from openai import OpenAI
-    import httpx
+    import platform
     
     # 配置ChatGPT API
     API_BASE_URL = "https://api.chatanywhere.tech"
@@ -25,29 +25,41 @@ try:
     os.environ["OPENAI_API_KEY"] = API_KEY
     os.environ["OPENAI_BASE_URL"] = API_BASE_URL
     
-    # 创建自定义HTTP客户端，解决Windows连接问题
-    # 使用更宽松的配置来避免WinError 6
-    # 注意：在Windows上，使用更保守的连接池设置
-    http_client = httpx.Client(
-        timeout=httpx.Timeout(30.0, connect=15.0),
-        verify=True,
-        limits=httpx.Limits(
-            max_connections=5,  # 减少连接数，避免句柄问题
-            max_keepalive_connections=2
-        ),
-        # 不使用HTTPTransport，使用默认transport，更稳定
-    )
+    # Windows上的特殊处理：完全不使用httpx.Client，使用默认客户端
+    # httpx在Windows上有句柄问题，使用默认的urllib3/requests更稳定
+    if platform.system() == "Windows":
+        # Windows: 不使用自定义HTTP客户端，让OpenAI SDK使用默认客户端
+        # 这样可以避免httpx的WinError 6句柄问题
+        openai_client = OpenAI(
+            api_key=API_KEY,
+            base_url=API_BASE_URL,
+            timeout=30.0,
+            max_retries=1,
+            # 不传入http_client参数，使用默认客户端
+        )
+    else:
+        # Linux/Mac: 可以使用httpx连接池以获得更好性能
+        import httpx
+        http_client = httpx.Client(
+            timeout=httpx.Timeout(30.0, connect=15.0),
+            verify=True,
+            limits=httpx.Limits(
+                max_connections=10,
+                max_keepalive_connections=5
+            )
+        )
+        openai_client = OpenAI(
+            api_key=API_KEY,
+            base_url=API_BASE_URL,
+            http_client=http_client,
+            timeout=30.0,
+            max_retries=2
+        )
     
-    # 初始化OpenAI客户端，使用自定义HTTP客户端
-    openai_client = OpenAI(
-        api_key=API_KEY,
-        base_url=API_BASE_URL,
-        http_client=http_client,
-        timeout=30.0,
-        max_retries=2  # 减少重试次数，使用自定义HTTP客户端的重试
-    )
     OPENAI_AVAILABLE = True
     print(f"✅ ChatGPT API已配置: {API_BASE_URL}")
+    if platform.system() == "Windows":
+        print("⚠️ Windows模式：使用默认HTTP客户端（避免httpx句柄问题）")
 except ImportError as e:
     print(f"警告: 必需的库未安装: {e}")
     print("请运行: pip install openai httpx")
@@ -432,19 +444,73 @@ def ai_coach_ask():
             except Exception as conn_err:
                 print(f"⚠️ 网络连接测试失败: {conn_err}")
             
-            response = openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",  # ChatGPT模型
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": question}
-                ],
-                temperature=0.7,
-                max_tokens=1000
-            )
-            
-            print(f"✅ API调用成功")
-            answer = response.choices[0].message.content.strip()
-            print(f"📄 回答长度: {len(answer)} 字符")
+            # Windows上使用requests库直接发送HTTP请求，完全避免httpx句柄问题
+            import platform
+            if platform.system() == "Windows":
+                # 使用requests库直接调用API，绕过httpx
+                import requests
+                import json
+                
+                url = f"{API_BASE_URL}/v1/chat/completions"
+                headers = {
+                    "Authorization": f"Bearer {API_KEY}",
+                    "Content-Type": "application/json"
+                }
+                payload = {
+                    "model": "gpt-3.5-turbo",
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": question}
+                    ],
+                    "temperature": 0.7,
+                    "max_tokens": 1000
+                }
+                
+                print("🔧 Windows模式：使用requests库直接调用API（避免httpx句柄问题）")
+                
+                # 禁用代理，避免ProxyError
+                # 明确设置proxies为None，防止使用系统代理配置
+                proxies = {
+                    'http': None,
+                    'https': None
+                }
+                
+                # 禁用SSL警告（如果需要）
+                import urllib3
+                urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+                
+                api_response = requests.post(
+                    url,
+                    headers=headers,
+                    json=payload,
+                    timeout=30,
+                    proxies=proxies,  # 禁用代理
+                    verify=True  # 仍然验证SSL证书
+                )
+                
+                if api_response.status_code == 200:
+                    result = api_response.json()
+                    answer = result["choices"][0]["message"]["content"].strip()
+                    print(f"✅ API调用成功（使用requests）")
+                    print(f"📄 回答长度: {len(answer)} 字符")
+                else:
+                    error_msg = f"API返回错误: {api_response.status_code} - {api_response.text}"
+                    print(f"❌ {error_msg}")
+                    raise Exception(error_msg)
+            else:
+                # Linux/Mac: 使用OpenAI SDK
+                response = openai_client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": question}
+                    ],
+                    temperature=0.7,
+                    max_tokens=1000
+                )
+                answer = response.choices[0].message.content.strip()
+                print(f"✅ API调用成功（使用OpenAI SDK）")
+                print(f"📄 回答长度: {len(answer)} 字符")
             
             return jsonify({
                 'success': True,

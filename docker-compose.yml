@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: volleyball-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./output:/app/output  # 挂载输出目录，方便查看生成的视频
+      - ./data:/app/data       # 挂载数据目录
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    # 资源限制（根据服务器配置调整）
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
