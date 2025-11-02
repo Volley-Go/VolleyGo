@@ -269,6 +269,330 @@
       "options": ["多人进攻", "前后排结合进攻", "快速进攻", "强力进攻"],
       "correct_answer": 1,
       "explanation": "立体进攻是指前排和后排队员同时参与进攻，形成多点攻击，增加战术变化，让对方防不胜防。"
+    },
+    {
+      "id": 31,
+      "category": "基础知识",
+      "difficulty": "简单",
+      "question": "排球比赛的网高（男子）是多少米？",
+      "options": ["2.24米", "2.43米", "2.50米", "2.60米"],
+      "correct_answer": 1,
+      "explanation": "男子排球比赛网高为2.43米，女子为2.24米。"
+    },
+    {
+      "id": 32,
+      "category": "基础知识",
+      "difficulty": "简单",
+      "question": "排球比赛中，一局比赛最多打多少分？",
+      "options": ["15分", "21分", "25分", "30分"],
+      "correct_answer": 2,
+      "explanation": "前四局比赛先得25分且领先2分的队伍获胜，如果打成24:24，则继续比赛直到领先2分。"
+    },
+    {
+      "id": 33,
+      "category": "位置职责",
+      "difficulty": "中等",
+      "question": "主攻手的主要职责是什么？",
+      "options": ["防守", "进攻和接发球", "拦网", "二传"],
+      "correct_answer": 1,
+      "explanation": "主攻手主要负责强攻和接发球，是球队的主要得分手。"
+    },
+    {
+      "id": 34,
+      "category": "位置职责",
+      "difficulty": "中等",
+      "question": "副攻的主要职责是什么？",
+      "options": ["进攻", "拦网和快攻", "防守", "二传"],
+      "correct_answer": 1,
+      "explanation": "副攻主要负责拦网和快攻，是球队防守和快攻战术的核心。"
+    },
+    {
+      "id": 35,
+      "category": "技术动作",
+      "difficulty": "中等",
+      "question": "传球时，应该用身体的哪个部位发力？",
+      "options": ["手指", "手腕", "手臂和身体协调", "手掌"],
+      "correct_answer": 2,
+      "explanation": "传球时需要手指、手腕、手臂和身体协调发力，形成全身协调的动作。"
+    },
+    {
+      "id": 36,
+      "category": "技术动作",
+      "difficulty": "简单",
+      "question": "扣球时，助跑的目的是什么？",
+      "options": ["增加速度", "增加弹跳高度", "调整击球位置", "以上都是"],
+      "correct_answer": 3,
+      "explanation": "助跑可以帮助增加速度、提高弹跳高度，同时调整到最佳的击球位置。"
+    },
+    {
+      "id": 37,
+      "category": "战术配合",
+      "difficulty": "困难",
+      "question": "\"时间差\"进攻战术的核心是什么？",
+      "options": ["速度快", "利用起跳时间差", "力量大", "位置变化"],
+      "correct_answer": 1,
+      "explanation": "时间差进攻是攻手在假动作掩护下，利用与队友不同的起跳时间完成进攻。"
+    },
+    {
+      "id": 38,
+      "category": "战术配合",
+      "difficulty": "中等",
+      "question": "\"梯次进攻\"是指什么？",
+      "options": ["前后排同时进攻", "两名攻手前后重叠进攻", "左右两侧同时进攻", "快慢结合进攻"],
+      "correct_answer": 1,
+      "explanation": "梯次进攻是两名攻手前后重叠站位，先跳的攻手掩护后跳的攻手完成进攻。"
+    },
+    {
+      "id": 39,
+      "category": "规则判罚",
+      "difficulty": "简单",
+      "question": "触网犯规是指什么？",
+      "options": ["球触网", "队员触网", "队员身体任何部分触网", "脚触网"],
+      "correct_answer": 2,
+      "explanation": "根据现代规则，队员身体任何部分触碰到球网都算犯规（发球除外）。"
+    },
+    {
+      "id": 40,
+      "category": "规则判罚",
+      "difficulty": "中等",
+      "question": "过中线犯规是指什么？",
+      "options": ["球过中线", "脚完全越过中线", "脚踩到中线", "手过中线"],
+      "correct_answer": 1,
+      "explanation": "队员的一只脚或双脚完全越过中线并触及对方场地算犯规，但脚的一部分踩中线不算犯规。"
+    },
+    {
+      "id": 41,
+      "category": "位置轮转",
+      "difficulty": "简单",
+      "question": "轮转时，队员应该按什么方向移动？",
+      "options": ["逆时针", "顺时针", "随意", "教练指定"],
+      "correct_answer": 1,
+      "explanation": "轮转时队员按顺时针方向移动一个位置。"
+    },
+    {
+      "id": 42,
+      "category": "位置轮转",
+      "difficulty": "中等",
+      "question": "轮转后，前排队员可以到后排吗？",
+      "options": ["可以", "不可以", "只有自由人可以", "只有二传可以"],
+      "correct_answer": 2,
+      "explanation": "轮转后，前排队员会自然转到后排，但除自由人外，其他队员不能专门替换到后排。"
+    },
+    {
+      "id": 43,
+      "category": "进攻战术",
+      "difficulty": "中等",
+      "question": "\"短平快\"是指什么？",
+      "options": ["短距离传球", "快攻的一种", "平快球", "短距离快攻"],
+      "correct_answer": 3,
+      "explanation": "短平快是快攻的一种，二传将球传到攻手身前约1米处，攻手快速起跳扣球。"
+    },
+    {
+      "id": 44,
+      "category": "进攻战术",
+      "difficulty": "困难",
+      "question": "\"前交叉\"战术是指什么？",
+      "options": ["前后排交叉", "两名攻手交叉跑位", "左右交叉", "时间交叉"],
+      "correct_answer": 1,
+      "explanation": "前交叉是两名攻手在二传身前交叉跑位，形成快攻和强攻的组合。"
+    },
+    {
+      "id": 45,
+      "category": "防守战术",
+      "difficulty": "中等",
+      "question": "\"双人拦网\"的目的是什么？",
+      "options": ["增加拦网面积", "增加拦网高度", "防止漏球", "以上都是"],
+      "correct_answer": 3,
+      "explanation": "双人拦网可以增加拦网面积和高度，同时减少漏球的可能性。"
+    },
+    {
+      "id": 46,
+      "category": "防守战术",
+      "difficulty": "困难",
+      "question": "\"卡位\"防守是指什么？",
+      "options": ["站位防守", "预判对方进攻路线", "快速移动", "紧密站位"],
+      "correct_answer": 1,
+      "explanation": "卡位防守是防守队员通过预判对方进攻路线，提前站位进行防守。"
+    },
+    {
+      "id": 47,
+      "category": "拦网技术",
+      "difficulty": "中等",
+      "question": "拦网时，起跳时机应该在什么时候？",
+      "options": ["与攻手同时起跳", "稍早于攻手起跳", "稍晚于攻手起跳", "随意"],
+      "correct_answer": 1,
+      "explanation": "拦网时应该稍早于攻手起跳，这样可以占据制空权，更有效地封堵对方的进攻路线。"
+    },
+    {
+      "id": 48,
+      "category": "拦网技术",
+      "difficulty": "简单",
+      "question": "拦网时，手应该放在什么位置？",
+      "options": ["身体两侧", "头顶上方", "胸前", "腹部"],
+      "correct_answer": 1,
+      "explanation": "拦网时双手应该举过头顶，手臂稍微弯曲，手掌向前，准备封堵对方的进攻路线。"
+    },
+    {
+      "id": 49,
+      "category": "发球技术",
+      "difficulty": "中等",
+      "question": "\"上手发球\"的抛球高度应该是多少？",
+      "options": ["与肩同高", "略高于头顶", "尽量高", "低抛"],
+      "correct_answer": 1,
+      "explanation": "上手发球的抛球高度应该略高于头顶，这样可以在最佳位置击球。"
+    },
+    {
+      "id": 50,
+      "category": "发球技术",
+      "difficulty": "困难",
+      "question": "\"跳发球\"的助跑距离应该是多少？",
+      "options": ["2-3步", "4-5步", "6-7步", "随意"],
+      "correct_answer": 1,
+      "explanation": "跳发球的助跑距离通常是4-5步，这样可以获得足够的速度和起跳高度。"
+    },
+    {
+      "id": 51,
+      "category": "心理战术",
+      "difficulty": "中等",
+      "question": "在比分落后时，应该采取什么策略？",
+      "options": ["放弃", "急躁进攻", "稳定心态，逐个追分", "责怪队友"],
+      "correct_answer": 2,
+      "explanation": "比分落后时应该保持冷静，稳定心态，通过稳定发挥逐个追分，避免急躁导致更多失误。"
+    },
+    {
+      "id": 52,
+      "category": "心理战术",
+      "difficulty": "简单",
+      "question": "比赛中，队员之间应该保持什么？",
+      "options": ["沉默", "积极沟通", "各自为战", "听从一人指挥"],
+      "correct_answer": 1,
+      "explanation": "比赛中队员之间应该保持积极沟通，相互鼓励和支持，这是团队合作的基础。"
+    },
+    {
+      "id": 53,
+      "category": "体能训练",
+      "difficulty": "中等",
+      "question": "排球运动员最需要训练哪项身体素质？",
+      "options": ["耐力", "爆发力", "柔韧性", "平衡能力"],
+      "correct_answer": 1,
+      "explanation": "排球运动需要频繁起跳、扣球和快速移动，因此爆发力是最重要的身体素质。"
+    },
+    {
+      "id": 54,
+      "category": "体能训练",
+      "difficulty": "简单",
+      "question": "提高弹跳能力的主要训练方法是什么？",
+      "options": ["长跑", "深蹲和跳跃训练", "游泳", "瑜伽"],
+      "correct_answer": 1,
+      "explanation": "提高弹跳能力需要进行深蹲、跳跃、蛙跳等下肢力量训练。"
+    },
+    {
+      "id": 55,
+      "category": "比赛策略",
+      "difficulty": "中等",
+      "question": "在关键分时，应该采取什么策略？",
+      "options": ["保守", "冒险", "稳定发挥，减少失误", "随意"],
+      "correct_answer": 2,
+      "explanation": "在关键分时应该保持稳定，减少失误，不冒险进攻，确保成功率。"
+    },
+    {
+      "id": 56,
+      "category": "比赛策略",
+      "difficulty": "困难",
+      "question": "\"换人战术\"什么时候使用最有效？",
+      "options": ["开局", "中局", "关键时刻", "任何时间"],
+      "correct_answer": 2,
+      "explanation": "换人战术通常在关键时刻使用，可以改变比赛节奏，或者针对性地应对对方的战术。"
+    },
+    {
+      "id": 57,
+      "category": "技术细节",
+      "difficulty": "中等",
+      "question": "接发球时，准备姿势应该是？",
+      "options": ["站立", "半蹲", "全蹲", "随意"],
+      "correct_answer": 1,
+      "explanation": "接发球时应该采用半蹲准备姿势，重心降低，便于快速移动和反应。"
+    },
+    {
+      "id": 58,
+      "category": "技术细节",
+      "difficulty": "简单",
+      "question": "扣球时，挥臂动作应该是？",
+      "options": ["快速挥臂", "慢速挥臂", "匀速挥臂", "随意"],
+      "correct_answer": 0,
+      "explanation": "扣球时需要快速挥臂，充分利用肩、肘、腕的协调发力，产生最大的击球力量。"
+    },
+    {
+      "id": 59,
+      "category": "场上沟通",
+      "difficulty": "中等",
+      "question": "接发球时，队员之间应该如何沟通？",
+      "options": ["不说话", "大声喊叫", "简短明确的口令", "手势交流"],
+      "correct_answer": 2,
+      "explanation": "接发球时应该用简短明确的口令（如\"我来\"、\"你的\"）进行沟通，避免混乱。"
+    },
+    {
+      "id": 60,
+      "category": "场上沟通",
+      "difficulty": "简单",
+      "question": "进攻时，攻手应该给二传什么信号？",
+      "options": ["不说话", "手势信号", "眼神交流", "大声喊叫"],
+      "correct_answer": 1,
+      "explanation": "攻手应该提前给二传明确的手势信号，表明自己的进攻意图，便于二传组织战术。"
+    },
+    {
+      "id": 61,
+      "category": "装备知识",
+      "difficulty": "简单",
+      "question": "排球比赛中，球的气压应该是多少？",
+      "options": ["0.3-0.325千克/平方厘米", "0.4-0.425千克/平方厘米", "0.5-0.525千克/平方厘米", "0.6-0.625千克/平方厘米"],
+      "correct_answer": 1,
+      "explanation": "标准排球的气压为0.3-0.325千克/平方厘米（4.26-4.61磅/平方英寸）。"
+    },
+    {
+      "id": 62,
+      "category": "装备知识",
+      "difficulty": "中等",
+      "question": "排球运动员应该穿什么类型的鞋？",
+      "options": ["跑鞋", "篮球鞋", "排球专用鞋", "普通运动鞋"],
+      "correct_answer": 2,
+      "explanation": "排球专用鞋具有良好的缓震性和抓地力，适合排球运动的特点。"
+    },
+    {
+      "id": 63,
+      "category": "历史知识",
+      "difficulty": "中等",
+      "question": "排球运动是哪一年成为奥运会正式项目的？",
+      "options": ["1960年", "1964年", "1968年", "1972年"],
+      "correct_answer": 1,
+      "explanation": "排球运动于1964年东京奥运会成为正式比赛项目。"
+    },
+    {
+      "id": 64,
+      "category": "历史知识",
+      "difficulty": "简单",
+      "question": "中国女排首次获得奥运会金牌是哪一年？",
+      "options": ["1980年", "1984年", "1988年", "1992年"],
+      "correct_answer": 1,
+      "explanation": "中国女排于1984年洛杉矶奥运会首次获得奥运会金牌。"
+    },
+    {
+      "id": 65,
+      "category": "高级战术",
+      "difficulty": "困难",
+      "question": "\"后排进攻\"的主要目的是什么？",
+      "options": ["增加进攻点", "避开拦网", "增加隐蔽性", "以上都是"],
+      "correct_answer": 3,
+      "explanation": "后排进攻可以增加进攻点，避开对方的前排拦网，同时增加进攻的隐蔽性和突然性。"
+    },
+    {
+      "id": 66,
+      "category": "高级战术",
+      "difficulty": "困难",
+      "question": "\"掩护进攻\"是指什么？",
+      "options": ["假动作掩护", "队友掩护", "多人掩护", "以上都是"],
+      "correct_answer": 3,
+      "explanation": "掩护进攻是攻手利用队友的假动作或掩护，隐蔽自己的进攻意图，达到突然袭击的效果。"
     }
   ],
   "categories": [
@@ -293,5 +617,3 @@
   ],
   "difficulty_levels": ["简单", "中等", "困难"]
 }
-
-

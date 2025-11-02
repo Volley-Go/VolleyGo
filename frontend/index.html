@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排球冒险 - AI排球训练系统</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 自定义配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'volleyball-orange': '#FF6900',
+                        'volleyball-dark-orange': '#F54900',
+                        'volleyball-light-orange': '#FE9A00',
+                        'volleyball-green': '#00C950',
+                        'volleyball-blue': '#155DFC',
+                        'volleyball-purple': '#AD46FF'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #F0F9FF 0%, #FFF7ED 50%, #F0FDF4 100%);
+        }
+        
+        .gradient-orange {
+            background: linear-gradient(90deg, #FF6900 0%, #FE9A00 50%, #F0B100 100%);
+        }
+        
+        .volleyball-court-bg {
+            background: linear-gradient(135deg, #DCFCE7 0%, #B9F8CF 100%);
+            box-shadow: inset 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* 平滑过渡动画 */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        /* 卡片悬停效果 */
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* 按钮脉冲动画 */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .7;
+            }
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        /* 隐藏滚动条但保持可滚动 */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- 应用容器 -->
+    <div id="app" class="max-w-screen-xl mx-auto">
+        <!-- 加载中状态 -->
+        <div id="loading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-2xl p-8 text-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-volleyball-orange mx-auto mb-4"></div>
+                <p class="text-lg font-semibold text-gray-700">AI正在分析中...</p>
+            </div>
+        </div>
+        
+        <!-- 页面内容将通过JavaScript动态渲染 -->
+        <div id="page-content"></div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="js/api.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/tactics.js"></script>
+    <script src="js/pages.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
