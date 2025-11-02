@@ -121,6 +121,91 @@ class VolleyballAPI {
     }
     
     /**
+     * 测试AI教练服务状态
+     * @returns {Promise<Object>} 服务状态
+     */
+    async testAICoach() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/ai-coach/test`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('AI服务测试失败:', error);
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
+    
+    /**
+     * AI教练智能问答
+     * @param {string} question - 用户问题
+     * @returns {Promise<Object>} AI回答
+     */
+    async askAICoach(question) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/ai-coach/ask`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || `HTTP ${response.status}`);
+            }
+            
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('AI问答失败:', error);
+            
+            // 如果是503错误，尝试诊断
+            if (error.message.includes('503') || error.message.includes('暂不可用')) {
+                console.log('🔍 尝试诊断AI服务...');
+                const testResult = await this.testAICoach();
+                console.log('诊断结果:', testResult);
+                
+                if (testResult.success && testResult.status) {
+                    const status = testResult.status;
+                    if (!status.openai_available) {
+                        return {
+                            success: false,
+                            error: 'OpenAI库未安装。请在Flask服务器终端运行: pip install openai>=1.0.0'
+                        };
+                    }
+                    if (!status.client_initialized) {
+                        return {
+                            success: false,
+                            error: 'OpenAI客户端初始化失败。请检查Flask服务器终端的错误信息'
+                        };
+                    }
+                    if (!status.api_key_set) {
+                        return {
+                            success: false,
+                            error: 'API密钥未配置。请检查 backend/api/flask_api.py 中的配置'
+                        };
+                    }
+                    if (!status.base_url_set) {
+                        return {
+                            success: false,
+                            error: 'API URL未配置。请检查 backend/api/flask_api.py 中的配置'
+                        };
+                    }
+                }
+            }
+            
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
+    
+    /**
      * 健康检查
      * @returns {Promise<Object>} 服务器状态
      */

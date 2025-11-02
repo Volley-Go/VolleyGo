@@ -89,8 +89,8 @@ function renderLeaderboardPage() {
                             </div>
                             
                             <!-- 头像 -->
-                            <div class="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center">
-                                ${user.rank <= 3 ? user.avatar : '👤'}
+                            <div class="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center overflow-hidden">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name || 'volleyball'}" alt="${user.name}" class="w-full h-full object-cover" />
                             </div>
                         </div>
                     </div>
@@ -121,7 +121,9 @@ function renderProfilePage() {
                 
                 <div class="relative">
                     <div class="flex items-start gap-6 mb-6">
-                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full border-4 border-white shadow-xl"></div>
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full border-4 border-white shadow-xl flex items-center justify-center overflow-hidden">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=volleyball" alt="用户头像" class="w-full h-full object-cover" />
+                        </div>
                         <div class="flex-1">
                             <h2 class="text-3xl font-bold mb-1">${AppState.user.username}</h2>
                             <p class="text-white text-opacity-90 mb-3">guest</p>

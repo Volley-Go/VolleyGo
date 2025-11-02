@@ -13,6 +13,53 @@ import base64
 import cv2
 import numpy as np
 
+# ChatGPT API配置
+try:
+    from openai import OpenAI
+    import httpx
+    
+    # 配置ChatGPT API
+    API_BASE_URL = "https://api.chatanywhere.tech"
+    API_KEY = "sk-dPxOakeokunQGR0YcbWLi03gOn9K00DRmTjlfHcCP9WvRKh0"
+    
+    os.environ["OPENAI_API_KEY"] = API_KEY
+    os.environ["OPENAI_BASE_URL"] = API_BASE_URL
+    
+    # 创建自定义HTTP客户端，解决Windows连接问题
+    # 使用更宽松的配置来避免WinError 6
+    # 注意：在Windows上，使用更保守的连接池设置
+    http_client = httpx.Client(
+        timeout=httpx.Timeout(30.0, connect=15.0),
+        verify=True,
+        limits=httpx.Limits(
+            max_connections=5,  # 减少连接数，避免句柄问题
+            max_keepalive_connections=2
+        ),
+        # 不使用HTTPTransport，使用默认transport，更稳定
+    )
+    
+    # 初始化OpenAI客户端，使用自定义HTTP客户端
+    openai_client = OpenAI(
+        api_key=API_KEY,
+        base_url=API_BASE_URL,
+        http_client=http_client,
+        timeout=30.0,
+        max_retries=2  # 减少重试次数，使用自定义HTTP客户端的重试
+    )
+    OPENAI_AVAILABLE = True
+    print(f"✅ ChatGPT API已配置: {API_BASE_URL}")
+except ImportError as e:
+    print(f"警告: 必需的库未安装: {e}")
+    print("请运行: pip install openai httpx")
+    openai_client = None
+    OPENAI_AVAILABLE = False
+except Exception as e:
+    print(f"❌ ChatGPT API初始化失败: {str(e)}")
+    import traceback
+    traceback.print_exc()
+    openai_client = None
+    OPENAI_AVAILABLE = False
+
 # 添加项目根目录到路径
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
@@ -304,6 +351,168 @@ def get_score_summary():
     except Exception as e:
         return jsonify({
             'error': f'获取评分摘要失败: {str(e)}'
+        }), 500
+
+
+@app.route('/api/ai-coach/ask', methods=['POST'])
+def ai_coach_ask():
+    """
+    AI教练智能问答接口
+    接收用户问题，返回AI回答
+    """
+    try:
+        # 详细检查OpenAI可用性
+        if not OPENAI_AVAILABLE:
+            print("❌ OpenAI库未安装")
+            return jsonify({
+                'success': False,
+                'error': 'OpenAI库未安装，请运行: pip install openai>=1.0.0'
+            }), 503
+        
+        if not openai_client:
+            print("❌ OpenAI客户端未初始化")
+            return jsonify({
+                'success': False,
+                'error': 'OpenAI客户端初始化失败，请检查API配置'
+            }), 503
+        
+        # 检查API密钥和URL
+        api_key = os.environ.get("OPENAI_API_KEY")
+        base_url = os.environ.get("OPENAI_BASE_URL")
+        
+        if not api_key:
+            print("❌ OPENAI_API_KEY未设置")
+            return jsonify({
+                'success': False,
+                'error': 'API密钥未配置'
+            }), 503
+        
+        if not base_url:
+            print("❌ OPENAI_BASE_URL未设置")
+            return jsonify({
+                'success': False,
+                'error': 'API URL未配置'
+            }), 503
+        
+        data = request.json
+        question = data.get('question', '').strip()
+        
+        if not question:
+            return jsonify({
+                'success': False,
+                'error': '请输入问题'
+            }), 400
+        
+        print(f"📝 收到问题: {question}")
+        print(f"🔑 API Key: {api_key[:10]}...")
+        print(f"🌐 Base URL: {base_url}")
+        
+        # 构建系统提示词，让AI专注于排球相关回答
+        system_prompt = """你是一位专业的排球教练和训练专家。你的职责是：
+1. 回答关于排球技术、战术、训练方法的问题
+2. 提供专业、详细、易懂的解答
+3. 根据用户水平给出合适的建议
+4. 用中文回答，语言要友好、鼓励性
+5. 如果问题与排球无关，礼貌地引导用户提问排球相关问题
+
+请始终保持专业、友好、鼓励的态度。"""
+        
+        # 调用ChatGPT API
+        try:
+            print("🚀 开始调用ChatGPT API...")
+            print(f"📍 目标URL: {API_BASE_URL}")
+            
+            # 测试网络连接
+            import socket
+            try:
+                host = API_BASE_URL.replace("https://", "").replace("http://", "").split("/")[0]
+                print(f"🔍 测试连接到: {host}")
+                socket.create_connection((host, 443), timeout=5)
+                print("✅ 网络连接正常")
+            except Exception as conn_err:
+                print(f"⚠️ 网络连接测试失败: {conn_err}")
+            
+            response = openai_client.chat.completions.create(
+                model="gpt-3.5-turbo",  # ChatGPT模型
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": question}
+                ],
+                temperature=0.7,
+                max_tokens=1000
+            )
+            
+            print(f"✅ API调用成功")
+            answer = response.choices[0].message.content.strip()
+            print(f"📄 回答长度: {len(answer)} 字符")
+            
+            return jsonify({
+                'success': True,
+                'answer': answer,
+                'question': question
+            })
+            
+        except Exception as e:
+            error_msg = str(e)
+            error_type = type(e).__name__
+            print(f"❌ ChatGPT API调用失败: {error_msg}")
+            print(f"错误类型: {error_type}")
+            import traceback
+            traceback.print_exc()
+            
+            # 提供更详细的错误信息和解决建议
+            if "401" in error_msg or "unauthorized" in error_msg.lower():
+                error_detail = "API密钥无效，请检查密钥是否正确"
+            elif "429" in error_msg or "rate limit" in error_msg.lower():
+                error_detail = "请求频率过高，请稍后再试"
+            elif "timeout" in error_msg.lower() or "timed out" in error_msg.lower():
+                error_detail = "请求超时，请检查网络连接或稍后再试"
+            elif "connection" in error_msg.lower() or "WinError" in error_msg or "APIConnectionError" in error_type:
+                error_detail = f"网络连接失败。可能原因：\n1. 网络连接问题 - 请检查是否能访问 {API_BASE_URL}\n2. 防火墙/代理设置 - 可能阻止了连接\n3. Windows网络问题 - 尝试重启网络适配器\n4. VPN/代理冲突 - 尝试关闭VPN或调整代理设置\n\n错误详情: {error_msg}"
+            elif "ssl" in error_msg.lower() or "certificate" in error_msg.lower():
+                error_detail = "SSL证书验证失败，请检查网络环境或代理设置"
+            else:
+                error_detail = f"API调用失败: {error_msg}"
+            
+            return jsonify({
+                'success': False,
+                'error': error_detail
+            }), 500
+            
+    except Exception as e:
+        error_msg = str(e)
+        print(f"❌ 智能问答接口错误: {error_msg}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': f'服务器错误: {error_msg}'
+        }), 500
+
+
+@app.route('/api/ai-coach/test', methods=['GET'])
+def test_ai_coach():
+    """
+    测试AI教练服务是否可用
+    """
+    try:
+        status = {
+            'openai_available': OPENAI_AVAILABLE,
+            'client_initialized': openai_client is not None,
+            'api_key_set': bool(os.environ.get("OPENAI_API_KEY")),
+            'base_url_set': bool(os.environ.get("OPENAI_BASE_URL")),
+            'api_key_preview': os.environ.get("OPENAI_API_KEY", "")[:10] + "..." if os.environ.get("OPENAI_API_KEY") else "未设置",
+            'base_url': os.environ.get("OPENAI_BASE_URL", "未设置")
+        }
+        
+        return jsonify({
+            'success': True,
+            'status': status
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
         }), 500
 
 

@@ -34,7 +34,10 @@ const AppState = {
         currentQuestion: 0,
         answers: [],
         questions: []
-    }
+    },
+    
+    // AI教练对话历史
+    aiCoachChat: []
 };
 
 /**
@@ -57,8 +60,82 @@ async function initApp() {
         AppState.showOnboarding = false;
         renderMainPage();
     } else {
-        renderOnboarding();
+        // 首次进入显示全屏欢迎界面
+        renderWelcomeScreen();
     }
+}
+
+/**
+ * 渲染全屏欢迎界面
+ */
+function renderWelcomeScreen() {
+    const container = document.getElementById('page-content');
+    
+    container.innerHTML = `
+        <div class="fixed inset-0 gradient-bg flex items-center justify-center z-50 overflow-hidden">
+            <!-- 背景装饰 -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-volleyball-orange opacity-10 rounded-full blur-3xl transform translate-x-32 -translate-y-32"></div>
+                <div class="absolute bottom-0 left-0 w-96 h-96 bg-volleyball-blue opacity-10 rounded-full blur-3xl transform -translate-x-32 translate-y-32"></div>
+            </div>
+            
+            <!-- 主要内容 -->
+            <div class="relative z-10 max-w-4xl w-full px-6 py-12 text-center animate-fade-in">
+                <!-- Logo/图标 -->
+                <div class="mb-8 animate-bounce-slow">
+                    <div class="w-32 h-32 mx-auto bg-gradient-to-br from-volleyball-orange to-volleyball-dark-orange rounded-full flex items-center justify-center shadow-2xl">
+                        <span class="text-7xl">🏐</span>
+                    </div>
+                </div>
+                
+                <!-- 标题 -->
+                <h1 class="text-6xl md:text-7xl font-bold text-gray-800 mb-4 animate-slide-down">
+                    排球冒险
+                </h1>
+                <p class="text-2xl md:text-3xl text-gray-600 mb-12 animate-slide-up">
+                    AI 助力你的排球训练之旅
+                </p>
+                
+                <!-- 特色功能卡片 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 animate-fade-in-delay">
+                    <div class="bg-white bg-opacity-90 rounded-2xl p-6 shadow-xl hover-lift transition-all border-2 border-orange-100">
+                        <div class="text-5xl mb-4">📹</div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">AI动作识别</h3>
+                        <p class="text-gray-600 text-sm">实时分析训练视频，专业反馈指导</p>
+                    </div>
+                    <div class="bg-white bg-opacity-90 rounded-2xl p-6 shadow-xl hover-lift transition-all border-2 border-blue-100">
+                        <div class="text-5xl mb-4">🎯</div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">技能树系统</h3>
+                        <p class="text-gray-600 text-sm">系统化学习，从基础到高级</p>
+                    </div>
+                    <div class="bg-white bg-opacity-90 rounded-2xl p-6 shadow-xl hover-lift transition-all border-2 border-purple-100">
+                        <div class="text-5xl mb-4">🏆</div>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800">成长激励</h3>
+                        <p class="text-gray-600 text-sm">星级评分、段位晋升、排行榜</p>
+                    </div>
+                </div>
+                
+                <!-- 开始按钮 -->
+                <button onclick="startOnboarding()" 
+                        class="px-12 py-4 bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange text-white text-xl font-bold rounded-full shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 animate-pulse-slow">
+                    🚀 开始冒险
+                </button>
+                
+                <!-- 底部提示 -->
+                <p class="mt-8 text-gray-500 text-sm animate-fade-in-delay-2">
+                    💡 首次使用将为您进行简单引导
+                </p>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * 开始引导流程
+ */
+function startOnboarding() {
+    AppState.onboardingStep = 0;
+    renderOnboarding();
 }
 
 /**
@@ -193,7 +270,7 @@ function renderOnboarding() {
                 </div>
                 
                 <!-- 内容区域 -->
-                <div class="p-6">
+                <div class="p-6" id="onboarding-content">
                     <div class="text-6xl text-center mb-6">${currentStep.emoji}</div>
                     ${currentStep.content}
                 </div>
@@ -231,18 +308,22 @@ function renderOnboarding() {
             </div>
         </div>
     `;
+    
+    // 头像现在直接在HTML中使用src属性，不需要额外的setTimeout设置
 }
 
 /**
  * 位置选择渲染
  */
 function renderPositionSelection() {
+    console.log('开始渲染位置选择');
     const positions = [
         {
             id: 'outside',
             name: '主攻',
             difficulty: '中等',
             icon: '🏐',
+            avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=hitter&backgroundColor=0ea5e9',
             features: ['全面发展', '攻防兼备', '核心得分手']
         },
         {
@@ -250,6 +331,7 @@ function renderPositionSelection() {
             name: '副攻',
             difficulty: '中等',
             icon: '⚡',
+            avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=middle&backgroundColor=10b981',
             features: ['防线支柱', '快攻先锋', '拦网专家']
         },
         {
@@ -257,6 +339,7 @@ function renderPositionSelection() {
             name: '二传',
             difficulty: '较难',
             icon: '🎯',
+            avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=setter&backgroundColor=ffa500',
             features: ['球队大脑', '战术指挥', '节奏控制']
         },
         {
@@ -264,6 +347,7 @@ function renderPositionSelection() {
             name: '接应',
             difficulty: '较难',
             icon: '💪',
+            avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=opposite&backgroundColor=f59e0b',
             features: ['终结者', '强力进攻', '单拦核心']
         },
         {
@@ -271,6 +355,7 @@ function renderPositionSelection() {
             name: '自由人',
             difficulty: '中等',
             icon: '🛡️',
+            avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=libero&backgroundColor=3b82f6',
             features: ['防守专家', '接发球核心', '防线指挥']
         },
         {
@@ -278,16 +363,24 @@ function renderPositionSelection() {
             name: '防守队员',
             difficulty: '较易',
             icon: '🎨',
+            avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=defender&backgroundColor=14b8a6',
             features: ['后排防守', '接发球', '团队支援']
         }
     ];
     
-    return `
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-            ${positions.map(pos => `
+    // 调试：输出第一个位置的avatar URL
+    if (positions.length > 0) {
+        console.log('第一个位置头像URL:', positions[0].avatar);
+    }
+    
+    const htmlString = `
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6" id="position-selection-grid">
+            ${positions.map((pos, index) => `
                 <div onclick="selectPosition('${pos.id}')" 
                      class="bg-white border-2 rounded-2xl p-6 cursor-pointer hover-lift transition-all ${AppState.selectedPosition === pos.id ? 'border-volleyball-orange' : 'border-gray-200'}">
-                    <div class="text-4xl mb-3">${pos.icon}</div>
+                    <div class="w-16 h-16 mb-3 mx-auto rounded-full overflow-hidden border-2 border-gray-200" style="background-color: #f3f4f6; min-width: 64px; min-height: 64px;">
+                        <img src="${pos.avatar}" alt="${pos.name}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+                    </div>
                     <h3 class="text-lg font-semibold mb-2">${pos.name}</h3>
                     <div class="flex items-center gap-2 mb-3">
                         <span class="text-3xl">📊</span>
@@ -312,6 +405,15 @@ function renderPositionSelection() {
             </div>
         ` : ''}
     `;
+    
+    // 调试：检查生成的HTML中是否包含头像URL
+    if (htmlString.includes('api.dicebear.com')) {
+        console.log('✅ HTML中包含DiceBear URL');
+    } else {
+        console.error('❌ HTML中未找到DiceBear URL');
+    }
+    
+    return htmlString;
 }
 
 /**
@@ -504,7 +606,9 @@ function renderHeader() {
                         <h1 class="text-2xl font-bold">排球冒险</h1>
                         <p class="text-sm text-white text-opacity-90">游客模式</p>
                     </div>
-                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full border-2 border-white shadow-lg"></div>
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full border-2 border-white shadow-lg flex items-center justify-center overflow-hidden">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=volleyball" alt="用户头像" class="w-full h-full object-cover" />
+                    </div>
                 </div>
             </div>
             
@@ -562,12 +666,12 @@ function renderVolleyballCourt() {
             <div class="volleyball-court-bg rounded-2xl p-8 relative" style="min-height: 400px;">
                 <div class="grid grid-cols-3 gap-4">
                     ${[
-                        {name: '主攻', stars: 10, level: 2, position: 'top-left'},
-                        {name: '副攻', stars: 45, level: 4, position: 'top-center'},
-                        {name: '二传', stars: 25, level: 3, position: 'top-right'},
-                        {name: '接应', stars: 70, level: 5, position: 'bottom-left'},
-                        {name: '自由人', stars: 0, level: 1, xp: '1800/2000 XP', position: 'bottom-center', highlight: true},
-                        {name: '防守队员', stars: 100, level: 6, position: 'bottom-right'}
+                        {name: '主攻', stars: 10, level: 2, position: 'top-left', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=hitter&backgroundColor=0ea5e9'},
+                        {name: '副攻', stars: 45, level: 4, position: 'top-center', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=middle&backgroundColor=10b981'},
+                        {name: '二传', stars: 25, level: 3, position: 'top-right', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=setter&backgroundColor=ffa500'},
+                        {name: '接应', stars: 70, level: 5, position: 'bottom-left', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=opposite&backgroundColor=f59e0b'},
+                        {name: '自由人', stars: 0, level: 1, xp: '1800/2000 XP', position: 'bottom-center', highlight: true, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=libero&backgroundColor=3b82f6'},
+                        {name: '防守队员', stars: 100, level: 6, position: 'bottom-right', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=defender&backgroundColor=14b8a6'}
                     ].map((pos, idx) => `
                         <div class="bg-gray-100 bg-opacity-75 border-2 ${pos.highlight ? 'border-white bg-white' : 'border-gray-300'} rounded-2xl p-4 hover-lift cursor-pointer transition-all">
                             <div class="text-center mb-2">
@@ -588,7 +692,9 @@ function renderVolleyballCourt() {
                             </div>
                             <div class="flex justify-center">
                                 <div class="relative w-16 h-16">
-                                    <div class="w-16 h-16 bg-white border-3 border-white rounded-full shadow-lg"></div>
+                                    <div class="w-16 h-16 bg-white border-3 border-white rounded-full shadow-lg overflow-hidden">
+                                        <img src="${pos.avatar}" alt="${pos.name}" style="width: 100%; height: 100%; object-fit: cover;" />
+                                    </div>
                                     ${pos.highlight ? `
                                         <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-500 border-2 border-white rounded-full shadow-lg flex items-center justify-center">
                                             <span class="text-white text-xs font-bold">6</span>
@@ -882,11 +988,17 @@ function renderAICoachDialog() {
         <!-- 功能选择标签 -->
         <div class="mb-6">
             <div class="bg-gray-100 rounded-xl p-1 flex">
+                <button onclick="showAITab('qa')" 
+                        id="ai-tab-qa"
+                        class="flex-1 py-3 px-4 rounded-lg font-medium transition-all bg-white shadow-sm text-volleyball-orange">
+                    <span class="mr-2">💬</span>
+                    智能问答
+                </button>
                 <button onclick="showAITab('analyze')" 
                         id="ai-tab-analyze"
-                        class="flex-1 py-3 px-4 rounded-lg font-medium transition-all bg-white shadow-sm text-volleyball-orange">
-                    <span class="mr-2">🎯</span>
-                    动作分析
+                        class="flex-1 py-3 px-4 rounded-lg font-medium transition-all text-gray-600">
+                    <span class="mr-2">🎥</span>
+                    视频分析
                 </button>
                 <button onclick="showAITab('visualize')" 
                         id="ai-tab-visualize"
@@ -899,7 +1011,7 @@ function renderAICoachDialog() {
         
         <!-- 标签内容 -->
         <div id="ai-tab-content">
-            ${renderAnalyzeTab()}
+            ${renderQATab()}
         </div>
     `;
 }
@@ -920,10 +1032,214 @@ function showAITab(tabName) {
     
     // 渲染内容
     const contentDiv = document.getElementById('ai-tab-content');
-    if (tabName === 'analyze') {
+    if (tabName === 'qa') {
+        contentDiv.innerHTML = renderQATab();
+    } else if (tabName === 'analyze') {
         contentDiv.innerHTML = renderAnalyzeTab();
     } else if (tabName === 'visualize') {
         contentDiv.innerHTML = renderVisualizeTab();
+    }
+}
+
+/**
+ * 渲染智能问答标签页
+ */
+function renderQATab() {
+    // 初始化对话历史（如果不存在）
+    if (!AppState.aiCoachChat) {
+        AppState.aiCoachChat = [];
+    }
+    
+    // 渲染对话历史
+    const chatHistory = AppState.aiCoachChat.map(msg => {
+        if (msg.role === 'user') {
+            return `
+                <div class="flex justify-end mb-4">
+                    <div class="max-w-[80%] bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange text-white rounded-2xl rounded-tr-none p-4 shadow-lg">
+                        <p class="text-sm font-medium">${msg.content}</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            return `
+                <div class="flex justify-start mb-4">
+                    <div class="max-w-[80%] bg-white border-2 border-gray-200 rounded-2xl rounded-tl-none p-4 shadow-lg">
+                        <div class="flex items-start gap-3 mb-2">
+                            <div class="w-8 h-8 bg-gradient-to-r from-volleyball-purple to-volleyball-blue rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-sm">🤖</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs text-gray-500 mb-1">AI教练</p>
+                                <div class="text-sm text-gray-700 whitespace-pre-wrap">${msg.content}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }).join('');
+    
+    return `
+        <!-- 智能问答界面 -->
+        <div class="flex flex-col h-[600px]">
+            <!-- 欢迎提示 -->
+            ${AppState.aiCoachChat.length === 0 ? `
+                <div class="bg-gradient-to-br from-purple-50 to-blue-50 border-2 border-purple-200 rounded-2xl p-6 mb-4 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-volleyball-purple to-volleyball-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl">🤖</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">欢迎咨询AI教练</h3>
+                    <p class="text-sm text-gray-600 mb-4">我可以回答您关于排球技术、战术、训练方法等任何问题</p>
+                    
+                    <!-- 快捷问题 -->
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <button onclick="askQuickQuestion('如何提高扣球力量？')" class="px-4 py-2 bg-white border border-purple-200 rounded-lg text-sm text-gray-700 hover:bg-purple-50 transition-all text-left">
+                            💪 如何提高扣球力量？
+                        </button>
+                        <button onclick="askQuickQuestion('拦网的技巧有哪些？')" class="px-4 py-2 bg-white border border-purple-200 rounded-lg text-sm text-gray-700 hover:bg-purple-50 transition-all text-left">
+                            🛡️ 拦网的技巧有哪些？
+                        </button>
+                        <button onclick="askQuickQuestion('什么是快攻战术？')" class="px-4 py-2 bg-white border border-purple-200 rounded-lg text-sm text-gray-700 hover:bg-purple-50 transition-all text-left">
+                            ⚡ 什么是快攻战术？
+                        </button>
+                        <button onclick="askQuickQuestion('如何练习一传？')" class="px-4 py-2 bg-white border border-purple-200 rounded-lg text-sm text-gray-700 hover:bg-purple-50 transition-all text-left">
+                            📥 如何练习一传？
+                        </button>
+                    </div>
+                </div>
+            ` : ''}
+            
+            <!-- 对话历史区域 -->
+            <div id="qa-chat-history" class="flex-1 overflow-y-auto mb-4 p-4 bg-gray-50 rounded-xl scrollbar-hide">
+                ${chatHistory || '<div class="text-center text-gray-400 text-sm mt-8">还没有对话记录，开始提问吧！</div>'}
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="border-t border-gray-200 pt-4">
+                <div class="flex gap-3">
+                    <input type="text" 
+                           id="qa-input" 
+                           placeholder="输入您的问题...（例如：如何提高扣球准确性？）" 
+                           class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-volleyball-orange focus:border-transparent"
+                           onkeypress="if(event.key === 'Enter') submitQAQuestion()">
+                    <button onclick="submitQAQuestion()" 
+                            id="qa-submit-btn"
+                            class="px-6 py-3 bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange text-white rounded-xl font-semibold hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                        <span>🚀</span>
+                        发送
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-2 text-center">
+                    💡 可以询问任何排球相关问题，AI教练会为您提供专业解答
+                </p>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * 快捷提问
+ */
+function askQuickQuestion(question) {
+    document.getElementById('qa-input').value = question;
+    submitQAQuestion();
+}
+
+/**
+ * 提交问答问题
+ */
+async function submitQAQuestion() {
+    const input = document.getElementById('qa-input');
+    const question = input.value.trim();
+    
+    if (!question) {
+        showToast('请输入问题', 'warning');
+        return;
+    }
+    
+    // 禁用输入和按钮
+    input.disabled = true;
+    const submitBtn = document.getElementById('qa-submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="animate-spin">⏳</span> 思考中...';
+    
+    // 添加用户消息到历史
+    if (!AppState.aiCoachChat) {
+        AppState.aiCoachChat = [];
+    }
+    AppState.aiCoachChat.push({
+        role: 'user',
+        content: question
+    });
+    
+    // 重新渲染对话界面（显示用户消息）
+    const contentDiv = document.getElementById('ai-tab-content');
+    contentDiv.innerHTML = renderQATab();
+    
+    // 滚动到底部
+    setTimeout(() => {
+        const chatHistory = document.getElementById('qa-chat-history');
+        if (chatHistory) {
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+    }, 100);
+    
+    try {
+        // 调用AI API
+        const result = await api.askAICoach(question);
+        
+        if (result.success) {
+            // 添加AI回答到历史
+            AppState.aiCoachChat.push({
+                role: 'assistant',
+                content: result.answer
+            });
+            
+            // 重新渲染对话界面（显示AI回答）
+            contentDiv.innerHTML = renderQATab();
+            
+            // 滚动到底部
+            setTimeout(() => {
+                const chatHistory = document.getElementById('qa-chat-history');
+                if (chatHistory) {
+                    chatHistory.scrollTop = chatHistory.scrollHeight;
+                }
+            }, 100);
+            
+            showToast('AI回答完成！', 'success');
+        } else {
+            // 添加错误消息
+            AppState.aiCoachChat.push({
+                role: 'assistant',
+                content: `抱歉，暂时无法回答您的问题：${result.error}`
+            });
+            
+            contentDiv.innerHTML = renderQATab();
+            showToast(`问答失败: ${result.error}`, 'error');
+        }
+    } catch (error) {
+        // 添加错误消息
+        AppState.aiCoachChat.push({
+            role: 'assistant',
+            content: `抱歉，发生错误：${error.message}`
+        });
+        
+        const contentDiv = document.getElementById('ai-tab-content');
+        contentDiv.innerHTML = renderQATab();
+        showToast(`问答过程出错: ${error.message}`, 'error');
+    } finally {
+        // 恢复输入和按钮
+        const newInput = document.getElementById('qa-input');
+        const newSubmitBtn = document.getElementById('qa-submit-btn');
+        if (newInput) {
+            newInput.disabled = false;
+            newInput.value = '';
+            newInput.focus();
+        }
+        if (newSubmitBtn) {
+            newSubmitBtn.disabled = false;
+            newSubmitBtn.innerHTML = '<span>🚀</span> 发送';
+        }
     }
 }
 
