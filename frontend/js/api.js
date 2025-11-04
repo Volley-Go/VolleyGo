@@ -3,7 +3,8 @@
  * 处理与后端Flask API的所有HTTP请求
  */
 
-const API_BASE_URL = 'http://localhost:5000/api';
+// 使用相对路径，自动适配当前域名（本地开发或服务器部署）
+const API_BASE_URL = '/api';
 
 class VolleyballAPI {
     /**
