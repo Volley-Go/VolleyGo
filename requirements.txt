@@ -23,5 +23,8 @@ tqdm>=4.66.0
 openai>=1.0.0
 requests>=2.31.0
 
+# 环境变量管理
+python-dotenv>=1.0.0
+
 # Web服务器（生产环境）
 gunicorn>=21.2.0
