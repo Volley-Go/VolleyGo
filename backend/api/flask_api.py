@@ -13,14 +13,33 @@ import base64
 import cv2
 import numpy as np
 
+# 加载环境变量
+try:
+    from dotenv import load_dotenv
+    # 从项目根目录加载 .env 文件
+    env_path = Path(__file__).resolve().parent.parent.parent / '.env'
+    load_dotenv(dotenv_path=env_path)
+except ImportError:
+    print("⚠️ 警告: python-dotenv 未安装，将直接从系统环境变量读取配置")
+    print("   建议运行: pip install python-dotenv")
+
 # ChatGPT API配置
 try:
     from openai import OpenAI
     import platform
     
-    # 配置ChatGPT API
-    API_BASE_URL = "https://api.chatanywhere.tech"
-    API_KEY = "sk-dPxOakeokunQGR0YcbWLi03gOn9K00DRmTjlfHcCP9WvRKh0"
+    # 从环境变量读取配置，如果没有设置则使用默认值（但不推荐）
+    API_BASE_URL = os.getenv("OPENAI_BASE_URL", "https://api.chatanywhere.tech")
+    API_KEY = os.getenv("OPENAI_API_KEY")
+    
+    if not API_KEY:
+        raise ValueError(
+            "OPENAI_API_KEY 环境变量未设置！\n"
+            "请创建 .env 文件并设置以下变量：\n"
+            "OPENAI_API_KEY=your_api_key_here\n"
+            "OPENAI_BASE_URL=https://api.chatanywhere.tech\n"
+            "或者通过系统环境变量设置。"
+        )
     
     os.environ["OPENAI_API_KEY"] = API_KEY
     os.environ["OPENAI_BASE_URL"] = API_BASE_URL

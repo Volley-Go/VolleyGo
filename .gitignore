@@ -43,6 +43,10 @@ env/
 .env
 .env.local
 
+#Docs
+docs/*
+!docs/.gitkeep
+
 # Output files
 output/*
 !output/.gitkeep

@@ -49,13 +49,39 @@ cd volleyball-ai-training
 pip install -r requirements.txt
 ```
 
-3. **启动应用**
+3. **配置环境变量**（重要！）
+   
+   项目使用环境变量管理 API Key，避免敏感信息泄露。
+   
+   ```bash
+   # 复制配置模板
+   cp .env.example .env
+   
+   # 编辑 .env 文件，填入您的 API Key
+   # Windows: notepad .env
+   # Linux/Mac: nano .env
+   ```
+   
+   在 `.env` 文件中设置：
+   ```env
+   OPENAI_API_KEY=your_api_key_here
+   OPENAI_BASE_URL=https://api.chatanywhere.tech
+   ```
+   
+   📖 详细配置说明请查看 [配置指南](CONFIGURATION_GUIDE.md)
+
+4. **启动应用**
 ```bash
+# Flask API 服务器（推荐）
+python run_flask.py
+
+# 或 Streamlit 应用
 streamlit run app.py
 ```
 
-4. **访问系统**
-打开浏览器访问 `http://localhost:8501`
+5. **访问系统**
+   - Flask API: 打开浏览器访问 `http://localhost:5000`
+   - Streamlit: 打开浏览器访问 `http://localhost:8501`
 
 ---
 
