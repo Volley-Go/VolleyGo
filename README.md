@@ -461,7 +461,7 @@ pytest tests/integration/
 ## 📮 联系方式
 
 如有问题或建议，欢迎联系：
-- 📧 Email: your-email@example.com
+- 📧 Email: 1037783681@qq.com
 - 💬 Issues: [GitHub Issues](https://github.com/your-repo/issues)
 
 ---
