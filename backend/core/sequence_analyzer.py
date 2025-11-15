@@ -3,16 +3,20 @@
 """
 import numpy as np
 import cv2
+from typing import List, Optional
 from .pose_detector import PoseDetector
+from .volleyball_detector import VolleyballDetector, VolleyballDetection
 
 
 class SequenceAnalyzer:
     """分析视频序列中的动作连贯性和轨迹"""
     
-    def __init__(self):
-        self.detector = PoseDetector()
+    def __init__(self, enable_ball_detection: bool = False, volleyball_detector: Optional[VolleyballDetector] = None):
+        self.pose_detector = PoseDetector()
+        self.enable_ball_detection = enable_ball_detection
+        self.volleyball_detector = volleyball_detector
     
-    def analyze_sequence(self, video_path_or_frames):
+    def analyze_sequence(self, video_path_or_frames, detect_ball: Optional[bool] = None, draw_ball: bool = False):
         """
         分析连续帧序列
         
@@ -34,6 +38,11 @@ class SequenceAnalyzer:
         else:
             # 否则认为是帧列表
             frames = video_path_or_frames
+        use_ball_detection = self.enable_ball_detection if detect_ball is None else detect_ball
+        ball_detector_ready = use_ball_detection and self._ensure_ball_detector()
+        use_ball_detection = use_ball_detection and ball_detector_ready
+        draw_ball = draw_ball and use_ball_detection
+        ball_detections: List[List[VolleyballDetection]] = []
         results = {
             'frames_data': [],  # 每帧的姿态数据
             'trajectories': {},  # 关键点轨迹
@@ -41,6 +50,9 @@ class SequenceAnalyzer:
             'completeness_score': 0,  # 完整性得分
             'consistency_score': 0,  # 一致性得分
             'best_frame_idx': 0,  # 最佳帧索引
+            'ball_detections': [],
+            'ball_trajectory': None,
+            'ball_detection_enabled': use_ball_detection,
         }
         
         # 分析每一帧
@@ -48,14 +60,22 @@ class SequenceAnalyzer:
         annotated_frames = []
         
         for idx, frame in enumerate(frames):
-            landmarks, annotated = self.detector.detect_pose(frame)
+            landmarks, annotated = self.pose_detector.detect_pose(frame)
+            frame_ball_detections: List[VolleyballDetection] = []
+            if use_ball_detection and frame is not None:
+                frame_ball_detections = self.volleyball_detector.detect(frame)
+                if draw_ball and frame_ball_detections:
+                    annotated = self.volleyball_detector.annotate(annotated, frame_ball_detections)
             results['frames_data'].append({
                 'frame_idx': idx,
                 'landmarks': landmarks,
-                'has_pose': landmarks is not None
+                'has_pose': landmarks is not None,
+                'ball_detections': self._serialize_detections(frame_ball_detections) if use_ball_detection else []
             })
             all_landmarks.append(landmarks)
             annotated_frames.append(annotated)
+            if use_ball_detection:
+                ball_detections.append(frame_ball_detections)
         
         # 计算轨迹
         results['trajectories'] = self._calculate_trajectories(all_landmarks)
@@ -72,10 +92,31 @@ class SequenceAnalyzer:
         # 找到最佳帧（用于主要评分）
         results['best_frame_idx'] = self._find_best_frame(all_landmarks)
         
+        if use_ball_detection:
+            results['ball_detections'] = [frame['ball_detections'] for frame in results['frames_data']]
+            results['ball_trajectory'] = self._calculate_ball_trajectory(ball_detections)
+        else:
+            results['ball_detections'] = []
+            results['ball_trajectory'] = None
+        results['ball_detection_enabled'] = use_ball_detection
+        
         results['annotated_frames'] = annotated_frames
         results['success'] = True  # 添加成功标志
         
         return results
+
+    def _serialize_detections(self, detections: List[VolleyballDetection]):
+        serialized = []
+        for detection in detections:
+            center_x, center_y = detection.center
+            serialized.append({
+                'label': detection.label,
+                'score': detection.score,
+                'bbox': detection.bbox,
+                'bbox_normalized': detection.bbox_normalized,
+                'center': {'x': center_x, 'y': center_y}
+            })
+        return serialized
     
     def _calculate_trajectories(self, landmarks_list):
         """计算关键点的运动轨迹"""
@@ -106,6 +147,39 @@ class SequenceAnalyzer:
             trajectories[point] = trajectory
         
         return trajectories
+
+    def _calculate_ball_trajectory(self, ball_detections: List[List[VolleyballDetection]]):
+        """根据排球检测结果生成轨迹"""
+        trajectory = {
+            'x': [],
+            'y': [],
+            'confidence': []
+        }
+        
+        for detections in ball_detections:
+            if detections:
+                best_detection = max(detections, key=lambda d: d.score)
+                center_x, center_y = best_detection.center
+                trajectory['x'].append(center_x)
+                trajectory['y'].append(center_y)
+                trajectory['confidence'].append(best_detection.score)
+            else:
+                trajectory['x'].append(None)
+                trajectory['y'].append(None)
+                trajectory['confidence'].append(0.0)
+        
+        return trajectory
+
+    def _ensure_ball_detector(self) -> bool:
+        """懒加载排球检测器，避免无模型时阻塞流程"""
+        if self.volleyball_detector is not None:
+            return True
+        try:
+            self.volleyball_detector = VolleyballDetector()
+            return True
+        except Exception as exc:
+            print(f"⚠️ 排球检测器初始化失败: {exc}")
+            return False
     
     def _calculate_smoothness(self, landmarks_list):
         """

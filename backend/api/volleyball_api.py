@@ -66,13 +66,16 @@ class VolleyballAPI:
         # 调用服务层分析图像
         return self.service.analyze_single_frame(image)
     
-    def generate_visualization(self, uploaded_file, vis_type="overlay"):
+    def generate_visualization(self, uploaded_file, vis_type="overlay",
+                               detect_ball=False, highlight_ball=False):
         """
         生成可视化视频
         
         Args:
             uploaded_file: 上传的视频文件
             vis_type: 可视化类型
+            detect_ball: 是否启用排球检测
+            highlight_ball: 是否在输出中绘制排球标记
             
         Returns:
             tuple: (success: bool, output_path: str, error: str)
@@ -89,7 +92,9 @@ class VolleyballAPI:
             result = self.service.generate_visualization_video(
                 video_path=str(temp_input_path),
                 output_path=str(output_path),
-                vis_type=vis_type
+                vis_type=vis_type,
+                detect_ball=detect_ball,
+                highlight_ball=highlight_ball
             )
             
             if result["success"]:

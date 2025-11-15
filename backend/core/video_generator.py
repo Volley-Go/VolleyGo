@@ -54,7 +54,8 @@ class VideoGenerator:
             'right_ankle': 28,
         }
     
-    def generate_video(self, video_path, output_path, video_type="overlay", max_frames=300):
+    def generate_video(self, video_path, output_path, video_type="overlay", max_frames=300,
+                       detect_ball=False, highlight_ball=False):
         """
         统一的视频生成接口
         
@@ -121,41 +122,53 @@ class VideoGenerator:
         
         # 分析序列（这是最耗时的部分）
         print("🔍 开始姿态分析...")
-        analyzer = SequenceAnalyzer()
-        sequence_result = analyzer.analyze_sequence(frames)
+        ball_detection_requested = detect_ball or highlight_ball
+        analyzer = SequenceAnalyzer(enable_ball_detection=ball_detection_requested)
+        sequence_result = analyzer.analyze_sequence(
+            frames,
+            detect_ball=ball_detection_requested,
+            draw_ball=False
+        )
         
         if not sequence_result.get("success", False):
             raise RuntimeError("序列分析失败")
         
         print("✅ 姿态分析完成")
         
+        ball_detections = sequence_result.get("ball_detections", []) if ball_detection_requested else []
+        if highlight_ball and not sequence_result.get("ball_detection_enabled", False):
+            print("⚠️ Volleyball detection unavailable, skipping ball overlay.")
+            highlight_ball = False
+        ball_overlay_data = ball_detections if highlight_ball else None
+        
         # 生成处理后的帧
-        print(f"🎨 开始生成 {video_type} 视频...")
+        print(f"🎨 开始生成{video_type} 视频...")
         
         if video_type == "overlay":
-            processed_frames = self._generate_overlay_frames(frames, sequence_result)
+            processed_frames = self._generate_overlay_frames(frames, sequence_result, ball_overlay_data, highlight_ball)
         elif video_type == "skeleton":
             processed_frames = self._generate_skeleton_frames(sequence_result)
         elif video_type == "comparison":
-            processed_frames = self._generate_comparison_frames(frames, sequence_result)
+            processed_frames = self._generate_comparison_frames(frames, sequence_result, ball_overlay_data, highlight_ball)
         elif video_type == "trajectory":
-            processed_frames = self._generate_trajectory_frames(frames, sequence_result)
+            processed_frames = self._generate_trajectory_frames(frames, sequence_result, ball_overlay_data, highlight_ball)
         else:
-            raise ValueError(f"未知的视频类型: {video_type}")
-        
+            raise ValueError(f"未知的视频类型 {video_type}")
+
         # 直接用FFmpeg或OpenCV写入浏览器兼容格式
         final_result = self._write_web_compatible_video(processed_frames, output_path, fps)
         
         print(f"🎉 视频生成完成: {final_result}")
         return final_result
     
-    def _generate_overlay_frames(self, frames, sequence_result):
+    def _generate_overlay_frames(self, frames, sequence_result, ball_detections=None, highlight_ball=False):
         """生成骨架叠加帧"""
         processed_frames = []
         for idx, frame in enumerate(frames):
             frame_data = sequence_result['frames_data'][idx]
             landmarks = frame_data['landmarks']
             overlay_frame = frame.copy()
+            frame_ball = self._get_ball_detections(ball_detections, idx) if highlight_ball else []
             
             if landmarks:
                 overlay_frame = self._draw_skeleton(overlay_frame, landmarks)
@@ -164,6 +177,9 @@ class VideoGenerator:
             else:
                 cv2.putText(overlay_frame, f"Frame {idx + 1}/{len(frames)} - No Pose", 
                            (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+            
+            if highlight_ball and frame_ball:
+                overlay_frame = self._draw_ball_markers(overlay_frame, frame_ball)
             
             processed_frames.append(overlay_frame)
         return processed_frames
@@ -187,7 +203,7 @@ class VideoGenerator:
             processed_frames.append(skeleton_frame)
         return processed_frames
     
-    def _generate_comparison_frames(self, frames, sequence_result):
+    def _generate_comparison_frames(self, frames, sequence_result, ball_detections=None, highlight_ball=False):
         """生成左右对比帧"""
         processed_frames = []
         height, width = frames[0].shape[:2]
@@ -195,6 +211,9 @@ class VideoGenerator:
         for idx, frame in enumerate(frames):
             # 左侧：原视频
             left = frame.copy()
+            frame_ball = self._get_ball_detections(ball_detections, idx) if highlight_ball else []
+            if highlight_ball and frame_ball:
+                left = self._draw_ball_markers(left, frame_ball)
             
             # 右侧：纯骨架
             right = np.ones((height, width, 3), dtype=np.uint8) * 255
@@ -211,9 +230,9 @@ class VideoGenerator:
             processed_frames.append(comparison)
         return processed_frames
     
-    def _generate_trajectory_frames(self, frames, sequence_result):
+    def _generate_trajectory_frames(self, frames, sequence_result, ball_detections=None, highlight_ball=False):
         """生成轨迹追踪帧"""
-        return self._generate_overlay_frames(frames, sequence_result)  # 简化版
+        return self._generate_overlay_frames(frames, sequence_result, ball_detections, highlight_ball)  # 简化版
     
     def _write_web_compatible_video(self, frames, output_path, fps):
         """写入浏览器兼容的视频"""
@@ -516,6 +535,42 @@ class VideoGenerator:
             raise RuntimeError(f"视频文件生成失败: {output_path}")
         
         return output_path
+
+    def _get_ball_detections(self, ball_detections, idx):
+        if not ball_detections or idx is None:
+            return []
+        if idx >= len(ball_detections):
+            return []
+        return ball_detections[idx] or []
+
+    def _draw_ball_markers(self, frame, detections, color=(0, 165, 255)):
+        """在帧上绘制排球检测框"""
+        if not detections:
+            return frame
+        annotated = frame
+        height, width = frame.shape[:2]
+        for detection in detections:
+            bbox = detection.get('bbox')
+            if not bbox or len(bbox) != 4:
+                continue
+            x1, y1, x2, y2 = bbox
+            x1 = max(0, min(width, x1))
+            x2 = max(0, min(width, x2))
+            y1 = max(0, min(height, y1))
+            y2 = max(0, min(height, y2))
+            cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
+            label = detection.get('label', 'volleyball')
+            score = detection.get('score', 0.0)
+            cv2.putText(
+                annotated,
+                f"{label}:{score:.2f}",
+                (x1, max(y1 - 6, 0)),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                color,
+                2
+            )
+        return annotated
     
     def create_skeleton_video(self, sequence_result, output_path=None, fps=10, 
                              width=640, height=480, bg_color=(255, 255, 255)):

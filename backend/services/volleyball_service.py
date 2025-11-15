@@ -232,7 +232,8 @@ class VolleyballService:
                 "error": f"序列分析失败: {str(e)}"
             }
     
-    def generate_visualization_video(self, video_path, output_path, vis_type="overlay"):
+    def generate_visualization_video(self, video_path, output_path, vis_type="overlay",
+                                     detect_ball=False, highlight_ball=False):
         """
         生成可视化视频
         
@@ -252,7 +253,9 @@ class VolleyballService:
             self.video_generator.generate_video(
                 video_path=video_path,
                 output_path=output_path,
-                video_type=vis_type
+                video_type=vis_type,
+                detect_ball=detect_ball,
+                highlight_ball=highlight_ball
             )
             
             return {

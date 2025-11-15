@@ -5,6 +5,7 @@ from .scorer import VolleyballScorer
 from .sequence_analyzer import SequenceAnalyzer
 from .trajectory_visualizer import TrajectoryVisualizer
 from .video_generator import VideoGenerator
+from .volleyball_detector import VolleyballDetector
 
 __all__ = [
     'PoseDetector', 
@@ -12,6 +13,7 @@ __all__ = [
     'VolleyballScorer',
     'SequenceAnalyzer',
     'TrajectoryVisualizer',
-    'VideoGenerator'
+    'VideoGenerator',
+    'VolleyballDetector'
 ]
 
