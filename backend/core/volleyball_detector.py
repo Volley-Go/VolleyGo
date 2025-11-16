@@ -11,7 +11,7 @@ import cv2
 import numpy as np
 import mediapipe as mp
 
-from config.settings import MODELS_DIR
+# from config.settings import MODELS_DIR
 
 
 try:
@@ -60,7 +60,8 @@ class VolleyballDetector:
             max_results: 每帧最多返回的检测数量
             target_labels: 允许运动类别列表
         """
-        self.model_path = Path(model_path) if model_path else MODELS_DIR / DEFAULT_MODEL_NAME
+        self.model_path = Path(model_path) if model_path else "D:\Code\Projects\AIxVolleyball\data\models\efficientdet_lite0.tflite"
+        
         self.score_threshold = score_threshold
         self.max_results = max_results
         self.target_labels = [label.lower() for label in (target_labels or ["volleyball", "sports ball", "ball"])]
@@ -68,21 +69,30 @@ class VolleyballDetector:
         self._init_detector()
 
     def _init_detector(self) -> None:
-        if not self.model_path.exists():
-            raise FileNotFoundError(
-                f"未找到排球检测模型: {self.model_path}. "
-                "请将MediaPipe兼容的TFLite检测模型放置到data/models目录。"
-            )
+        # if not self.model_path.exists():
+        #     raise FileNotFoundError(
+        #         f"未找到排球检测模型: {self.model_path}. "
+        #         "请将MediaPipe兼容的TFLite检测模型放置到data/models目录。"
+        #     )
+        print(f"正在加载排球检测模型: {self.model_path}")
+        # base_options = mp_python.BaseOptions(model_asset_path=self.model_path)
+        # 用 buffer 读入模型
+        with open(self.model_path, "rb") as f:
+            model_bytes = f.read()
 
-        base_options = mp_python.BaseOptions(model_asset_path=str(self.model_path))
+        base_options = mp_python.BaseOptions(
+            model_asset_buffer=model_bytes  # ✅ 用 buffer，不再用路径
+        )
+        # print("[V_DETECTOR] BaseOptions: ", base_options)
         options = vision.ObjectDetectorOptions(
             base_options=base_options,
             max_results=self.max_results,
             score_threshold=self.score_threshold,
             running_mode=vision.RunningMode.IMAGE,
         )
+        # print("[V_DETECTOR] Options: ", options)
         self._detector = vision.ObjectDetector.create_from_options(options)
-
+        
     def detect(self, frame: np.ndarray) -> List[VolleyballDetection]:
         """
         检测单帧中的排球

@@ -64,6 +64,7 @@ class SequenceAnalyzer:
             frame_ball_detections: List[VolleyballDetection] = []
             if use_ball_detection and frame is not None:
                 frame_ball_detections = self.volleyball_detector.detect(frame)
+                # print("[SEQUENCE_ANALYZER][ANALYZE_SEQUENCE]: Frame Ball Detections: ", frame_ball_detections)
                 if draw_ball and frame_ball_detections:
                     annotated = self.volleyball_detector.annotate(annotated, frame_ball_detections)
             results['frames_data'].append({

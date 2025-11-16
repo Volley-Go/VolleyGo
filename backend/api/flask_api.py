@@ -297,7 +297,9 @@ def visualize_video():
             result = volleyball_service.generate_visualization_video(
                 video_path=temp_input,
                 output_path=output_path,
-                vis_type=vis_type
+                vis_type=vis_type,
+                detect_ball=True,
+                highlight_ball=True
             )
             
             print(f"✅ 生成完成: {result.get('success', False)}")

@@ -127,7 +127,7 @@ class VideoGenerator:
         sequence_result = analyzer.analyze_sequence(
             frames,
             detect_ball=ball_detection_requested,
-            draw_ball=False
+            draw_ball=ball_detection_requested
         )
         
         if not sequence_result.get("success", False):
