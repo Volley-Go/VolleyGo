@@ -146,6 +146,7 @@ class VideoGenerator:
         
         if video_type == "overlay":
             processed_frames = self._generate_overlay_frames(frames, sequence_result, ball_overlay_data, highlight_ball)
+            # processed_frames = sequence_result['annotated_frames']
         elif video_type == "skeleton":
             processed_frames = self._generate_skeleton_frames(sequence_result)
         elif video_type == "comparison":
@@ -543,34 +544,108 @@ class VideoGenerator:
             return []
         return ball_detections[idx] or []
 
-    def _draw_ball_markers(self, frame, detections, color=(0, 165, 255)):
-        """在帧上绘制排球检测框"""
-        if not detections:
+    def _draw_ball_markers(
+        self,
+        frame,
+        detections,
+        color=(0, 165, 255),
+        marker="circle",
+        trace=True,
+        trace_len=8,
+    ):
+        """
+        在帧上绘制排球标记（支持圆/方 + 轨迹）
+
+        detections: [{ "bbox": (x1,y1,x2,y2), "label": str, "score": float }]
+        """
+
+        if frame is None:
             return frame
-        annotated = frame
-        height, width = frame.shape[:2]
-        for detection in detections:
-            bbox = detection.get('bbox')
-            if not bbox or len(bbox) != 4:
+
+        h, w = frame.shape[:2]
+        img = frame
+
+        # -------------------------
+        # 初始化轨迹队列
+        # -------------------------
+        if not hasattr(self, "_trace_queue"):
+            from collections import deque
+            self._trace_queue = deque([None] * trace_len, maxlen=trace_len)
+
+        # -------------------------
+        # 当前 bbox 进入队列
+        # -------------------------
+        if detections:
+            det = detections[0]   # 目前只渲染一个球
+            bbox = det.get("bbox")
+            if bbox and len(bbox) == 4:
+                x1, y1, x2, y2 = bbox
+
+                # 边界裁剪
+                x1 = max(0, min(w - 1, int(x1)))
+                x2 = max(0, min(w - 1, int(x2)))
+                y1 = max(0, min(h - 1, int(y1)))
+                y2 = max(0, min(h - 1, int(y2)))
+
+                cur_box = (x1, y1, x2, y2)
+                self._trace_queue.appendleft(cur_box)
+            else:
+                self._trace_queue.appendleft(None)
+        else:
+            self._trace_queue.appendleft(None)
+
+        # -------------------------
+        # 开始绘制轨迹
+        # -------------------------
+        for i, box in enumerate(self._trace_queue):
+            if box is None:
                 continue
-            x1, y1, x2, y2 = bbox
-            x1 = max(0, min(width, x1))
-            x2 = max(0, min(width, x2))
-            y1 = max(0, min(height, y1))
-            y2 = max(0, min(height, y2))
-            cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
-            label = detection.get('label', 'volleyball')
-            score = detection.get('score', 0.0)
-            cv2.putText(
-                annotated,
-                f"{label}:{score:.2f}",
-                (x1, max(y1 - 6, 0)),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.5,
-                color,
-                2
-            )
-        return annotated
+
+            x1, y1, x2, y2 = box
+
+            # 当前帧 vs 历史轨迹
+            is_current = (i == 0)
+
+            if marker == "box":
+                # 当前帧画粗线，历史帧画细线
+                thickness = 2 if is_current else 1
+                cv2.rectangle(img, (x1, y1), (x2, y2), color, thickness)
+
+            elif marker == "circle":
+                # 计算圆心和半径
+                cx = int((x1 + x2) / 2)
+                cy = int((y1 + y2) / 2)
+                r = int(max((x2 - x1), (y2 - y1)) * 0.5)
+
+                if is_current:
+                    cv2.circle(img, (cx, cy), r, color, 5)
+                else:
+                    # cv2.circle(img, (cx, cy), max(r - 10, 2), color, -1)
+                    cv2.circle(img, (cx, cy), 5, color, -1)
+                    
+
+        # -------------------------
+        # 在当前帧写标签文字（可选）
+        # -------------------------
+        # if detections:
+        #     det = detections[0]
+        #     bbox = det.get("bbox", None)
+        #     if bbox:
+        #         x1, y1, x2, y2 = bbox
+        #         label = det.get("label", "volleyball")
+        #         score = det.get("score", 0.0)
+        #         cv2.putText(
+        #             img,
+        #             f"{label}:{score:.2f}",
+        #             (int(x1), max(0, int(y1) - 6)),
+        #             cv2.FONT_HERSHEY_SIMPLEX,
+        #             0.5,
+        #             color,
+        #             2,
+        #         )
+
+        return img
+
     
     def create_skeleton_video(self, sequence_result, output_path=None, fps=10, 
                              width=640, height=480, bg_color=(255, 255, 255)):

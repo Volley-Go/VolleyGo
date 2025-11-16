@@ -76,7 +76,7 @@ def x_y_w_h(prediciton, model_name) -> Tuple:
 
     elif model_name == 'yolov7':
         try:
-            print("[MY__UTILS][YOLOV7] pred:",prediciton.pred[0].cpu().numpy())
+            # print("[TEST]]MY__UTILS][YOLOV7] pred:",prediciton.pred[0].cpu().numpy())
             x_min, y_min, x_max, y_max, confidence, class_id = prediciton.pred[0].cpu().numpy()[
                 0]
             x = int(x_min)

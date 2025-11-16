@@ -126,69 +126,6 @@ class VolleyballDetector:
 
     # ----------------- 对外接口：保持不变 -----------------
 
-    # def detect(self, frame: np.ndarray) -> List[VolleyballDetection]:
-    #     """
-    #     检测单帧中的排球
-
-    #     Args:
-    #         frame: BGR格式的图像
-
-    #     Returns:
-    #         该帧的排球检测结果列表
-    #     """
-    #     if frame is None or self._detector is None:
-    #         return []
-
-    #     height, width = frame.shape[:2]
-
-    #     # === 核心逻辑：复用第一个文件中的调用方式 ===
-    #     # pred = model.predict(image)
-    #     pred = self._detector.predict(frame)
-    #     print("[VolleyballDetector][DETECT] frame:", frame.shape)
-    #     print("[VolleyballDetector][DETECT] pred:",pred.pred[0].cpu().numpy())
-    #     # bbox = x_y_w_h(pred, model_name)
-    #     # 这里的 bbox 格式与 my_utils.x_y_w_h 的实现有关，
-    #     # 在原脚本中被当作绘制矩形/圆的 bounding box。
-    #     bbox = x_y_w_h(pred, self.backend)
-    #     print("[VolleyballDetector][DETECT] bbox:", bbox)
-    #     # 原脚本中用 (0,0,0,0) 表示没有检测到球
-    #     if not bbox or bbox == (0, 0, 0, 0):
-    #         return []
-
-    #     # 这里假定 x_y_w_h 返回的是 (x_min, y_min, x_max, y_max) 像素坐标
-    #     x_min, y_min, x_max, y_max = bbox
-
-    #     # 边界裁剪
-    #     x_min = max(int(x_min), 0)
-    #     y_min = max(int(y_min), 0)
-    #     x_max = min(int(x_max), width - 1)
-    #     y_max = min(int(y_max), height - 1)
-        
-    #     # if x_min >= x_max or y_min >= y_max:
-    #     #     return []
-
-    #     # 归一化坐标
-    #     nx_min = x_min / float(width)
-    #     ny_min = y_min / float(height)
-    #     nx_max = x_max / float(width)
-    #     ny_max = y_max / float(height)
-
-    #     # 由于 RoboYOLO + x_y_w_h 没直接给出 label/score，
-    #     # 这里给一个合理的默认值；如果你在 my_utils 里能拿到置信度，
-    #     # 可以在这里改掉。
-    #     label = self.target_labels[0] if self.target_labels else "volleyball"
-    #     score = 1.0  # 你可以根据实际预测结果改成真实得分
-
-    #     detection = VolleyballDetection(
-    #         label=label,
-    #         score=score,
-    #         bbox=(x_min, y_min, x_max, y_max),
-    #         bbox_normalized=(nx_min, ny_min, nx_max, ny_max),
-    #     )
-
-    #     # 接口允许返回多个检测，但当前逻辑只取“主要的那个球”
-    #     return [detection]
-
     def detect(self, frame: np.ndarray) -> List[VolleyballDetection]:
         """
         检测单帧中的排球
@@ -203,7 +140,7 @@ class VolleyballDetector:
 
         # x_y_w_h 返回 (x0, y0, w, h)
         bbox = x_y_w_h(pred, self.backend)
-        print("[VolleyballDetector][DETECT] bbox(x0,y0,w,h):", bbox)
+        # print("[TEST][VolleyballDetector][DETECT] bbox(x0,y0,w,h):", bbox)
 
         # === 无结果 ===
         if not bbox or bbox == (0, 0, 0, 0):
@@ -251,35 +188,81 @@ class VolleyballDetector:
         self,
         frame: np.ndarray,
         detections: Sequence[VolleyballDetection],
+        marker: str = "circle",
+        color=(0, 165, 255),
+        trace: bool = True,
+        trace_len: int = 8,
     ) -> np.ndarray:
         """
-        在图像上绘制检测结果
+        在图像上绘制检测结果（支持圆形或矩形标记 + 轨迹绘制）
+
+        Args:
+            frame: BGR 图像
+            detections: VolleyballDetection 列表
+            marker: 'circle' 或 'box'
+            color: 绘制颜色 (B, G, R)
+            trace: 是否绘制轨迹
+            trace_len: 轨迹长度（历史帧的数量）
         """
-        if frame is None or not detections:
+
+        if frame is None:
             return frame
 
-        annotated = frame.copy()
-        height, width = annotated.shape[:2]
+        h, w = frame.shape[:2]
+        img = frame.copy()
 
-        for detection in detections:
-            x_min, y_min, x_max, y_max = detection.bbox_normalized
-            pt1 = (int(x_min * width), int(y_min * height))
-            pt2 = (int(x_max * width), int(y_max * height))
+        # ----------------------
+        # 初始化轨迹队列（只初始化一次）
+        # ----------------------
+        if not hasattr(self, "_queue"):
+            from collections import deque
+            self._queue = deque([None] * trace_len, maxlen=trace_len)
 
-            # 使用橙色矩形框
-            cv2.rectangle(annotated, pt1, pt2, (0, 165, 255), 2)
-            label_text = f"{detection.label}: {detection.score:.2f}"
-            cv2.putText(
-                annotated,
-                label_text,
-                (pt1[0], max(pt1[1] - 5, 0)),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.5,
-                (0, 165, 255),
-                2,
+        # ----------------------
+        # 1. 读取当前检测框 (若有)
+        # ----------------------
+        if detections:
+            det = detections[0]  # 目前只支持取第1个检测
+            x_min, y_min, x_max, y_max = det.bbox_normalized
+            cur_box = (
+                int(x_min * w),
+                int(y_min * h),
+                int(x_max * w),
+                int(y_max * h),
             )
+            self._queue.appendleft(cur_box)
+        else:
+            self._queue.appendleft(None)
 
-        return annotated
+        # ----------------------
+        # 2. 绘制轨迹（历史帧）
+        # ----------------------
+        for i, box in enumerate(self._queue):
+            if box is None:
+                continue
+
+            x0, y0, x1, y1 = box
+
+            if marker == "box":
+                # 历史框画得淡一点
+                if i == 0:
+                    cv2.rectangle(img, (x0, y0), (x1, y1), color, 2)
+                else:
+                    cv2.rectangle(img, (x0, y0), (x1, y1), color, 1)
+
+            elif marker == "circle":
+                # 计算圆心与半径
+                cx = int((x0 + x1) // 2)
+                cy = int((y0 + y1) // 2)
+                r = int(max((x1 - x0), (y1 - y0)) // 2)
+
+                if i == 0:
+                    cv2.circle(img, (cx, cy), r, color, 5)
+                else:
+                    cv2.circle(img, (cx, cy), max(r - 10, 2), color, -1)
+
+        return img
+
 
     def detect_and_annotate(self, frame: np.ndarray) -> Tuple[List[VolleyballDetection], np.ndarray]:
         """
