@@ -14,6 +14,10 @@ async function startTacticsTestModule() {
         return;
     }
     
+    // 确定当前模块（默认基础轮转规则）
+    const moduleName = AppState.tacticsTest.currentModule || '基础轮转规则';
+    AppState.tacticsTest.currentModule = moduleName;
+
     // 随机选择5道题
     const allQuestions = tacticsData.questions || [];
     const selectedQuestions = selectRandomQuestions(allQuestions, 5);
@@ -23,7 +27,8 @@ async function startTacticsTestModule() {
         currentQuestion: 0,
         answers: [],
         questions: selectedQuestions,
-        score: 0
+        score: 0,
+        currentModule: moduleName
     };
     
     closeDialog();
@@ -421,13 +426,20 @@ function reviewAnswers() {
  * 完成测试
  */
 function finishTest() {
+    const completedModule = AppState.tacticsTest.currentModule;
+
+    if (completedModule === '基础轮转规则' && !AppState.unlockedTactics.includes('位置与职责')) {
+        AppState.unlockedTactics.push('位置与职责');
+    }
+
     // 重置测试状态
     AppState.tacticsTest = {
         started: false,
         currentQuestion: 0,
         answers: [],
         questions: [],
-        score: 0
+        score: 0,
+        currentModule: null
     };
     
     closeDialog();

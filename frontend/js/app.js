@@ -33,9 +33,12 @@ const AppState = {
         started: false,
         currentQuestion: 0,
         answers: [],
-        questions: []
+        questions: [],
+        currentModule: null
     },
-    
+
+    // 解锁的战术学习模块
+    unlockedTactics: ['基础轮转规则'],
     // AI教练对话历史
     aiCoachChat: []
 };
@@ -769,7 +772,8 @@ function showTab(tabName) {
  * 渲染战术学习标签页
  */
 function renderTacticsTab() {
-    const tactics = [
+    const unlockedSet = new Set(AppState.unlockedTactics || []);
+    const baseTactics = [
         {
             emoji: '🔄',
             title: '基础轮转规则',
@@ -784,8 +788,7 @@ function renderTacticsTab() {
             level: '初级',
             description: '排球场上有6个位置，每个位置都有特定的职责。了解各位置的作用是掌握排球战术的基础。...',
             requiredStars: 2,
-            requiredLevel: 1,
-            locked: true
+            requiredLevel: 1
         },
         {
             emoji: '📐',
@@ -793,8 +796,7 @@ function renderTacticsTab() {
             level: '初级',
             description: '接发球（一传）是进攻的起点。合理的站位能够确保更好地接起对方的发球。...',
             requiredStars: 5,
-            requiredLevel: 2,
-            locked: true
+            requiredLevel: 2
         },
         {
             emoji: '⚡',
@@ -802,8 +804,7 @@ function renderTacticsTab() {
             level: '中级',
             description: '通过多点进攻和快速配合，可以撕开对方的防线。常见的进攻战术包括快攻、强攻、后排攻等。...',
             requiredStars: 15,
-            requiredLevel: 3,
-            locked: true
+            requiredLevel: 3
         },
         {
             emoji: '🛡️',
@@ -811,8 +812,7 @@ function renderTacticsTab() {
             level: '中级',
             description: '有效的拦网不仅能直接得分，还能降低后排防守压力。团队拦网需要良好的协同配合。...',
             requiredStars: 25,
-            requiredLevel: 4,
-            locked: true
+            requiredLevel: 4
         },
         {
             emoji: '🎯',
@@ -820,10 +820,15 @@ function renderTacticsTab() {
             level: '高级',
             description: '后排防守阵型决定了球队的防守覆盖范围。不同的阵型适用于不同的比赛情况。...',
             requiredStars: 50,
-            requiredLevel: 5,
-            locked: true
+            requiredLevel: 5
         }
     ];
+
+    
+    const tactics = baseTactics.map(tactic => ({
+        ...tactic,
+        locked: !unlockedSet.has(tactic.title)
+    }));
     
     return `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -936,6 +941,7 @@ function openAICoachDialog() {
  * 开始战术学习
  */
 function startTacticsLearn(tacticTitle) {
+    AppState.tacticsTest.currentModule = tacticTitle;
     showDialog('tactics-learn', { title: tacticTitle });
 }
 
