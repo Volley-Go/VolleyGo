@@ -38,10 +38,12 @@ class SequenceAnalyzer:
         else:
             # 否则认为是帧列表
             frames = video_path_or_frames
+
         use_ball_detection = self.enable_ball_detection if detect_ball is None else detect_ball
         ball_detector_ready = use_ball_detection and self._ensure_ball_detector()
         use_ball_detection = use_ball_detection and ball_detector_ready
         draw_ball = draw_ball and use_ball_detection
+
         ball_detections: List[List[VolleyballDetection]] = []
         results = {
             'frames_data': [],  # 每帧的姿态数据
@@ -55,30 +57,53 @@ class SequenceAnalyzer:
             'ball_detection_enabled': use_ball_detection,
         }
         
-        # 分析每一帧
-        all_landmarks = []
-        annotated_frames = []
-        
-        for idx, frame in enumerate(frames):
-            landmarks, annotated = self.pose_detector.detect_pose(frame)
-            frame_ball_detections: List[VolleyballDetection] = []
-            if use_ball_detection and frame is not None:
-                frame_ball_detections = self.volleyball_detector.detect(frame)
-                # print("[TEST][SEQUENCE_ANALYZER][ANALYZE_SEQUENCE]: Frame Ball Detections: ", frame_ball_detections)
-                if draw_ball and frame_ball_detections:
-                    annotated = self.volleyball_detector.annotate(annotated, frame_ball_detections)
-                    # print("[TEST][SEQ_ANA] frame ball detections: ", frame_ball_detections)
-                    # print("[TEST][SEQ_ANA] annotated frame: ", annotated.shape)
-            results['frames_data'].append({
-                'frame_idx': idx,
-                'landmarks': landmarks,
-                'has_pose': landmarks is not None,
-                'ball_detections': self._serialize_detections(frame_ball_detections) if use_ball_detection else []
-            })
-            all_landmarks.append(landmarks)
-            annotated_frames.append(annotated)
+        # ========= 改成按 batch 处理的部分 =========
+        all_landmarks: List = []
+        annotated_frames: List[np.ndarray] = []
+
+        BATCH_SIZE = 300
+        num_frames = len(frames)
+
+        for start in range(0, num_frames, BATCH_SIZE):
+            end = min(start + BATCH_SIZE, num_frames)
+            frame_chunk = frames[start:end]
+
+            # 1️⃣ 当前 batch 的球检测（只在启用时调用）
             if use_ball_detection:
-                ball_detections.append(frame_ball_detections)
+                # detect_batch: List[np.ndarray] -> List[List[VolleyballDetection]]
+                chunk_ball_detections: List[List[VolleyballDetection]] = \
+                    self.volleyball_detector.detect_batch(frame_chunk)
+            else:
+                # 为了下面 zip 一致性，构造空列表
+                chunk_ball_detections = [[] for _ in frame_chunk]
+
+            # 2️⃣ 对当前 batch 内每一帧，做姿态 + 画框 + 存结果
+            for offset, (frame, frame_ball_dets) in enumerate(zip(frame_chunk, chunk_ball_detections)):
+                idx = start + offset  # 全局帧索引
+
+                # 姿态检测还是逐帧
+                landmarks, annotated = self.pose_detector.detect_pose(frame)
+
+                # 叠加排球标注
+                if use_ball_detection and frame is not None:
+                    if draw_ball and frame_ball_dets:
+                        annotated = self.volleyball_detector.annotate(annotated, frame_ball_dets)
+
+                results['frames_data'].append({
+                    'frame_idx': idx,
+                    'landmarks': landmarks,
+                    'has_pose': landmarks is not None,
+                    'ball_detections': (
+                        self._serialize_detections(frame_ball_dets) if use_ball_detection else []
+                    )
+                })
+
+                all_landmarks.append(landmarks)
+                annotated_frames.append(annotated)
+
+                if use_ball_detection:
+                    ball_detections.append(frame_ball_dets)
+        # ========= batch 处理部分结束 =========
         
         # 计算轨迹
         results['trajectories'] = self._calculate_trajectories(all_landmarks)
@@ -107,6 +132,7 @@ class SequenceAnalyzer:
         results['success'] = True  # 添加成功标志
         
         return results
+
 
     def _serialize_detections(self, detections: List[VolleyballDetection]):
         serialized = []
@@ -176,8 +202,10 @@ class SequenceAnalyzer:
     def _ensure_ball_detector(self) -> bool:
         """懒加载排球检测器，避免无模型时阻塞流程"""
         if self.volleyball_detector is not None:
+            print("[TEST][SEQUENCE_ANALYZER]Volleyball Detector already initialized.")
             return True
         try:
+            print("[TEST][SEQUENCE_ANALYZER]Volleyball Detector is not initialized.")
             self.volleyball_detector = VolleyballDetector()
             return True
         except Exception as exc:

@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from models.yolo import Model
 from utils.torch_utils import select_device
-from typing import Generator, List, Tuple
+from typing import Generator, List, Tuple, Sequence, Any
 
 
 
@@ -56,10 +56,44 @@ def plot_image(image: np.ndarray, size: int = 12) -> None:
     plt.show()
 
 
-def x_y_w_h(prediciton, model_name) -> Tuple:
+# def x_y_w_h(prediciton, model_name) -> Tuple:
+#     """
+#     - RoboFlow model returns the center of the bbox and its width and height
+#     - Yolov7/Pytorch model the upper left and the bottom right corners
+#     """
+#     if model_name == 'roboflow':
+#         try:
+#             x = int(prediciton.json()['predictions'][0]['x'])
+#             y = int(prediciton.json()['predictions'][0]['y'])
+#             w = int(prediciton.json()['predictions'][0]['width'])
+#             h = int(prediciton.json()['predictions'][0]['height'])
+
+#             x0, y0 = int(x - w / 2), int(y - h / 2)
+
+#             return x0, y0, w, h
+#         except:
+#             return (0, 0, 0, 0)
+
+#     elif model_name == 'yolov7':
+#         try:
+#             # print("[TEST]]MY__UTILS][YOLOV7] pred:",prediciton.pred[0].cpu().numpy())
+#             x_min, y_min, x_max, y_max, confidence, class_id = prediciton.pred[0].cpu().numpy()[
+#                 0]
+#             x = int(x_min)
+#             y = int(y_min)
+#             w = int(x_max - x_min)
+#             h = int(y_max - y_min)
+#             return x, y, w, h
+#         except:
+#             return (0, 0, 0, 0)
+
+def x_y_w_h(prediciton, model_name: str, idx: int = 0) -> Tuple[int, int, int, int]:
     """
-    - RoboFlow model returns the center of the bbox and its width and height
-    - Yolov7/Pytorch model the upper left and the bottom right corners
+    - RoboFlow model 返回 bbox 中心点和宽高
+    - Yolov7/Pytorch model 返回 [x_min, y_min, x_max, y_max, conf, class_id]
+    idx:
+        对 YOLOv7 batch 预测时，从 prediciton.pred[idx] 中取第 idx 张图的结果；
+        对 roboflow，仍然只用第 0 个 bbox。
     """
     if model_name == 'roboflow':
         try:
@@ -69,24 +103,26 @@ def x_y_w_h(prediciton, model_name) -> Tuple:
             h = int(prediciton.json()['predictions'][0]['height'])
 
             x0, y0 = int(x - w / 2), int(y - h / 2)
-
             return x0, y0, w, h
-        except:
+        except Exception:
             return (0, 0, 0, 0)
 
     elif model_name == 'yolov7':
         try:
-            # print("[TEST]]MY__UTILS][YOLOV7] pred:",prediciton.pred[0].cpu().numpy())
-            x_min, y_min, x_max, y_max, confidence, class_id = prediciton.pred[0].cpu().numpy()[
-                0]
+            # prediciton.pred 是一个 list，长度 = batch_size
+            # 我们这里用 idx 选择第 idx 张图
+            arr = prediciton.pred[idx].cpu().numpy()
+            if arr.shape[0] == 0:
+                return (0, 0, 0, 0)
+
+            x_min, y_min, x_max, y_max, confidence, class_id = arr[0]
             x = int(x_min)
             y = int(y_min)
             w = int(x_max - x_min)
             h = int(y_max - y_min)
             return x, y, w, h
-        except:
+        except Exception:
             return (0, 0, 0, 0)
-
 
 def extract_coord(prediciton: dict) -> Tuple:
     x = int(prediciton.json()['predictions'][0]['x'])
@@ -168,6 +204,7 @@ def custom(path_or_model='path/to/model.pt', autoshape=True):
     return hub_model.to(device)
 
 
+
 class RoboYOLO:
     """
     Unified class for RoboFlow and yoloV7 models 
@@ -179,7 +216,6 @@ class RoboYOLO:
         self.conf = confidence
 
     def predict(self, frame):
-
         if self.name == 'roboflow':
             pred = self.model.predict(frame, confidence=self.conf)
             return pred
@@ -187,9 +223,36 @@ class RoboYOLO:
         elif self.name == 'yolov7':
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             im_pil = PIL.Image.fromarray(img)
-
-            pred = self.model(im_pil)
+            # 单帧也最好包一层 no_grad
+            with torch.inference_mode():
+                pred = self.model(im_pil)
             return pred
+
+    def predict_batch(self, frames: Sequence[np.ndarray]) -> Any:
+        """
+        批量预测：
+        - yolov7: 一次性吃多张 PIL.Image
+        - roboflow: 逐张 HTTP 调用
+        """
+        if self.name == 'roboflow':
+            preds = []
+            for frame in frames:
+                pred = self.model.predict(frame, confidence=self.conf)
+                preds.append(pred)
+            return preds
+
+        elif self.name == 'yolov7':
+            pil_images = []
+            for frame in frames:
+                img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                im_pil = PIL.Image.fromarray(img)
+                pil_images.append(im_pil)
+
+            # ✅ 这里非常关键，加上 inference_mode，确保不建计算图
+            with torch.inference_mode():
+                preds = self.model(pil_images)
+
+            return preds
 
 
 def get_circle(bbox: Tuple[int, int, int, int]):

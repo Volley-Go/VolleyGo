@@ -54,7 +54,7 @@ class VideoGenerator:
             'right_ankle': 28,
         }
     
-    def generate_video(self, video_path, output_path, video_type="overlay", max_frames=300,
+    def generate_video(self, video_path, output_path, video_type="overlay", max_frames=600,
                        detect_ball=False, highlight_ball=False):
         """
         统一的视频生成接口
@@ -235,115 +235,224 @@ class VideoGenerator:
         """生成轨迹追踪帧"""
         return self._generate_overlay_frames(frames, sequence_result, ball_detections, highlight_ball)  # 简化版
     
-    def _write_web_compatible_video(self, frames, output_path, fps):
-        """写入浏览器兼容的视频"""
-        import subprocess
-        import tempfile
-        import shutil
+    # def _write_web_compatible_video(self, frames, output_path, fps):
+    #     """写入浏览器兼容的视频"""
+    #     import subprocess
+    #     import tempfile
+    #     import shutil
         
+    #     if len(frames) == 0:
+    #         raise ValueError("没有帧可以写入")
+        
+    #     height, width = frames[0].shape[:2]
+        
+    #     # 方法1: 使用FFmpeg（图片序列方式，更稳定）
+    #     try:
+    #         # 检查FFmpeg
+    #         result = subprocess.run(['ffmpeg', '-version'], capture_output=True, text=True, timeout=5)
+    #         if result.returncode != 0:
+    #             raise Exception("FFmpeg不可用")
+            
+    #         print("🔄 使用FFmpeg生成浏览器兼容视频...")
+            
+    #         # 创建临时目录保存帧
+    #         temp_dir = tempfile.mkdtemp()
+    #         print(f"📁 临时目录: {temp_dir}")
+            
+    #         try:
+    #             # 保存所有帧为图片（高质量）
+    #             print(f"💾 保存 {len(frames)} 帧为高质量图片...")
+    #             for i, frame in enumerate(frames):
+    #                 if frame is None:
+    #                     print(f"⚠️ 第{i}帧为None，跳过")
+    #                     continue
+    #                 frame_path = os.path.join(temp_dir, f'frame_{i:06d}.png')
+    #                 # 使用PNG压缩等级0（无压缩，最高质量）
+    #                 success = cv2.imwrite(frame_path, frame, [cv2.IMWRITE_PNG_COMPRESSION, 0])
+    #                 if not success:
+    #                     print(f"⚠️ 第{i}帧保存失败")
+                
+    #             print("✅ 帧保存完成，开始FFmpeg合成...")
+                
+    #             # 尝试多种编码方案（高质量）
+    #             codecs = [
+    #                 ('h264_hq', ['-c:v', 'h264', '-pix_fmt', 'yuv420p', '-b:v', '5M']),  # H.264高码率
+    #                 ('h264', ['-c:v', 'h264', '-pix_fmt', 'yuv420p']),  # H.264标准
+    #                 ('mpeg4_hq', ['-c:v', 'mpeg4', '-q:v', '2', '-pix_fmt', 'yuv420p']),  # MPEG4高质量
+    #                 ('mpeg4', ['-c:v', 'mpeg4', '-q:v', '5'])  # MPEG4标准
+    #             ]
+                
+    #             result = None
+    #             for codec_name, codec_args in codecs:
+    #                 cmd = [
+    #                     'ffmpeg', '-y',
+    #                     '-framerate', str(fps),
+    #                     '-i', os.path.join(temp_dir, 'frame_%06d.png')
+    #                 ] + codec_args + [output_path]
+                    
+    #                 print(f"🎬 尝试编码器: {codec_name}")
+    #                 result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+                    
+    #                 if result.returncode == 0 and os.path.exists(output_path):
+    #                     print(f"✅ 使用 {codec_name} 编码成功")
+    #                     break
+    #                 else:
+    #                     print(f"⚠️ {codec_name} 失败，尝试下一个...")
+    #                     if os.path.exists(output_path):
+    #                         os.remove(output_path)
+                
+    #             # 清理临时文件
+    #             print("🗑️ 清理临时文件...")
+    #             shutil.rmtree(temp_dir)
+                
+    #             if result.returncode == 0 and os.path.exists(output_path):
+    #                 print("✅ FFmpeg生成成功（H.264编码）")
+    #                 return output_path
+    #             else:
+    #                 stderr = result.stderr if result.stderr else "无错误输出"
+    #                 print(f"⚠️ FFmpeg失败 (代码{result.returncode}): {stderr[:300]}")
+                    
+    #         except subprocess.TimeoutExpired:
+    #             print("⚠️ FFmpeg执行超时")
+    #             if os.path.exists(temp_dir):
+    #                 shutil.rmtree(temp_dir)
+    #             raise Exception("FFmpeg超时")
+    #         except Exception as e:
+    #             # 清理临时文件
+    #             if os.path.exists(temp_dir):
+    #                 shutil.rmtree(temp_dir)
+    #             raise e
+                
+    #     except Exception as e:
+    #         print(f"ℹ️ FFmpeg方案失败: {str(e)}")
+        
+    #     # 方法2: 使用OpenCV（降级方案）
+    #     print("⚠️ 回退到OpenCV，视频可能无法在浏览器播放")
+    #     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    #     out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+        
+    #     if not out.isOpened():
+    #         raise RuntimeError("无法创建视频写入器")
+        
+    #     for frame in frames:
+    #         out.write(frame)
+        
+    #     out.release()
+        
+    #     if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
+    #         print("⚠️ 使用OpenCV生成，浏览器可能无法播放，请下载查看")
+    #         return output_path
+    #     else:
+    #         raise RuntimeError("视频生成失败")
+    
+    def _write_web_compatible_video(self, frames, output_path, fps):
+        """写入浏览器兼容的视频（优化版：使用 FFmpeg rawvideo 管道）"""
+        import subprocess
+        import os
+        import cv2
+        import numpy as np
+
         if len(frames) == 0:
             raise ValueError("没有帧可以写入")
-        
+
+        # 统一尺寸（假设所有帧尺寸已经一致，不一致就 resize）
         height, width = frames[0].shape[:2]
-        
-        # 方法1: 使用FFmpeg（图片序列方式，更稳定）
+
+        # 先简单检查 ffmpeg 是否可用（可选）
         try:
-            # 检查FFmpeg
-            result = subprocess.run(['ffmpeg', '-version'], capture_output=True, text=True, timeout=5)
-            if result.returncode != 0:
-                raise Exception("FFmpeg不可用")
-            
-            print("🔄 使用FFmpeg生成浏览器兼容视频...")
-            
-            # 创建临时目录保存帧
-            temp_dir = tempfile.mkdtemp()
-            print(f"📁 临时目录: {temp_dir}")
-            
-            try:
-                # 保存所有帧为图片（高质量）
-                print(f"💾 保存 {len(frames)} 帧为高质量图片...")
-                for i, frame in enumerate(frames):
-                    if frame is None:
-                        print(f"⚠️ 第{i}帧为None，跳过")
-                        continue
-                    frame_path = os.path.join(temp_dir, f'frame_{i:06d}.png')
-                    # 使用PNG压缩等级0（无压缩，最高质量）
-                    success = cv2.imwrite(frame_path, frame, [cv2.IMWRITE_PNG_COMPRESSION, 0])
-                    if not success:
-                        print(f"⚠️ 第{i}帧保存失败")
-                
-                print("✅ 帧保存完成，开始FFmpeg合成...")
-                
-                # 尝试多种编码方案（高质量）
-                codecs = [
-                    ('h264_hq', ['-c:v', 'h264', '-pix_fmt', 'yuv420p', '-b:v', '5M']),  # H.264高码率
-                    ('h264', ['-c:v', 'h264', '-pix_fmt', 'yuv420p']),  # H.264标准
-                    ('mpeg4_hq', ['-c:v', 'mpeg4', '-q:v', '2', '-pix_fmt', 'yuv420p']),  # MPEG4高质量
-                    ('mpeg4', ['-c:v', 'mpeg4', '-q:v', '5'])  # MPEG4标准
-                ]
-                
-                result = None
-                for codec_name, codec_args in codecs:
-                    cmd = [
-                        'ffmpeg', '-y',
-                        '-framerate', str(fps),
-                        '-i', os.path.join(temp_dir, 'frame_%06d.png')
-                    ] + codec_args + [output_path]
-                    
-                    print(f"🎬 尝试编码器: {codec_name}")
-                    result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-                    
-                    if result.returncode == 0 and os.path.exists(output_path):
-                        print(f"✅ 使用 {codec_name} 编码成功")
-                        break
-                    else:
-                        print(f"⚠️ {codec_name} 失败，尝试下一个...")
-                        if os.path.exists(output_path):
-                            os.remove(output_path)
-                
-                # 清理临时文件
-                print("🗑️ 清理临时文件...")
-                shutil.rmtree(temp_dir)
-                
-                if result.returncode == 0 and os.path.exists(output_path):
-                    print("✅ FFmpeg生成成功（H.264编码）")
-                    return output_path
-                else:
-                    stderr = result.stderr if result.stderr else "无错误输出"
-                    print(f"⚠️ FFmpeg失败 (代码{result.returncode}): {stderr[:300]}")
-                    
-            except subprocess.TimeoutExpired:
-                print("⚠️ FFmpeg执行超时")
-                if os.path.exists(temp_dir):
-                    shutil.rmtree(temp_dir)
-                raise Exception("FFmpeg超时")
-            except Exception as e:
-                # 清理临时文件
-                if os.path.exists(temp_dir):
-                    shutil.rmtree(temp_dir)
-                raise e
-                
+            check = subprocess.run(
+                ['ffmpeg', '-version'],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            if check.returncode != 0:
+                raise RuntimeError("FFmpeg 不可用")
         except Exception as e:
-            print(f"ℹ️ FFmpeg方案失败: {str(e)}")
-        
-        # 方法2: 使用OpenCV（降级方案）
+            print(f"ℹ️ FFmpeg 检测失败，回退到 OpenCV: {e}")
+            return self._write_video_opencv_fallback(frames, output_path, fps)
+
+        print("🔄 使用 FFmpeg (rawvideo 管道) 生成浏览器兼容视频...")
+
+        # FFmpeg 命令：从 stdin 读 raw BGR24 视频流
+        cmd = [
+            'ffmpeg',
+            '-y',
+            '-f', 'rawvideo',
+            '-vcodec', 'rawvideo',
+            '-pix_fmt', 'bgr24',
+            '-s', f'{width}x{height}',
+            '-r', str(fps),
+            '-i', '-',              # 从 stdin 读
+            '-an',                  # 无音频
+            '-vcodec', 'libx264',   # 或 'h264'，取决于你的 ffmpeg 构建
+            '-pix_fmt', 'yuv420p',  # 浏览器最兼容的像素格式
+            '-preset', 'fast',      # 编码预设：ultrafast, superfast, veryfast, faster, fast, medium(默认)
+            '-crf', '23',           # 质量（18~28，越小越清晰）
+            output_path
+        ]
+
+        proc = subprocess.Popen(
+            cmd,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+
+        try:
+            for i, frame in enumerate(frames):
+                if frame is None:
+                    continue
+
+                # 如果有尺寸不一致的帧，这里统一 resize 一下
+                if frame.shape[0] != height or frame.shape[1] != width:
+                    frame = cv2.resize(frame, (width, height))
+
+                # BGR np.ndarray → raw bytes
+                proc.stdin.write(frame.tobytes())
+        finally:
+            proc.stdin.close()
+            stderr = proc.stderr.read().decode('utf-8', errors='ignore')
+            ret = proc.wait()
+
+        if ret != 0 or not os.path.exists(output_path):
+            print(f"⚠️ FFmpeg 生成失败，代码 {ret}，部分 stderr:\n{stderr[:300]}")
+            print("⚠️ 回退到 OpenCV 方案...")
+            return self._write_video_opencv_fallback(frames, output_path, fps)
+
+        print("✅ FFmpeg 生成成功（H.264 + yuv420p，浏览器兼容）")
+        return output_path
+
+
+    def _write_video_opencv_fallback(self, frames, output_path, fps):
+        """原来的 OpenCV 降级方案单独抽出来"""
+        import os
+        import cv2
+
+        if len(frames) == 0:
+            raise ValueError("没有帧可以写入")
+
+        height, width = frames[0].shape[:2]
         print("⚠️ 回退到OpenCV，视频可能无法在浏览器播放")
+
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
-        
+
         if not out.isOpened():
             raise RuntimeError("无法创建视频写入器")
-        
+
         for frame in frames:
+            if frame is None:
+                continue
             out.write(frame)
-        
+
         out.release()
-        
+
         if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
             print("⚠️ 使用OpenCV生成，浏览器可能无法播放，请下载查看")
             return output_path
         else:
             raise RuntimeError("视频生成失败")
+
     
     def _convert_to_web_compatible(self, input_path, output_path):
         """
