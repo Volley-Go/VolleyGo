@@ -14,28 +14,3889 @@
   },
   {
     "id": 2,
-    "role": "二传",
+    "role": "副攻",
     "difficulty": "初阶",
-    "question": "二传在组织进攻时的首要任务是？",
+    "question": "副攻通常在发球后的第一时间做什么？",
     "options": [
-      "自己进攻",
-      "传出便于攻手进攻的好球",
-      "专注拦网",
-      "只负责发球"
+      "原地不动",
+      "跑向角落",
+      "快速回到拦网位置",
+      "接发球"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 3,
+    "role": "副攻",
+    "difficulty": "初阶",
+    "question": "副攻的常见攻击点通常在？",
+    "options": [
+      "1号位",
+      "4号位",
+      "3号位",
+      "发球区"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 4,
+    "role": "副攻",
+    "difficulty": "初阶",
+    "question": "副攻“快攻”成功的关键是？",
+    "options": [
+      "跳得最高",
+      "助跑足够远",
+      "时机与二传同步",
+      "对方拦网注意不到"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 5,
+    "role": "副攻",
+    "difficulty": "初阶",
+    "question": "拦网时，副攻的手形应该是？",
+    "options": [
+      "手指分开形成大面积",
+      "手掌向上托球",
+      "双拳紧握",
+      "手臂往后收"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 6,
+    "role": "副攻",
+    "difficulty": "初阶",
+    "question": "副攻在拦网中最需要关注的是？",
+    "options": [
+      "对方二传肩部方向",
+      "球迷加油声",
+      "自己站位是否帅",
+      "裁判站在哪里"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 7,
+    "role": "副攻",
+    "difficulty": "初阶",
+    "question": "副攻为什么需要“读传”（read）？",
+    "options": [
+      "看观众",
+      "根据对方组织判断进攻点",
+      "看广告牌",
+      "确认队友站位"
     ],
     "correct_answer": 1
   },
   {
-    "id": 3,
-    "role": "自由人",
+    "id": 8,
+    "role": "副攻",
     "difficulty": "初阶",
-    "question": "自由人可以执行下列哪项动作？",
+    "question": "“单人拦网”适用于？",
     "options": [
-      "在前排扣球",
-      "发球并得分",
-      "完成防守并传出一传",
-      "参与拦网"
+      "副攻太累",
+      "对方快速中路进攻",
+      "自己站位错误",
+      "对方发球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 9,
+    "role": "副攻",
+    "difficulty": "初阶",
+    "question": "副攻最快的助跑方式通常为？",
+    "options": [
+      "原地跳",
+      "3 步节奏",
+      "倒退跑",
+      "小碎步"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 10,
+    "role": "副攻",
+    "difficulty": "初阶",
+    "question": "副攻要尽可能让自己的手？",
+    "options": [
+      "远离球",
+      "穿过球网平面",
+      "收回到胸前",
+      "上挑球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 11,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻在“半高球”情况下的攻击策略？",
+    "options": [
+      "强行暴扣",
+      "尽量稳控落点",
+      "打手出界为主",
+      "不攻击"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 12,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "“拦直线或拦斜线”如何决定？",
+    "options": [
+      "看队友心情",
+      "看对方主攻方向与吊球倾向",
+      "看球衣颜色",
+      "随机选择"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 13,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻在换位快攻（slide）时通常跑向？",
+    "options": [
+      "2 号位",
+      "3 号位",
+      "4 号位",
+      "1 号位"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 14,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻 slide 的关键点是？",
+    "options": [
+      "大幅助跑",
+      "外摆腿与跨步节奏",
+      "跳得越高越好",
+      "球速越慢越好"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 15,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "面对强力主攻时，副攻拦网的重点？",
+    "options": [
+      "尽量跳得早",
+      "力求形成“关门拦网”",
+      "不要跳太高",
+      "不伸手"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 16,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻在快攻牵制时的作用是？",
+    "options": [
+      "迷惑自由人",
+      "牵制对方副攻，使队友形成空网",
+      "干扰裁判",
+      "避免接球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 17,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻在防吊球时优先？",
+    "options": [
+      "跳得更高",
+      "落地立即前扑",
+      "等自由人",
+      "站着不动"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 18,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻进攻触球点升高的好处？",
+    "options": [
+      "更容易打界外",
+      "更容易避开拦网",
+      "节省体能",
+      "不需要助跑"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 19,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻拦网脚步中常见的“并步”适用于？",
+    "options": [
+      "大范围移动",
+      "小幅度横移",
+      "后退防守",
+      "接发球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 20,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻常使用的观察线索不包括？",
+    "options": [
+      "二传身体方向",
+      "对方攻手肩部角度",
+      "对方后排防守站位",
+      "球迷手机灯光"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 21,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "slide 快攻常用于？",
+    "options": [
+      "避开对方中拦",
+      "让自由人进攻",
+      "延缓进攻速度",
+      "队友拍照"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 22,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻的“顺步拦网（swing block）”特点是？",
+    "options": [
+      "不助跑",
+      "有侧移、跳跃并带摆臂",
+      "只能拦中路",
+      "自由人执行"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 23,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "“Reading blocker” 指？",
+    "options": [
+      "只看球不动",
+      "观察对方攻传节奏后反应性移动拦网",
+      "死站位置",
+      "提前跳"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 24,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻在双人拦网时应对哪部分负责？",
+    "options": [
+      "填补内线（直线方向）",
+      "填补外侧",
+      "后排",
+      "4号位"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 25,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻判断快攻真假的关键是？",
+    "options": [
+      "看攻手眼睛",
+      "看二传脚步与肩部方向",
+      "看观众反应",
+      "看对方自由人"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 26,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻高水平特征之一是？",
+    "options": [
+      "只会拦网不会攻",
+      "快速切换进攻与拦网任务",
+      "只站中间",
+      "不参与节奏变换"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 27,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "高级副攻在拦网落地后优先？",
+    "options": [
+      "看比分",
+      "转头观察下一传球组织",
+      "走回后排",
+      "站着不动"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 28,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻“二次拦网”指？",
+    "options": [
+      "拦完跳第二次",
+      "补防队友失位后的拦网",
+      "发球后拦网",
+      "对方失误后拦网"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 29,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻与接应的配合重点是？",
+    "options": [
+      "一起接发",
+      "形成双人拦网夹击",
+      "一起扣球",
+      "换位置站"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 30,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻的“关门拦网（closed block）”要求？",
+    "options": [
+      "手尽量收缩",
+      "两人手臂完全封住出球路线",
+      "跳得越高越好",
+      "只拦直线"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 31,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻常用于封堵对方哪类进攻？",
+    "options": [
+      "后排 pipe",
+      "中路短平快",
+      "发球",
+      "自由人吊球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 32,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻训练爆发力的有效手段？",
+    "options": [
+      "长跑",
+      "深蹲与跳箱",
+      "俯卧撑",
+      "慢走"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 33,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "高速快攻体系中二传需要？",
+    "options": [
+      "把球传得越高越好",
+      "极低且速度快的传球",
+      "只传后排",
+      "不传副攻"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 34,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻 slide 最常见错误是？",
+    "options": [
+      "助跑太慢",
+      "起跳过早导致球赶不上",
+      "起跳太高",
+      "球速度过快"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 35,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻在 double commit 中的风险是？",
+    "options": [
+      "对方自由人得分",
+      "被节奏骗跳造成空网",
+      "失误传球",
+      "队友撞到"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 36,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻在拦对方 pipe 时通常？",
+    "options": [
+      "正面跟跳",
+      "交给主攻或后排",
+      "不拦",
+      "跑向对角"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 37,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻防守短球时动作要点？",
+    "options": [
+      "站得越高越好",
+      "全程盯住球",
+      "前倾准备，脚步轻",
+      "让主攻来接"
     ],
     "correct_answer": 2
+  },
+  {
+    "id": 38,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻在跑快攻前需确认？",
+    "options": [
+      "球衣是否整齐",
+      "二传位置与助跑线路",
+      "队友站哪",
+      "是否有人拍照"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 39,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻在快攻假动作中角色是？",
+    "options": [
+      "真攻手",
+      "牵制对方中拦",
+      "自由人",
+      "后排核心"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 40,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻在比赛中的体能消耗最大来自？",
+    "options": [
+      "发球",
+      "频繁跳跃（快攻 + 拦网）",
+      "跑步",
+      "休息"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 41,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻判断对方攻手倾向的常用依据？",
+    "options": [
+      "发型",
+      "手臂摆动方向",
+      "球袜颜色",
+      "身高"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 42,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻拦网“探手”时应注意？",
+    "options": [
+      "防止被打手出界",
+      "手尽量向外伸",
+      "不要助跑",
+      "保持僵硬"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 43,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻在 6-2 阵中角色变化是？",
+    "options": [
+      "不再进攻",
+      "需要更多拦网覆盖",
+      "变成接应",
+      "发球减少"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 44,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "高水平副攻的快攻跑位通常？",
+    "options": [
+      "很早起跑",
+      "贴网且极短节奏",
+      "原地等球",
+      "跑远距离"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 45,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻在队伍数据分析中重点指标？",
+    "options": [
+      "球衣长度",
+      "拦网有效率",
+      "发球速度",
+      "接应出勤率"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 46,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "副攻在覆盖拦网后需要准备？",
+    "options": [
+      "下一次快攻或再拦网",
+      "退到替补席",
+      "跑出场外",
+      "跳发球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 47,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻在封小斜线时应与谁配合？",
+    "options": [
+      "自由人",
+      "主攻",
+      "接应",
+      "副攻自己"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 48,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻反应训练最有效的方法之一？",
+    "options": [
+      "训练场地跑圈",
+      "随机方向击球做瞬间判断",
+      "俯卧撑",
+      "慢走"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 49,
+    "role": "副攻",
+    "difficulty": "中阶",
+    "question": "副攻跳拦网时，应尽量？",
+    "options": [
+      "起跳平行后仰",
+      "垂直起跳，形成封堵平面",
+      "朝后跳",
+      "不伸手"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 50,
+    "role": "副攻",
+    "difficulty": "高阶",
+    "question": "顶级副攻的最终能力体现是？",
+    "options": [
+      "扣球比主攻更强",
+      "拦网判断、快攻效率、阅读能力全面",
+      "发球 ACE 最多",
+      "防守最好"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 51,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻在常规轮次中的主要职责是什么？",
+    "options": [
+      "主导拦网并解决所有高球",
+      "完成后排一传并参与主要进攻",
+      "只负责快攻",
+      "专门负责发球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 52,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻最关键的基础能力是？",
+    "options": [
+      "发球",
+      "一传稳定性",
+      "单手轻扣",
+      "跳发"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 53,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻在后排通常承担的最重要任务是什么？",
+    "options": [
+      "跳飘",
+      "后排暴扣",
+      "稳定一传",
+      "拦网指挥"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 54,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻身高不如副攻的情况下，最需要提升什么？",
+    "options": [
+      "脚步速度",
+      "力量训练",
+      "节奏跑动和滞空配合",
+      "手腕力量"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 55,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻补位拦网时通常会协防谁？",
+    "options": [
+      "副攻",
+      "接应",
+      "二传",
+      "对方主攻"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 56,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻在进攻中最常见的战术点位是？",
+    "options": [
+      "2号位",
+      "3号位",
+      "4号位",
+      "1号位"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 57,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻与自由人之间需要最高度配合的项目是？",
+    "options": [
+      "防守",
+      "进攻节奏",
+      "一传分工",
+      "发球布阵"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 58,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻的主要跑动方式是？",
+    "options": [
+      "三步助跑",
+      "两步助跑",
+      "单脚起跳",
+      "上手拨球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 59,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻的特点之一是什么？",
+    "options": [
+      "只打快球",
+      "一传、进攻、防守全面",
+      "必须身高最高",
+      "不参与防守"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 60,
+    "role": "主攻",
+    "difficulty": "基础",
+    "question": "主攻从后排参与进攻时通常从哪个位置起跳？",
+    "options": [
+      "A区",
+      "1号位",
+      "Pipe（中路后攻）",
+      "2号位"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 61,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "主攻在对手双人拦网前常用的解决手段是？",
+    "options": [
+      "强行硬打",
+      "轻吊与打手出界结合",
+      "只打调整攻",
+      "借球入界"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 62,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "主攻的“三步助跑”正确顺序是？",
+    "options": [
+      "小步→大步→顺步",
+      "大步→小步→顺步",
+      "右-左-右（右手将）",
+      "左-右-左（右手将）"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 63,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "调整攻时主攻最重要的是？",
+    "options": [
+      "跳得越高越好",
+      "视野观察和避开拦网",
+      "全力猛扣",
+      "模仿接应"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 64,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "主攻吊球的关键是什么？",
+    "options": [
+      "速度快",
+      "手腕软",
+      "观察空当",
+      "角度刁"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 65,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "针对小个自由人的常见进攻方式是？",
+    "options": [
+      "打其头顶",
+      "打大斜线",
+      "打直线",
+      "吊短区"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 66,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "主攻攻直线时，最佳击球点是什么？",
+    "options": [
+      "身体前方",
+      "稍微靠左",
+      "稍微靠右",
+      "背后"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 67,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "主攻常用的“打手出界”技术依赖什么？",
+    "options": [
+      "更大力量",
+      "对拦网手型的判断",
+      "靠运气",
+      "把球打成擦网"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 68,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "突破双人拦网时主攻优先选择？",
+    "options": [
+      "打手",
+      "拉开角度",
+      "吊小球",
+      "全力最强扣"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 69,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "主攻面对高拦网、二传被迫传高球时最佳选择？",
+    "options": [
+      "强攻",
+      "吊中间",
+      "打手",
+      "调整攻寻找弱点"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 70,
+    "role": "主攻",
+    "difficulty": "进攻",
+    "question": "主攻跳扣时最重要的动作顺序是？",
+    "options": [
+      "后仰→伸臂→扣球",
+      "伸臂→锁肩→鞭打",
+      "手腕→肩部→腹肌",
+      "迈步→转体→击球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 71,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "主攻拦网时最常遇到的位置对位是谁？",
+    "options": [
+      "对方主攻",
+      "对方接应",
+      "对方二传",
+      "对方副攻"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 72,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "主攻在防守大斜线时应站在？",
+    "options": [
+      "最靠近边线",
+      "稍靠内侧",
+      "中间一半",
+      "后排中路"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 73,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "主攻补位拦网常需要？",
+    "options": [
+      "侧身跳",
+      "快速横移",
+      "垂直起跳",
+      "往后撤"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 74,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "防守对手直线球时主攻需要的姿势？",
+    "options": [
+      "站得很高",
+      "下蹲、抓落点",
+      "跳起来接",
+      "横着拍"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 75,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "对手吊球时主攻第一反应应该是？",
+    "options": [
+      "后退",
+      "前扑",
+      "靠自由人",
+      "给二传"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 76,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "主攻判断拦网的关键是什么？",
+    "options": [
+      "对方二传肩部方向",
+      "自己队友位置",
+      "对方副攻高度",
+      "自己的助跑"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 77,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "主攻的大斜线防守主要看什么？",
+    "options": [
+      "球速",
+      "腰部扭转",
+      "对手助跑角度",
+      "自由人站位"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 78,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "主攻在拦对方强攻时更重要的是？",
+    "options": [
+      "跳更高",
+      "封角度",
+      "伸头",
+      "随便跳"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 79,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "主攻要学会“单人拦网”时需优先注意？",
+    "options": [
+      "跳快",
+      "手型封住对方主要线路",
+      "犯规线",
+      "底线距离"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 80,
+    "role": "主攻",
+    "difficulty": "拦网",
+    "question": "主攻在后排防守的最佳站位要求？",
+    "options": [
+      "靠近底线",
+      "稍靠前、能接吊",
+      "靠右边",
+      "靠左边"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 81,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻执行“拉开战术”时的核心效果是？",
+    "options": [
+      "给副攻制造空间",
+      "拉开对方拦网",
+      "让二传休息",
+      "给自由人制造空间"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 82,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻与副攻在前排要形成？",
+    "options": [
+      "一直跟着跑",
+      "交叉掩护",
+      "挡在一起",
+      "分散跑"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 83,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻执行“时间差”最依赖什么？",
+    "options": [
+      "力量",
+      "跑动节奏",
+      "球速",
+      "拦网高度"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 84,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻在布置前排时通常与二传沟通内容是？",
+    "options": [
+      "球的速度与落点",
+      "球的颜色",
+      "球的气压",
+      "裁判手势"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 85,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻在被盯防时的常见战术是什么？",
+    "options": [
+      "让接应来打",
+      "打 pipe 后攻",
+      "后撤",
+      "只吊球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 86,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻在战术中最常被要求打的位置是什么？",
+    "options": [
+      "4号位高球",
+      "3号位平拉开",
+      "Pipe",
+      "2号位后攻"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 87,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻调整攻时能与谁形成“调整二攻”？",
+    "options": [
+      "副攻",
+      "接应",
+      "自由人",
+      "中二传"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 88,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻跑“内切”战术目的是什么？",
+    "options": [
+      "迷惑对方拦网",
+      "保护副攻",
+      "帮自由人",
+      "降低难度"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 89,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻要想减少被拦网机会，应注意什么？",
+    "options": [
+      "起跳高度",
+      "变换击球时间点",
+      "球纹路",
+      "强攻到底"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 90,
+    "role": "主攻",
+    "difficulty": "战术",
+    "question": "主攻与二传关系密切的原因是？",
+    "options": [
+      "主攻要保护二传",
+      "主攻需要最稳定传球",
+      "主攻必须常沟通战术、节奏",
+      "主攻负责喂给二传球"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 91,
+    "role": "主攻",
+    "difficulty": "体能",
+    "question": "主攻需要比副攻更多训练的内容是？",
+    "options": [
+      "起跳高度",
+      "一传与防守",
+      "身体对抗",
+      "臂展"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 92,
+    "role": "主攻",
+    "difficulty": "体能",
+    "question": "主攻的节奏感指什么？",
+    "options": [
+      "音乐节奏",
+      "助跑与传球点结合",
+      "跳发节奏",
+      "呼吸节奏"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 93,
+    "role": "主攻",
+    "difficulty": "心理",
+    "question": "优秀主攻在大赛中必须具备的心态是什么？",
+    "options": [
+      "永不失误",
+      "一传稳，关键分敢下手",
+      "只打调整攻",
+      "只靠队友"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 94,
+    "role": "主攻",
+    "difficulty": "心理",
+    "question": "调整攻能力强的主攻特点是？",
+    "options": [
+      "跳得高",
+      "观察清晰、判断准确",
+      "力量大",
+      "手长"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 95,
+    "role": "主攻",
+    "difficulty": "心理",
+    "question": "主攻扣球出界后最正确的反应是？",
+    "options": [
+      "责怪二传",
+      "做手势沟通传球点",
+      "批评队友",
+      "大喊"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 96,
+    "role": "主攻",
+    "difficulty": "心理",
+    "question": "主攻经常面对高拦网，提升进攻效率的最佳方式是？",
+    "options": [
+      "力量训练",
+      "提升阅读拦网的能力",
+      "跳高",
+      "增重"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 97,
+    "role": "主攻",
+    "difficulty": "技术",
+    "question": "主攻手腕动作的意义是？",
+    "options": [
+      "提高球速",
+      "改变球落点",
+      "增强手感",
+      "减少受伤"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 98,
+    "role": "主攻",
+    "difficulty": "技术",
+    "question": "主攻在强势进攻中必须做的动作？",
+    "options": [
+      "锁肩",
+      "双脚合一",
+      "上手拨球",
+      "后仰击球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 99,
+    "role": "主攻",
+    "difficulty": "技术",
+    "question": "主攻接发球最核心的是？",
+    "options": [
+      "手臂用力",
+      "身体迎球、平台稳定",
+      "抬头接",
+      "单手接"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 100,
+    "role": "主攻",
+    "difficulty": "技术",
+    "question": "一名成熟主攻的最大标志是什么？",
+    "options": [
+      "只能强攻",
+      "一传、进攻、防守全面",
+      "只扣球",
+      "必须身高190+"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 101,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "二传在球队中的核心职责是？",
+    "options": [
+      "拦网",
+      "组织全队进攻",
+      "强攻",
+      "发球得分"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 102,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "二传接到一传后最重要的第一件事是？",
+    "options": [
+      "跳传",
+      "判断落点、稳步到位",
+      "立刻给主攻",
+      "看观众"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 103,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "“二传手感”最依赖于？",
+    "options": [
+      "力量",
+      "手指控制与触球感",
+      "身高",
+      "反应速度"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 104,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "二传基础传球姿势的关键是？",
+    "options": [
+      "手打开越大越好",
+      "三角形手型",
+      "只用手腕",
+      "向后仰头"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 105,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "二传节奏控制中最重要的判断因素是？",
+    "options": [
+      "对手站位",
+      "自己心情",
+      "球的速度和到位质量",
+      "球迷欢呼"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 106,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "二传在前排的主要责任之一是？",
+    "options": [
+      "接发球",
+      "前排拦网",
+      "后排自由防守",
+      "接应位置补位"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 107,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "二传在防守中最常站的后排位置是？",
+    "options": [
+      "1号位或5号位",
+      "2号位",
+      "3号位",
+      "4号位"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 108,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "二传传球时需要优先考虑什么？",
+    "options": [
+      "最喜欢的队友",
+      "最远的位置",
+      "最好的队友得分机会",
+      "最简单的传球"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 109,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "二传必须熟悉队友的什么？",
+    "options": [
+      "身高",
+      "助跑节奏与扣球习惯",
+      "球鞋品牌",
+      "喜欢的战术名"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 110,
+    "role": "二传",
+    "difficulty": "基础",
+    "question": "高质量传球最重要的特点是？",
+    "options": [
+      "弧线高",
+      "手感轻",
+      "稳、准、快",
+      "好看"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 111,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "二传背传的关键动作是？",
+    "options": [
+      "抬手",
+      "手腕压球并腰部带动",
+      "用脚踢",
+      "头向后仰"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 112,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "二传要减少“双击犯规”应注意？",
+    "options": [
+      "手离球越远越好",
+      "接触瞬间两手同步发力",
+      "手型越大越安全",
+      "尽量用拳"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 113,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "二传在跑动中传球时，最需要稳定的部分是？",
+    "options": [
+      "腿",
+      "脚尖",
+      "上身与核心",
+      "头"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 114,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "“跳传”通常的目的是什么？",
+    "options": [
+      "炫技",
+      "加快节奏、迷惑拦网",
+      "传更远",
+      "节省体力"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 115,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "二传传给副攻的快攻球通常是？",
+    "options": [
+      "高球",
+      "平快球",
+      "超高球",
+      "后攻"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 116,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "给主攻的“拉开球”的特点是？",
+    "options": [
+      "高弧线、时间充分",
+      "非常快",
+      "背传",
+      "随机"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 117,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "二传给接应的球通常要求？",
+    "options": [
+      "更贴网，速度更快",
+      "远离网",
+      "高抛",
+      "偶尔给即可"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 118,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "二传传“背快”的关键点是？",
+    "options": [
+      "球越靠后越好",
+      "球要贴网且快",
+      "必须跳传",
+      "用单手"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 119,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "二传要避免传球飘浮主要靠？",
+    "options": [
+      "发力均匀",
+      "身体前倾",
+      "手型很硬",
+      "大力发力"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 120,
+    "role": "二传",
+    "difficulty": "技术",
+    "question": "二传的“点传”适合用于？",
+    "options": [
+      "强攻",
+      "掩护战术",
+      "快速偷袭",
+      "发球"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 121,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "二传从后排组织进攻时通常站在？",
+    "options": [
+      "1号位或2号位附近",
+      "3号位",
+      "4号位",
+      "5号位"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 122,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "接一传时最重要的站位要求是？",
+    "options": [
+      "提前预判落点",
+      "站原地不动",
+      "越靠近网越好",
+      "越靠后越好"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 123,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "当一传不到位时，二传的最佳选择是？",
+    "options": [
+      "强行快攻",
+      "稳定调整传球",
+      "从后排跳传",
+      "让自由人接"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 124,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "二传跑动路线要保持？",
+    "options": [
+      "直来直去",
+      "尽量少弯道",
+      "最短路径且不干扰队友",
+      "绕远一点看清球"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 125,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "二传最怕发生的常见错误是？",
+    "options": [
+      "传太高",
+      "与队友相撞",
+      "助跑太快",
+      "跳得太低"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 126,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "二传在前排跑动主要为了？",
+    "options": [
+      "接球",
+      "掩护队友",
+      "找到更好的传球角度",
+      "看对面"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 127,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "二传在后排组织时，对对手的观察重点是？",
+    "options": [
+      "自由人站位",
+      "副攻移动前兆",
+      "主攻助跑",
+      "裁判"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 128,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "如果二传前排被拦网盯死，最优战术选择是？",
+    "options": [
+      "更多跳传",
+      "打后攻或快球",
+      "吊中间",
+      "随机传"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 129,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "二传想为队友争取单人面对拦网应？",
+    "options": [
+      "加速球",
+      "多用假动作与体前传",
+      "伪装方向",
+      "大喊"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 130,
+    "role": "二传",
+    "difficulty": "跑动",
+    "question": "二传跑动中调整身体方向的核心是？",
+    "options": [
+      "头转快",
+      "脚步轻盈",
+      "核心稳定",
+      "手臂摆动"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 131,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "二传最常用判断进攻战术的依据是？",
+    "options": [
+      "自己最想传给谁",
+      "一传质量",
+      "对方粉丝人数",
+      "自由人站位"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 132,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "面对对方大拦网，最适合的传球路线是？",
+    "options": [
+      "快攻战术",
+      "高球",
+      "背传",
+      "Pipe"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 133,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "二传营造一对零的最佳方式是？",
+    "options": [
+      "传最靠近网",
+      "隐藏传球方向",
+      "提高节奏与假动作",
+      "全部快球"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 134,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "快速战术需要二传做到？",
+    "options": [
+      "球到手即发",
+      "等队友准备好",
+      "看对面",
+      "传得越远越好"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 135,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "二传与副攻配合时最重要的是？",
+    "options": [
+      "节奏匹配",
+      "球弧度",
+      "声音",
+      "距离"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 136,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "二传决定把球给谁时最重要的是？",
+    "options": [
+      "谁喊得大声",
+      "谁状态更好、更容易得分",
+      "谁是主攻",
+      "谁是队长"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 137,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "当对手盯快攻，二传应？",
+    "options": [
+      "直接给主攻高球",
+      "多用背传",
+      "用接应高速攻",
+      "平衡快慢节奏"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 138,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "二传在低质量球时优选？",
+    "options": [
+      "给副攻",
+      "给主攻调整攻",
+      "给接应",
+      "跳传"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 139,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "二传组织“双快”战术前提是？",
+    "options": [
+      "一传到位",
+      "副攻很高",
+      "对面不跳",
+      "球很软"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 140,
+    "role": "二传",
+    "difficulty": "战术",
+    "question": "二传调整节奏的最有效方式是？",
+    "options": [
+      "传得更快",
+      "传得更慢",
+      "改变攻手顺序",
+      "变换配速与节奏"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 141,
+    "role": "二传",
+    "difficulty": "拦网",
+    "question": "二传前排最重要的拦网技巧是？",
+    "options": [
+      "跳高",
+      "封角度",
+      "用脸挡",
+      "站着不动"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 142,
+    "role": "二传",
+    "difficulty": "拦网",
+    "question": "二传前排拦对方主攻时常见策略是？",
+    "options": [
+      "向外封大斜线",
+      "封直线",
+      "中线不动",
+      "往后退"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 143,
+    "role": "二传",
+    "difficulty": "拦网",
+    "question": "二传后排防守多偏向？",
+    "options": [
+      "直线区",
+      "大斜线",
+      "中路",
+      "发球线"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 144,
+    "role": "二传",
+    "difficulty": "心理",
+    "question": "二传在比赛中最重要的心理素质是？",
+    "options": [
+      "冷静与判断",
+      "兴奋",
+      "情绪激动",
+      "强势"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 145,
+    "role": "二传",
+    "difficulty": "心理",
+    "question": "二传与主攻沟通不畅时应？",
+    "options": [
+      "强行按自己来",
+      "立即调整传球节奏",
+      "责怪队友",
+      "少传给他"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 146,
+    "role": "二传",
+    "difficulty": "心理",
+    "question": "二传需要对场上局势最敏锐的判断是什么？",
+    "options": [
+      "对方拦网人数",
+      "裁判表情",
+      "观众音量",
+      "二传的身高"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 147,
+    "role": "二传",
+    "difficulty": "心理",
+    "question": "二传作为“场上大脑”，关键作用是？",
+    "options": [
+      "读对方拦防",
+      "控球",
+      "扣球",
+      "发球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 148,
+    "role": "二传",
+    "difficulty": "心理",
+    "question": "二传要减少队友被拦网的方式之一是？",
+    "options": [
+      "多传高球",
+      "改变节奏、使拦网难以判断",
+      "对着拦网传",
+      "一直重复同方向传球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 149,
+    "role": "二传",
+    "difficulty": "心理",
+    "question": "二传遇到关键球应如何处理？",
+    "options": [
+      "给最稳定的攻手",
+      "给自由人",
+      "自己处理",
+      "随机传球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 150,
+    "role": "二传",
+    "difficulty": "心理",
+    "question": "二传在快节奏战术中的心理要求是？",
+    "options": [
+      "自信、果断、节奏控制",
+      "随意",
+      "慢慢来",
+      "不要跳传"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 151,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应在球队的主要进攻角色是？",
+    "options": [
+      "长传组织者",
+      "主要得分点",
+      "负责接发球",
+      "专攻防守"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 152,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应最常出现在场上的哪个攻区？",
+    "options": [
+      "4号位",
+      "2号位",
+      "5号位",
+      "6号位"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 153,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应在 5-1 阵型中的主要职责之一是？",
+    "options": [
+      "一传主力",
+      "后排强攻",
+      "自由人替补",
+      "站 3 号位"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 154,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应进攻特点通常是？",
+    "options": [
+      "高球慢速",
+      "速度快、力量大",
+      "中速、偏软",
+      "多用吊球为主"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 155,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应需要重点掌握哪种进攻？",
+    "options": [
+      "Sideout",
+      "后攻（Pipe）",
+      "后排2号位跑动攻",
+      "后排 A 快"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 156,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应通常不需要承担大量的哪项技能？",
+    "options": [
+      "接发球",
+      "后排进攻",
+      "拦网",
+      "斜线强攻"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 157,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应最常对位防守的对方攻手是？",
+    "options": [
+      "副攻",
+      "主攻",
+      "自由人",
+      "二传"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 158,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应助跑一般特点是？",
+    "options": [
+      "直线助跑",
+      "长助跑与大开角",
+      "两步助跑",
+      "无助跑"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 159,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应相比主攻最大的优势之一是？",
+    "options": [
+      "不需要跳",
+      "拦网高度优势显著",
+      "防守更强",
+      "更轻松"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 160,
+    "role": "接应",
+    "difficulty": "初阶",
+    "question": "接应在轮转中最关键的是？",
+    "options": [
+      "站位美观",
+      "确保每轮都有后攻能力",
+      "尽量不触球",
+      "多喊口号"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 161,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应进攻动作中\"摆臂速度\"主要影响？",
+    "options": [
+      "控球",
+      "力量与球速",
+      "防守",
+      "发球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 162,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应常用的击球路线是？",
+    "options": [
+      "斜线为主",
+      "直线为主",
+      "后撤球",
+      "中路吊球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 163,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "对抗高拦网时接应常用技术是？",
+    "options": [
+      "击打对方手指（工具球）",
+      "吊球",
+      "传球",
+      "直接拍网"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 164,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应后排进攻的关键点是？",
+    "options": [
+      "跳得高",
+      "起跳点稍远、击球点更高",
+      "停在原地打",
+      "从2米线后助跑很慢"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 165,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应打直线球的技术要点是？",
+    "options": [
+      "身体朝斜线",
+      "肩部打开、击球点在前高",
+      "改变球形",
+      "降低跳点"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 166,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应与二传配合最关键的要素是？",
+    "options": [
+      "球员友情",
+      "节奏与时间差",
+      "身高优势",
+      "谁喊得大声"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 167,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应打调整攻时最重要的是？",
+    "options": [
+      "尽量大力",
+      "稳定腾空与击球点",
+      "尽量吊球",
+      "等球下落再打"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 168,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应面对三人拦网时首选策略是？",
+    "options": [
+      "强攻硬打",
+      "找边手使用工具球",
+      "吊球",
+      "等下一球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 169,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应\"快速侧身攻\"适用于？",
+    "options": [
+      "球很低",
+      "一传较好、节奏快",
+      "球速度太快",
+      "后排无人"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 170,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应打\"后攻B位\"时的优势是？",
+    "options": [
+      "拦网不跳",
+      "容易打对角球",
+      "对手难判断路线",
+      "节省体力"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 171,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应拦网最常面对对方哪个位置？",
+    "options": [
+      "主攻",
+      "副攻",
+      "自由人",
+      "二传"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 172,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应拦网第一关键点是？",
+    "options": [
+      "跳最高",
+      "封住对手最强线路",
+      "盯着球飞行轨迹",
+      "抬头"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 173,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应单人拦网时最有效动作是？",
+    "options": [
+      "直跳",
+      "横移追人",
+      "手型压过网前",
+      "不动"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 174,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应后排防守最常负责的位置是？",
+    "options": [
+      "4号位后排",
+      "1号位后排",
+      "6号位",
+      "3号位"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 175,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应面对对方重扣球，最佳防守方式是？",
+    "options": [
+      "用脚接",
+      "重心低、平台稳定",
+      "大力弹走",
+      "掉头躲避"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 176,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应判断拦网方向的依据是？",
+    "options": [
+      "对方助跑路线",
+      "对方眼神",
+      "球迷位置",
+      "自己心情"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 177,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应补位防守最关键的是？",
+    "options": [
+      "跑得快",
+      "提前判断对方落点",
+      "等队友喊",
+      "看裁判"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 178,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应拦网后手应？",
+    "options": [
+      "回摆",
+      "快速下落准备防反",
+      "停在空中",
+      "改为扣球动作"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 179,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应后排不需要做的是？",
+    "options": [
+      "下三路防守",
+      "后攻",
+      "接发球主力",
+      "掩护队友"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 180,
+    "role": "接应",
+    "difficulty": "中阶",
+    "question": "接应面对斜线强攻时第一职责是？",
+    "options": [
+      "拦直线",
+      "封斜线",
+      "站中间",
+      "后退"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 181,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应为队友创造一对一的最佳方式是？",
+    "options": [
+      "助跑假动作",
+      "站在同一个位置",
+      "转身背对",
+      "不动"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 182,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在进攻体系中的关键作用是？",
+    "options": [
+      "稳定得分、突破难点球",
+      "中间指挥",
+      "控制防守队形",
+      "发球主力"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 183,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "双快战术中接应的任务是？",
+    "options": [
+      "提供后攻威胁",
+      "不参与",
+      "专门接发球",
+      "跳传"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 184,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在反击战术中的首要目标是？",
+    "options": [
+      "争取高点进攻",
+      "接发球",
+      "躲开",
+      "传球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 185,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "面对拦网强的队伍，接应最有效的战术是？",
+    "options": [
+      "多用工具球",
+      "全力硬打",
+      "更多吊球",
+      "等队友处理"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 186,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应与二传的默契主要体现在？",
+    "options": [
+      "表情一致",
+      "节奏和跑位",
+      "站一起聊天",
+      "穿同款鞋"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 187,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在高球体系里的任务是？",
+    "options": [
+      "主要承担强攻",
+      "多接发球",
+      "不参与",
+      "专打快球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 188,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应与主攻形成\"双核\"体系的关键是？",
+    "options": [
+      "两人都能调整攻得分",
+      "一人无限打",
+      "轮流休息",
+      "谁心情好谁打"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 189,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应与副攻之间的战术常见是什么？",
+    "options": [
+      "X 交叉跑动",
+      "二换一",
+      "双人跳传",
+      "换位置"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 190,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在对手节奏很快时应？",
+    "options": [
+      "盯助跑",
+      "减速",
+      "停下来",
+      "转身"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 191,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在球队中的心理作用是？",
+    "options": [
+      "核心稳定器",
+      "裁判",
+      "观众",
+      "替补"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 192,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在逆风局中的关键任务是？",
+    "options": [
+      "尽量不要扣球",
+      "稳定输出、带动士气",
+      "静坐",
+      "看比分"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 193,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应体能训练重点是？",
+    "options": [
+      "柔韧",
+      "最大力量与爆发力",
+      "平衡",
+      "耐力跑"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 194,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应提升后排攻击力的关键是？",
+    "options": [
+      "起跳点多变",
+      "跳得很低",
+      "球速变慢",
+      "不助跑"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 195,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在比赛中需要特别注意的犯规是？",
+    "options": [
+      "持球",
+      "跨中线",
+      "二次击球",
+      "触网（拦网）"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 196,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应最容易被针对的弱点是？",
+    "options": [
+      "助跑",
+      "接发球能力不足",
+      "身高太高",
+      "跳得太高"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 197,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "顶级接应常具备的特点是？",
+    "options": [
+      "单一进攻点",
+      "多方向击球能力强",
+      "不跳",
+      "只打斜线"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 198,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在数据分析中重点关注？",
+    "options": [
+      "主攻命中率",
+      "自己强攻得分率与效率",
+      "发球速度",
+      "二传触球次数"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 199,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "顶级接应与普通接应最大差别是？",
+    "options": [
+      "出手点与对抗能力",
+      "跑得快",
+      "会唱歌",
+      "会裁判手势"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 200,
+    "role": "接应",
+    "difficulty": "高阶",
+    "question": "接应在体系中的终极价值是？",
+    "options": [
+      "打酱油",
+      "关键分的终结者",
+      "接应自由人",
+      "负责喂球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 201,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人的主要职责是什么？",
+    "options": [
+      "接发球与防守",
+      "进攻与拦网",
+      "发球与二传",
+      "专门得分"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 202,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "以下哪项技术自由人*不能*完成？",
+    "options": [
+      "接发球",
+      "防守",
+      "上手垫球",
+      "扣球直接过网"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 203,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人可以在哪些位置参与比赛？",
+    "options": [
+      "前排和后排都可",
+      "只能在后排",
+      "只能在前排",
+      "只能在中间"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 204,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人是否可以担任队长？",
+    "options": [
+      "可以",
+      "只能在特定规则下",
+      "正规比赛不允许担任队长",
+      "可以但不能说话"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 205,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人的球衣要求是什么？",
+    "options": [
+      "比队友更亮眼、更容易识别",
+      "和所有队友一样",
+      "必须是黑色",
+      "必须是白色"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 206,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人替换队友时，是否计算换人次数？",
+    "options": [
+      "计算",
+      "不计算",
+      "只有紧急情况下不算",
+      "只有每局第一次不算"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 207,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人最主要需要练习的传球方向是？",
+    "options": [
+      "背传",
+      "直线与斜线防守",
+      "网口扣球",
+      "跳发球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 208,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人在接发球时通常站在？",
+    "options": [
+      "网前",
+      "中后或左后",
+      "右前",
+      "发球区"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 209,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人最关键的技术是什么？",
+    "options": [
+      "跳发",
+      "扣球",
+      "防守与接发",
+      "拦网"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 210,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人接球时最常用的动作是？",
+    "options": [
+      "双手托球",
+      "下手垫球",
+      "扣球",
+      "拦网"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 211,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人接发球的目标通常是？",
+    "options": [
+      "直接得分",
+      "传到二传理想点",
+      "将球挑高即可",
+      "随便传"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 212,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人能否攻击过网？",
+    "options": [
+      "完全可以",
+      "可以但不能跳",
+      "可以但必须站后排",
+      "不可以完成任何形式的进攻"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 213,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人能否在 3 米线前做手传球给前排队员扣？",
+    "options": [
+      "可以",
+      "不可以",
+      "可以但必须双手不旋转",
+      "必须由裁判同意"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 214,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人最需要具备的身体能力是？",
+    "options": [
+      "跳得高",
+      "力量大",
+      "反应快与移动快",
+      "身高要特别高"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 215,
+    "role": "自由人",
+    "difficulty": "初阶",
+    "question": "自由人在比赛中通常负责组织哪类球的保护？",
+    "options": [
+      "快攻",
+      "后排发球",
+      "二传防探头",
+      "第一时间防守与全面保障"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 216,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人在接一传时判断球的主要依据是？",
+    "options": [
+      "对方队伍名气",
+      "发球速度、旋转、落点",
+      "球迷欢呼声",
+      "裁判站位"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 217,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人接飘球的重点是？",
+    "options": [
+      "站在高点",
+      "脚步微调与保持稳定平台",
+      "跳起来接",
+      "单手托球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 218,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人处理大力跳发球时最重要的是？",
+    "options": [
+      "站得越远越好",
+      "平台要坚固，缓冲吸收力量",
+      "只用手腕",
+      "一定要倒地"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 219,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人在防守重扣时，最关键的是？",
+    "options": [
+      "闭眼",
+      "站着不动",
+      "预判、重心低、平台稳",
+      "抬头看台"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 220,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人覆盖二传时的原则是？",
+    "options": [
+      "球离二传远",
+      "球在二传背后难以处理",
+      "二传倒地或无法上球",
+      "以上皆是"
+    ],
+    "correct_answer": 3
+  },
+  {
+    "id": 221,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人作为球队防守核心，最重要的沟通内容是？",
+    "options": [
+      "指挥主攻扣哪里",
+      "与队友沟通发接轮防区覆盖",
+      "告诉队友比分",
+      "指挥教练"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 222,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "二传倒地时，自由人应优先处理什么？",
+    "options": [
+      "将球丢给主攻",
+      "将第二传稳定给前排可攻击点",
+      "直接攻球",
+      "传回对方场地"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 223,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "防守时自由人的站位主要根据什么调整？",
+    "options": [
+      "主攻喜好",
+      "对方攻击点与队友拦网位置",
+      "观众位置",
+      "场地颜色"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 224,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "防守轻吊球时，自由人应？",
+    "options": [
+      "全力后退",
+      "迅速前扑或小碎步上前",
+      "跳起来接吊球",
+      "不动"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 225,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "接飘球时，如果球强烈横移，自由人应？",
+    "options": [
+      "用脚接",
+      "侧向滑步调整身体与球对齐",
+      "双手举高接球",
+      "让队友接"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 226,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人经常要做\"倒地球\"，最关键的动作是？",
+    "options": [
+      "起跳",
+      "滑垫或鱼跃",
+      "扣球",
+      "转身跳投"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 227,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "防守配置中，自由人常站",
+    "options": [
+      "2 号位",
+      "3 号位",
+      "5 号位或 6 号位",
+      "1 号位"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 228,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人接一传的优先级通常？",
+    "options": [
+      "接更多",
+      "让主攻接",
+      "根据定好的区域划分",
+      "每球都接"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 229,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "在球队接发三人体系中，自由人通常站？",
+    "options": [
+      "中间",
+      "左边",
+      "右边",
+      "发球区"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 230,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人帮助队友防守的原则是？",
+    "options": [
+      "任意跑",
+      "补位和覆盖扣球落点",
+      "只站中间",
+      "只接轻球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 231,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人接急坠跳发时要点是？",
+    "options": [
+      "提前下蹲",
+      "手臂主动迎球并缓冲",
+      "只用手指",
+      "背对球接"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 232,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人要避免的常见错误是？",
+    "options": [
+      "过度移动、乱抢队友球",
+      "小碎步调整",
+      "稳定一传",
+      "传出高球"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 233,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人在防守强攻时常采取什么姿态？",
+    "options": [
+      "直立",
+      "起跳",
+      "重心极低、膝盖弯曲、双脚微开",
+      "背对球"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 234,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人接球后让队友容易攻击的关键是？",
+    "options": [
+      "球越高越好",
+      "球到二传位附近",
+      "传特别快",
+      "随意传"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 235,
+    "role": "自由人",
+    "difficulty": "中阶",
+    "question": "自由人在接一传时，其平台方向应指向？",
+    "options": [
+      "网外",
+      "随机",
+      "二传准备区",
+      "地面"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 236,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人经常利用数据分析哪项指标？",
+    "options": [
+      "跳高",
+      "一传成功率（#1 pass、#2 pass）",
+      "扣球速度",
+      "体重"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 237,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人在阅读攻击前，首先观察？",
+    "options": [
+      "击球手肩膀与助跑方向",
+      "球迷动作",
+      "对方教练",
+      "球童"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 238,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人面对战术性吊球时主要关注？",
+    "options": [
+      "对方主攻嘴巴方向",
+      "二传手速与传球曲线",
+      "自己脚步的启动速度",
+      "队友声音"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 239,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "防守系统中，自由人最常用的覆盖战术是？",
+    "options": [
+      "五边形覆盖",
+      "三点覆盖（中后+边后）",
+      "单人覆盖",
+      "随机跑位"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 240,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人处理快球防守时关键是？",
+    "options": [
+      "靠感觉",
+      "减少多余动作、稳准快",
+      "勇敢跳起来接",
+      "站远一点"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 241,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "面对后攻（Pipe/Bic），自由人最常调整的站位是？",
+    "options": [
+      "左前",
+      "右前",
+      "中后",
+      "1 号位"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 242,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人判断对方轻吊球最有效的信号是？",
+    "options": [
+      "手腕加速",
+      "二传传球过高",
+      "进攻手速度突然放缓",
+      "球迷尖叫"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 243,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人作为场上防守指挥，应该不断提醒队友？",
+    "options": [
+      "进攻路线",
+      "落点、对手的习惯球、发接轮弱点",
+      "裁判信息",
+      "时间"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 244,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "面对世界级跳发，自由人的策略是？",
+    "options": [
+      "更靠前",
+      "更靠后，提前判断落点，保持平台稳定",
+      "一直跑",
+      "躲避"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 245,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人对阵强力接应时，最重要的是？",
+    "options": [
+      "站得更前",
+      "抓吊球",
+      "看肩膀、手臂、助跑方向预判",
+      "只看球"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 246,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "在高水平比赛中，自由人对二传的关键支援是？",
+    "options": [
+      "接力传高球",
+      "全部二传球都自己处理",
+      "提供稳定的一传与防守稳定性",
+      "帮忙叫暂停"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 247,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人在救球倒地后应该？",
+    "options": [
+      "躺着",
+      "尽快翻身并回位或继续覆盖",
+      "让队友救",
+      "不再动"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 248,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "自由人最常练习的专项训练是？",
+    "options": [
+      "重扣",
+      "双脚跳",
+      "反应速度、倒地技术、精准一传",
+      "扣球点高度"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 249,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "在高水平队伍中，自由人需要具备的心理特质是？",
+    "options": [
+      "易怒",
+      "沉稳判断、快速决策、自信",
+      "不沟通",
+      "固执己见"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 250,
+    "role": "自由人",
+    "difficulty": "高阶",
+    "question": "高阶自由人接跳发的技术关键包括？",
+    "options": [
+      "仅靠力量硬接",
+      "提前判断、适当后撤、平台减震与方向控制",
+      "站原地",
+      "尽量把球打高即可"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 251,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守队员（DS）的主要作用是什么？",
+    "options": [
+      "主攻得分",
+      "专门防守和接发球",
+      "替补主攻",
+      "队长"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 252,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "与自由人不同，DS 可以完成以下哪项？",
+    "options": [
+      "扣球",
+      "拦网",
+      "发球",
+      "跳跃扣杀"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 253,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守队员最常替换谁？",
+    "options": [
+      "副攻",
+      "二传",
+      "主攻或接应的后排轮次",
+      "自由人"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 254,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "DS 最常在哪些区域防守？",
+    "options": [
+      "2 号位与 3 号位",
+      "5 号位或 6 号位",
+      "1 号位或发球区",
+      "网口位置"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 255,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守队员接发球时最核心的技术是？",
+    "options": [
+      "扣球",
+      "跳传",
+      "下手垫球",
+      "拦网"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 256,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "以下哪点是防守队员的重要素质？",
+    "options": [
+      "身高很高",
+      "反应速度快",
+      "力量特别大",
+      "腿特别长"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 257,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守队员参与防守时第一任务是？",
+    "options": [
+      "让队友更容易进攻",
+      "拦网",
+      "直接得分",
+      "把球挑很高"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 258,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "DS 与自由人最大的区别是？",
+    "options": [
+      "DS 可以发球与短暂上前排",
+      "DS 必须穿亮色球衣",
+      "DS 不能接发",
+      "DS 不能替补"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 259,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守队员的接球平台主要要求是？",
+    "options": [
+      "松散",
+      "手型随意",
+      "稳固、平坦、朝向二传区",
+      "朝向界外"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 260,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "面对飘球时，DS 应优先做什么？",
+    "options": [
+      "大幅度移动",
+      "小碎步调整",
+      "直接扑倒",
+      "站着不动"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 261,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守队员能否在 3 米线前用手传给前排扣？",
+    "options": [
+      "可以",
+      "只能下手传",
+      "不可以",
+      "需要裁判许可"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 262,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守队员在团队体系中通常负责？",
+    "options": [
+      "战术扣球",
+      "一传与后排保护",
+      "拦网指挥",
+      "节奏控制"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 263,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "DS 在后排主要防守什么类型的球？",
+    "options": [
+      "快攻",
+      "跳发球与强攻",
+      "二次扣球",
+      "轻吊球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 264,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守队员最需要避免的错误是？",
+    "options": [
+      "小碎步移动",
+      "平台太早打开",
+      "抢队友球",
+      "传球指向二传"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 265,
+    "role": "防守队员",
+    "difficulty": "初阶",
+    "question": "防守时最佳姿势是？",
+    "options": [
+      "挺胸抬头",
+      "重心低、前脚掌发力",
+      "身体后仰",
+      "手臂乱甩"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 266,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "防守队员替换上场的主要目的通常是？",
+    "options": [
+      "提升后排防守质量",
+      "让主攻休息",
+      "观众互动",
+      "增强扣球能力"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 267,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "接急坠跳发时，DS 最重要的是？",
+    "options": [
+      "站得越远越好",
+      "稳定平台 + 缓冲力量",
+      "用指尖接住",
+      "一定要扑地"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 268,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "防守队员在防守强攻时，首要判断依据为？",
+    "options": [
+      "对方助跑方向与肩部开角",
+      "球童位置",
+      "裁判动作",
+      "观众呼喊"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 269,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "二传无法上球时，DS 通常承担什么？",
+    "options": [
+      "第三次触球",
+      "第二次调整传球",
+      "第一时间扣球",
+      "到前排拦网"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 270,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "当队友拦网偏移时，DS 应做什么？",
+    "options": [
+      "靠近队友",
+      "扩大覆盖范围填补漏洞",
+      "离开拦网线",
+      "站在中间"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 271,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "防守队员参与防守阵型时，常采用哪种布局？",
+    "options": [
+      "2002-02-02 00:00:00",
+      "2025-01-05 00:00:00",
+      "5 号位或 6 号位的三点覆盖",
+      "2025-03-03 00:00:00"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 272,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "面对对方轻吊球（tip），DS 首先应？",
+    "options": [
+      "全力后退",
+      "迅速前扑或滑步上前",
+      "等自由人处理",
+      "跳起来扣回去"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 273,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "接发时 DS 一般负责？",
+    "options": [
+      "主攻身后区域",
+      "二传专属区",
+      "定位左右大角度球",
+      "发球区"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 274,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "防守队员最常与哪类队友沟通？",
+    "options": [
+      "二传",
+      "副攻",
+      "自由人",
+      "对方队员"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 275,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "DS 在后排防守中通常负责哪些球？",
+    "options": [
+      "正面直线扣球",
+      "斜线与后排强攻球",
+      "网前吊球",
+      "所有球"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 276,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "防守队员必须特别擅长的技能是？",
+    "options": [
+      "跳发",
+      "接飘球",
+      "轻吊预判",
+      "强攻"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 277,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "接飘球时，DS 最常见错误是？",
+    "options": [
+      "不移动",
+      "平台不稳而导致反弹过多",
+      "脚步过快",
+      "站太前"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 278,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "DS 传出的\"好二传球\"的典型特征是？",
+    "options": [
+      "球速快",
+      "球高且到位二传点",
+      "球跟网平行",
+      "球到前排"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 279,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "防守时 DS 应将注意力集中在？",
+    "options": [
+      "对方击球人的手臂动作",
+      "场地广告",
+      "裁判手势",
+      "观众"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 280,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "DS 在前两排防守强攻时站位通常？",
+    "options": [
+      "更靠前，因为反应快",
+      "偏后，以争取更好反弹角度",
+      "常与自由人对调",
+      "站在发球区"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 281,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "当主攻后排进攻（Pipe/Bic）时，DS 应？",
+    "options": [
+      "靠近自由人",
+      "后退到中后场防守",
+      "离开区域",
+      "站到网前"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 282,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "接发球体系中，DS 的理想位置取决于？",
+    "options": [
+      "主攻喜好",
+      "自由人覆盖范围",
+      "发球特性、旋转与落点趋势",
+      "副攻速度"
+    ],
+    "correct_answer": 2
+  },
+  {
+    "id": 283,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "防守队员频繁替换下场的目的之一是？",
+    "options": [
+      "让其保持更高防守质量与状态",
+      "节省体力",
+      "展示球衣",
+      "出现在镜头里"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 284,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "当球被对方打成擦手出界的可能性高时，DS 应？",
+    "options": [
+      "主动后撤接反弹",
+      "冲向网口",
+      "不管",
+      "让自由人处理"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 285,
+    "role": "防守队员",
+    "difficulty": "中阶",
+    "question": "DS 接发质量不佳时，首要改进是什么？",
+    "options": [
+      "发力更大",
+      "提升脚步移动与站位预判",
+      "做更多俯卧撑",
+      "换一只手接"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 286,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "高阶 DS 会利用数据分析哪些指标？",
+    "options": [
+      "扣球速度",
+      "一传质量、成功率、失误率",
+      "身高比例",
+      "力量输出"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 287,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "防守队员在防守节奏判断上优先看？",
+    "options": [
+      "二传传球速度与落点",
+      "球迷动作",
+      "教练站位",
+      "队友鞋子"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 288,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "对方战术调整为快吊频繁出现时，DS 应？",
+    "options": [
+      "全面前压",
+      "中前与中后区自由切换",
+      "让自由人处理全部",
+      "躲开"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 289,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "DS 在比赛中最常承担的战术功能是？",
+    "options": [
+      "替代进攻弱项后排轮",
+      "加强前排拦网",
+      "拦截主攻",
+      "完成后排进攻"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 290,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "高水平防守队员在面对国际级重扣时，关键是？",
+    "options": [
+      "完全靠毅力",
+      "减震动作（缓冲）、平台角度控制",
+      "躺平",
+      "祈祷"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 291,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "在后排防守体系中，DS 常与哪位置形成\"对角支持\"？",
+    "options": [
+      "主攻",
+      "二传",
+      "接应",
+      "副攻"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 292,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "防守队员分析对方攻击手习惯主要看？",
+    "options": [
+      "助跑速度与肩开角",
+      "长相",
+      "球衣颜色",
+      "教练表情"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 293,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "当对方开始采用连续吊球战术时，DS 应？",
+    "options": [
+      "保持原位",
+      "前后移动形成双重覆盖",
+      "专门站右边",
+      "跑到自由人后面"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 294,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "防守队员应如何提高处理边线球的能力？",
+    "options": [
+      "不要接",
+      "提前判断球是否界内",
+      "固定站位不动",
+      "等自由人喊"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 295,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "在高强度比赛中，DS 体能管理的重点是？",
+    "options": [
+      "爆发跳跃",
+      "快速移动中的呼吸节奏",
+      "持续跳发",
+      "节奏扣杀"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 296,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "防守队员在多球覆盖中应？",
+    "options": [
+      "主动承担关键区",
+      "抢队友球",
+      "放弃边线",
+      "减少移动"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 297,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "面对对方主攻直线强攻，DS 应主要站位？",
+    "options": [
+      "更靠边线的一步外",
+      "更靠中间",
+      "全面上前",
+      "网前"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "id": 298,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "高阶 DS 做\"倒地球\"时最重要的技巧是？",
+    "options": [
+      "用手肘撑地",
+      "保持平台角度 + 顺势滑垫",
+      "跳起来接球",
+      "打手反弹"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 299,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "在防守对方节奏变化较快时，DS 应？",
+    "options": [
+      "减少动作",
+      "增加小碎步和启动速度",
+      "后退到场外",
+      "只看自由人"
+    ],
+    "correct_answer": 1
+  },
+  {
+    "id": 300,
+    "role": "防守队员",
+    "difficulty": "高阶",
+    "question": "精英防守队员在阅读进攻时最终目标是？",
+    "options": [
+      "把球接得比自由人远",
+      "在球落地前抵达最佳接球点",
+      "接任何球都要直接得分",
+      "取悦观众"
+    ],
+    "correct_answer": 1
   }
 ]
