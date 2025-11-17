@@ -1803,33 +1803,32 @@ function displayAnalysisResults(result) {
  * 渲染战术学习对话框
  */
 function renderTacticsLearnDialog(title) {
+    const { intro, keyPoints, badge } = getTacticsLearnContent(title);
+
     return `
         <div class="space-y-6">
             <div class="bg-gradient-to-br from-orange-50 to-yellow-50 border border-orange-200 rounded-2xl p-6">
                 <div class="flex items-start gap-4 mb-4">
                     <div class="text-4xl">🔄</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">知识点介绍</h3>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-xl font-semibold text-gray-800">知识点介绍</h3>
+                            ${badge ? `<span class="px-2 py-1 bg-white border border-orange-200 rounded-lg text-xs text-orange-700">${badge}</span>` : ''}
+                        </div>
                         <p class="text-gray-700">
-                            排球比赛中的轮转是最基本也是最重要的规则之一。每当己方获得发球权时，全队需要顺时针轮转一个位置。
+                            ${intro}
                         </p>
                     </div>
                 </div>
             </div>
-            
+
             <div>
                 <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
                     <span>📝</span>
                     关键要点
                 </h3>
                 <div class="space-y-3">
-                    ${[
-                        '获得发球权时顺时针轮转',
-                        '前排3人、后排3人的位置关系必须保持',
-                        '发球时所有队员必须在本方场区内',
-                        '发球后可以自由移动到战术位置',
-                        '轮转顺序决定了每个队员的发球次序'
-                    ].map((point, idx) => `
+                    ${keyPoints.map((point, idx) => `
                         <div class="bg-white border border-gray-200 rounded-xl p-4 flex items-start gap-3">
                             <div class="w-6 h-6 bg-volleyball-orange text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
                                 ${idx + 1}
@@ -1839,7 +1838,7 @@ function renderTacticsLearnDialog(title) {
                     `).join('')}
                 </div>
             </div>
-            
+
             <div class="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 rounded-2xl p-5">
                 <h4 class="font-semibold text-green-900 mb-3 flex items-center gap-2">
                     <span>🎁</span>
@@ -1854,13 +1853,13 @@ function renderTacticsLearnDialog(title) {
                     </span>
                 </div>
             </div>
-            
+
             <div class="flex gap-3">
-                <button onclick="closeDialog()" 
+                <button onclick="closeDialog()"
                         class="flex-1 px-6 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-all">
                     稍后学习
                 </button>
-                <button onclick="startTacticsTest()" 
+                <button onclick="startTacticsTest()"
                         class="flex-1 px-6 py-3 bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange text-white rounded-xl hover:shadow-xl transition-all flex items-center justify-center gap-2">
                     开始测试
                     <span>→</span>
@@ -1868,6 +1867,136 @@ function renderTacticsLearnDialog(title) {
             </div>
         </div>
     `;
+}
+
+function getTacticsLearnContent(title) {
+    const defaultContent = {
+        intro: '排球比赛中的轮转是最基本也是最重要的规则之一。每当己方获得发球权时，全队需要顺时针轮转一个位置。',
+        keyPoints: [
+            '获得发球权时顺时针轮转',
+            '前排3人、后排3人的位置关系必须保持',
+            '发球时所有队员必须在本方场区内',
+            '发球后可以自由移动到战术位置',
+            '轮转顺序决定了每个队员的发球次序'
+        ],
+        badge: ''
+    };
+
+    if (title !== '位置与职责') {
+        return defaultContent;
+    }
+
+    const positionId = getCurrentPositionId();
+
+    const roleContent = {
+        outside: {
+            name: '主攻',
+            intro: '主攻是侧翼的主要火力点，需要在稳固一传的同时完成高强度攻防转换，为球队持续得分并在关键分段承担突破任务。',
+            keyPoints: [
+                '侧翼拉开与高点强攻，终结长回合',
+                '接发球和防守覆盖，保护二传出球',
+                '根据拦网布置调整线路，降低失误',
+                '后排 pipe/吊球变化，带动进攻节奏',
+                '和二传沟通节奏，提前呼叫战术'
+            ]
+        },
+        middle: {
+            name: '副攻',
+            intro: '副攻负责中路拦网与快攻突袭，是防守支柱也是牵制点，需要快速启动、精准起跳，在攻防两端抢占先机。',
+            keyPoints: [
+                '拦网优先：盯主攻或随球转移，封死主通道',
+                '快攻跑位与起跳节奏，保持半步领先',
+                '边路协防与补位，缩短横移距离',
+                '与二传建立手势/眼神暗号，快球不掉速',
+                '封拦后及时二次起跳或保护二传落点'
+            ]
+        },
+        setter: {
+            name: '二传',
+            intro: '二传是球队大脑，负责分配进攻点与节奏控制，需要快速判断接一传质量，选择最优线路并隐藏传球意图。',
+            keyPoints: [
+                '接一传后快速到位，保持稳定传球姿态',
+                '依据拦网布置选择快、平、拉开的优先级',
+                '眼神与脚步伪装，减少被读网',
+                '维持与每个攻手的配合高度与节奏差',
+                '防守时保护短球与前场空档，撑起覆盖'
+            ]
+        },
+        opposite: {
+            name: '接应',
+            intro: '接应是球队的终结者与补位发起点，需要在网口提供单人拦网支撑，并承担反击和不利球的稳定得分。',
+            keyPoints: [
+                '右侧强攻与调整攻，处理高球减少失误',
+                '单人拦网守住二传对角与主攻直线',
+                '参与一传/防守的后排支援，提升轮次稳定',
+                '与二传沟通背快、后排快球的使用时机',
+                '发球加强压迫，争取直接得分或破坏一传'
+            ]
+        },
+        libero: {
+            name: '自由人',
+            intro: '自由人是防守与接发球的指挥中枢，需要阅读对手进攻线路，稳定第一传并组织队友的防守站位与轮转衔接。',
+            keyPoints: [
+                '接发球优先稳准，呼叫队友分区，降低失误',
+                '阅读二传习惯与攻手落点，提前站位',
+                '防守后快速传导到位，确保二传可用球',
+                '指挥后排覆盖与自由接应，保持沟通',
+                '发起快传/吊传协助反击，提高转换效率'
+            ]
+        },
+        defensive: {
+            name: '防守队员',
+            intro: '防守队员侧重后排保护与防反连接，需要灵活移动、分担一传，并在转换中为二传或接应创造衔接角度。',
+            keyPoints: [
+                '后排分区明确，优先盯直线或短球空档',
+                '接发球角度控制，保证高弧度可组织',
+                '反击时传导给二传或直接吊传到安全区',
+                '观察对手扣发节奏，调整站位与重心',
+                '持续呼应队友，确保覆盖链不断档'
+            ]
+        }
+    };
+
+    const content = roleContent[positionId] || {
+        name: '当前位置',
+        intro: '围绕你选择的位置，理解职责与配合，确保攻防衔接流畅。',
+        keyPoints: [
+            '明确自己在轮次中的站位与责任',
+            '与二传/自由人保持沟通，减少失误',
+            '根据对手特点调整拦防策略',
+            '转换球时迅速落位，保持节奏',
+            '练习专项技能，补齐短板'
+        ]
+    };
+
+    return {
+        intro: content.intro,
+        keyPoints: content.keyPoints,
+        badge: `当前角色：${content.name}`
+    };
+}
+
+function getCurrentPositionId() {
+    if (AppState.selectedPosition) {
+        return AppState.selectedPosition;
+    }
+
+    const nameToIdMap = {
+        '主攻': 'outside',
+        '主攻手': 'outside',
+        '副攻': 'middle',
+        '副攻手': 'middle',
+        '二传': 'setter',
+        '接应': 'opposite',
+        '自由人': 'libero',
+        '防守队员': 'defensive'
+    };
+
+    if (AppState.user.mainPosition && nameToIdMap[AppState.user.mainPosition]) {
+        return nameToIdMap[AppState.user.mainPosition];
+    }
+
+    return 'libero';
 }
 
 /**
