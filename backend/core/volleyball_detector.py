@@ -113,6 +113,8 @@ class VolleyballDetector:
                 raise FileNotFoundError(f"未找到 YOLOv7 权重文件: {weights_path}")
 
             model = custom(path_or_model=weights_path)
+            print("[TEST][VolleyballDetector] 模型设备：", next(model.parameters()).device)
+            
             # 第一个文件中用 model.conf 控制置信度
             model.conf = float(self.score_threshold)
 
@@ -122,7 +124,7 @@ class VolleyballDetector:
         # ✅ 使用第一个文件中的 RoboYOLO 包装器
         #   RoboYOLO(model_name, model, conf)
         self._detector = RoboYOLO(self.backend, model, float(self.score_threshold))
-        print("[VolleyballDetector] 模型加载完成。")
+        print("[TEST][VolleyballDetector] 模型加载完成。")
 
     # ----------------- 对外接口：保持不变 -----------------
 
@@ -183,7 +185,175 @@ class VolleyballDetector:
 
         return [detection]
 
+    # def detect_batch(
+    #     self,
+    #     frames: Sequence[np.ndarray],
+    # ) -> List[List[VolleyballDetection]]:
+    #     """
+    #     批量检测：对一组帧做并行预测
 
+    #     Args:
+    #         frames: [B, H, W, 3] 的 np.ndarray 列表（B 为帧数）
+
+    #     Returns:
+    #         detections_per_frame: 长度为 B 的列表，
+    #             每个元素是该帧对应的 VolleyballDetection 列表
+    #     """
+    #     if not frames or self._detector is None:
+    #         return [[] for _ in frames]
+
+    #     print("[TEST][DETECT_BATCH] frames: ", len(frames), frames[0].shape)
+
+    #     # 先保存每一帧的尺寸
+    #     sizes = [f.shape[:2] for f in frames]  # [(h, w), ...]
+
+    #     # 调用底层 batch 预测
+    #     preds = self._detector.predict_batch(frames)
+
+    #     all_detections: List[List[VolleyballDetection]] = []
+
+    #     for i, ((h, w), frame) in enumerate(zip(sizes, frames)):
+    #         # 针对不同 backend 拿到当前帧的 bbox
+    #         if self.backend == "yolov7":
+    #             # preds 是一个 Detections 对象，preds.pred[i] 是第 i 帧的结果
+    #             bbox = x_y_w_h(preds, self.backend, idx=i)
+    #         elif self.backend == "roboflow":
+    #             # preds 是一个列表，逐帧调用 x_y_w_h
+    #             bbox = x_y_w_h(preds[i], self.backend)
+    #         else:
+    #             bbox = (0, 0, 0, 0)
+
+    #         if not bbox or bbox == (0, 0, 0, 0):
+    #             all_detections.append([])
+    #             continue
+
+    #         x0, y0, bw, bh = bbox
+
+    #         x_min = int(x0)
+    #         y_min = int(y0)
+    #         x_max = int(x0 + bw)
+    #         y_max = int(y0 + bh)
+
+    #         # 边界裁剪
+    #         x_min = max(0, x_min)
+    #         y_min = max(0, y_min)
+    #         x_max = min(w - 1, x_max)
+    #         y_max = min(h - 1, y_max)
+
+    #         if x_min >= x_max or y_min >= y_max:
+    #             all_detections.append([])
+    #             continue
+
+    #         # 归一化
+    #         nx_min = x_min / float(w)
+    #         ny_min = y_min / float(h)
+    #         nx_max = x_max / float(w)
+    #         ny_max = y_max / float(h)
+
+    #         label = self.target_labels[0]
+    #         score = 1.0  # 你可以改成从 YOLO/Roboflow 的结果里拿真实 score
+
+    #         det = VolleyballDetection(
+    #             label=label,
+    #             score=score,
+    #             bbox=(x_min, y_min, x_max, y_max),
+    #             bbox_normalized=(nx_min, ny_min, nx_max, ny_max),
+    #         )
+    #         all_detections.append([det])
+
+    #     return all_detections
+    def detect_batch(
+        self,
+        frames: Sequence[np.ndarray],
+        max_yolo_batch: int = 64,   # ✅ YOLO 实际 batch 大小
+    ) -> List[List[VolleyballDetection]]:
+        """
+        批量检测：对一组帧做并行预测（内部再切小 batch）
+
+        Args:
+            frames: [B, H, W, 3] 的 np.ndarray 列表
+
+        Returns:
+            detections_per_frame: 长度为 B 的列表，
+                每个元素是该帧对应的 VolleyballDetection 列表
+        """
+        if not frames or self._detector is None:
+            return [[] for _ in frames]
+
+        # 先保存每一帧的尺寸
+        sizes = [f.shape[:2] for f in frames]  # [(h, w), ...]
+        all_detections: List[List[VolleyballDetection]] = []
+
+        # ⚠️ 保证输出顺序和输入一一对应
+        num_frames = len(frames)
+
+        import math
+        import torch as _torch
+
+        for start in range(0, num_frames, max_yolo_batch):
+            print("[TEST][DETECT_BATCH]: processing batch: ", max_yolo_batch)
+            end = min(start + max_yolo_batch, num_frames)
+            sub_frames = frames[start:end]
+            sub_sizes = sizes[start:end]
+
+            # 底层 batch 预测
+            preds = self._detector.predict_batch(sub_frames)
+
+            # 对这个小 batch 里的每一帧做后处理
+            for j, ((h, w), frame) in enumerate(zip(sub_sizes, sub_frames)):
+                if self.backend == "yolov7":
+                    # ⚠️ 注意：这里的 idx 现在是小 batch 内部的 j
+                    bbox = x_y_w_h(preds, self.backend, idx=j)
+                elif self.backend == "roboflow":
+                    bbox = x_y_w_h(preds[j], self.backend)
+                else:
+                    bbox = (0, 0, 0, 0)
+
+                if not bbox or bbox == (0, 0, 0, 0):
+                    all_detections.append([])
+                    continue
+
+                x0, y0, bw, bh = bbox
+
+                x_min = int(x0)
+                y_min = int(y0)
+                x_max = int(x0 + bw)
+                y_max = int(y0 + bh)
+
+                # 边界裁剪
+                x_min = max(0, x_min)
+                y_min = max(0, y_min)
+                x_max = min(w - 1, x_max)
+                y_max = min(h - 1, y_max)
+
+                if x_min >= x_max or y_min >= y_max:
+                    all_detections.append([])
+                    continue
+
+                # 归一化
+                nx_min = x_min / float(w)
+                ny_min = y_min / float(h)
+                nx_max = x_max / float(w)
+                ny_max = y_max / float(h)
+
+                label = self.target_labels[0]
+                score = 1.0  # TODO: 需要的话可以从 preds 里拿真实置信度
+
+                det = VolleyballDetection(
+                    label=label,
+                    score=score,
+                    bbox=(x_min, y_min, x_max, y_max),
+                    bbox_normalized=(nx_min, ny_min, nx_max, ny_max),
+                )
+                all_detections.append([det])
+
+            # ✅ 小 batch 结束后，主动释放下 GPU cache（可选，但对长视频挺有用）
+            if _torch.cuda.is_available():
+                del preds
+                _torch.cuda.empty_cache()
+
+        return all_detections
+            
     def annotate(
         self,
         frame: np.ndarray,
