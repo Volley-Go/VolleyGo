@@ -12,7 +12,7 @@ const AppState = {
         xp: 0,
         rank: '青铜',
         stars: 0,
-        mainPosition: '副攻'
+        mainPosition: '自由人'
     },
     
     // 当前页面
@@ -23,7 +23,7 @@ const AppState = {
     showOnboarding: true,
     
     // 当前选中的位置
-    selectedPosition: null,
+    selectedPosition: 'libero',
     
     // 分析结果
     analysisResult: null,
@@ -33,8 +33,12 @@ const AppState = {
         started: false,
         currentQuestion: 0,
         answers: [],
-        questions: []
+        questions: [],
+        currentModule: null
     },
+
+    // 解锁的战术学习模块
+    unlockedTactics: ['基础轮转规则'],
     
     // AI教练对话历史
     aiCoachChat: []
@@ -526,7 +530,12 @@ function renderProgressionPath() {
 function selectPosition(positionId) {
     AppState.selectedPosition = positionId;
     AppState.user.mainPosition = positionId;
-    renderOnboarding(); // 重新渲染以更新UI
+
+    if (AppState.showOnboarding) {
+        renderOnboarding();
+    } else {
+        renderMainPage();
+    }
 }
 
 /**
@@ -650,6 +659,28 @@ function renderHeader() {
  * 渲染排球场位置
  */
 function renderVolleyballCourt() {
+    const positionIdMap = {
+        outside: '主攻',
+        middle: '副攻',
+        setter: '二传',
+        opposite: '接应',
+        libero: '自由人',
+        defensive: '防守队员'
+    };
+
+    const currentSelection = AppState.selectedPosition ||
+        Object.keys(positionIdMap).find(key => positionIdMap[key] === AppState.user.mainPosition) ||
+        'libero';
+
+    const positions = [
+        { id: 'outside', name: '主攻', stars: 10, level: 2, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=hitter&backgroundColor=0ea5e9' },
+        { id: 'middle', name: '副攻', stars: 45, level: 4, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=middle&backgroundColor=10b981' },
+        { id: 'setter', name: '二传', stars: 25, level: 3, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=setter&backgroundColor=ffa500' },
+        { id: 'opposite', name: '接应', stars: 70, level: 5, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=opposite&backgroundColor=f59e0b' },
+        { id: 'libero', name: '自由人', xp: '1800/2000 XP', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=libero&backgroundColor=3b82f6' },
+        { id: 'defensive', name: '防守队员', stars: 100, level: 6, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=defender&backgroundColor=14b8a6' }
+    ];
+
     return `
         <div class="bg-white bg-opacity-80 border-2 border-white rounded-3xl p-6 shadow-2xl">
             <div class="flex justify-between items-center mb-4">
@@ -665,48 +696,44 @@ function renderVolleyballCourt() {
             <!-- 排球场图示 -->
             <div class="volleyball-court-bg rounded-2xl p-8 relative" style="min-height: 400px;">
                 <div class="grid grid-cols-3 gap-4">
-                    ${[
-                        {name: '主攻', stars: 10, level: 2, position: 'top-left', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=hitter&backgroundColor=0ea5e9'},
-                        {name: '副攻', stars: 45, level: 4, position: 'top-center', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=middle&backgroundColor=10b981'},
-                        {name: '二传', stars: 25, level: 3, position: 'top-right', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=setter&backgroundColor=ffa500'},
-                        {name: '接应', stars: 70, level: 5, position: 'bottom-left', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=opposite&backgroundColor=f59e0b'},
-                        {name: '自由人', stars: 0, level: 1, xp: '1800/2000 XP', position: 'bottom-center', highlight: true, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=libero&backgroundColor=3b82f6'},
-                        {name: '防守队员', stars: 100, level: 6, position: 'bottom-right', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=defender&backgroundColor=14b8a6'}
-                    ].map((pos, idx) => `
-                        <div class="bg-gray-100 bg-opacity-75 border-2 ${pos.highlight ? 'border-white bg-white' : 'border-gray-300'} rounded-2xl p-4 hover-lift cursor-pointer transition-all">
-                            <div class="text-center mb-2">
-                                <h3 class="font-semibold ${pos.highlight ? 'text-gray-800' : 'text-gray-600'}">${pos.name}</h3>
-                            </div>
-                            <div class="flex justify-center gap-2 text-xs text-gray-600 mb-3">
-                                ${pos.xp ? `
-                                    <div class="w-full">
-                                        <div class="h-1.5 bg-gray-200 rounded-full mb-1">
-                                            <div class="h-1.5 bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange rounded-full" style="width: 90%"></div>
+                    ${positions.map(pos => {
+                        const isSelected = currentSelection === pos.id;
+                        return `
+                            <div class="bg-gray-100 bg-opacity-75 border-2 ${isSelected ? 'border-white bg-white shadow-xl ring-2 ring-volleyball-orange' : 'border-gray-300'} rounded-2xl p-4 hover-lift cursor-pointer transition-all" onclick="selectPosition('${pos.id}')">
+                                <div class="text-center mb-2">
+                                    <h3 class="font-semibold ${isSelected ? 'text-gray-800' : 'text-gray-600'}">${pos.name}</h3>
+                                </div>
+                                <div class="flex justify-center gap-2 text-xs text-gray-600 mb-3">
+                                    ${pos.xp ? `
+                                        <div class="w-full">
+                                            <div class="h-1.5 bg-gray-200 rounded-full mb-1">
+                                                <div class="h-1.5 bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange rounded-full" style="width: 90%"></div>
+                                            </div>
+                                            <p class="text-xs text-center">${pos.xp}</p>
                                         </div>
-                                        <p class="text-xs text-center">${pos.xp}</p>
-                                    </div>
-                                ` : `
-                                    <span>⭐ ${pos.stars}★</span>
-                                    <span>⬆️ Lv.${pos.level}</span>
-                                `}
-                            </div>
-                            <div class="flex justify-center">
-                                <div class="relative w-16 h-16">
-                                    <div class="w-16 h-16 bg-white border-3 border-white rounded-full shadow-lg overflow-hidden">
-                                        <img src="${pos.avatar}" alt="${pos.name}" style="width: 100%; height: 100%; object-fit: cover;" />
-                                    </div>
-                                    ${pos.highlight ? `
-                                        <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-500 border-2 border-white rounded-full shadow-lg flex items-center justify-center">
-                                            <span class="text-white text-xs font-bold">6</span>
+                                    ` : `
+                                        <span>⭐ ${pos.stars}★</span>
+                                        <span>⬆️ Lv.${pos.level}</span>
+                                    `}
+                                </div>
+                                <div class="flex justify-center">
+                                    <div class="relative w-16 h-16">
+                                        <div class="w-16 h-16 bg-white border-3 border-white rounded-full shadow-lg overflow-hidden">
+                                            <img src="${pos.avatar}" alt="${pos.name}" style="width: 100%; height: 100%; object-fit: cover;" />
                                         </div>
-                                        <span class="absolute -top-2 -right-2 px-2 py-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white text-xs rounded-lg shadow-md">
-                                            ★ 主打
-                                        </span>
-                                    ` : ''}
+                                        ${isSelected ? `
+                                            <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-500 border-2 border-white rounded-full shadow-lg flex items-center justify-center">
+                                                <span class="text-white text-xs font-bold">6</span>
+                                            </div>
+                                            <span class="absolute -top-2 -right-2 px-2 py-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white text-xs rounded-lg shadow-md">
+                                                ★ 主打
+                                            </span>
+                                        ` : ''}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </div>
             </div>
         </div>
@@ -769,7 +796,8 @@ function showTab(tabName) {
  * 渲染战术学习标签页
  */
 function renderTacticsTab() {
-    const tactics = [
+    const unlockedSet = new Set(AppState.unlockedTactics || []);
+    const baseTactics = [
         {
             emoji: '🔄',
             title: '基础轮转规则',
@@ -783,9 +811,10 @@ function renderTacticsTab() {
             title: '位置与职责',
             level: '初级',
             description: '排球场上有6个位置，每个位置都有特定的职责。了解各位置的作用是掌握排球战术的基础。...',
+            stars: 2,
+            xp: 50,
             requiredStars: 2,
-            requiredLevel: 1,
-            locked: true
+            requiredLevel: 1
         },
         {
             emoji: '📐',
@@ -793,8 +822,7 @@ function renderTacticsTab() {
             level: '初级',
             description: '接发球（一传）是进攻的起点。合理的站位能够确保更好地接起对方的发球。...',
             requiredStars: 5,
-            requiredLevel: 2,
-            locked: true
+            requiredLevel: 2
         },
         {
             emoji: '⚡',
@@ -802,8 +830,7 @@ function renderTacticsTab() {
             level: '中级',
             description: '通过多点进攻和快速配合，可以撕开对方的防线。常见的进攻战术包括快攻、强攻、后排攻等。...',
             requiredStars: 15,
-            requiredLevel: 3,
-            locked: true
+            requiredLevel: 3
         },
         {
             emoji: '🛡️',
@@ -811,8 +838,7 @@ function renderTacticsTab() {
             level: '中级',
             description: '有效的拦网不仅能直接得分，还能降低后排防守压力。团队拦网需要良好的协同配合。...',
             requiredStars: 25,
-            requiredLevel: 4,
-            locked: true
+            requiredLevel: 4
         },
         {
             emoji: '🎯',
@@ -820,10 +846,14 @@ function renderTacticsTab() {
             level: '高级',
             description: '后排防守阵型决定了球队的防守覆盖范围。不同的阵型适用于不同的比赛情况。...',
             requiredStars: 50,
-            requiredLevel: 5,
-            locked: true
+            requiredLevel: 5
         }
     ];
+
+    const tactics = baseTactics.map(tactic => ({
+        ...tactic,
+        locked: !unlockedSet.has(tactic.title)
+    }));
     
     return `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -936,6 +966,7 @@ function openAICoachDialog() {
  * 开始战术学习
  */
 function startTacticsLearn(tacticTitle) {
+    AppState.tacticsTest.currentModule = tacticTitle;
     showDialog('tactics-learn', { title: tacticTitle });
 }
 
@@ -1772,33 +1803,32 @@ function displayAnalysisResults(result) {
  * 渲染战术学习对话框
  */
 function renderTacticsLearnDialog(title) {
+    const { intro, keyPoints, badge } = getTacticsLearnContent(title);
+
     return `
         <div class="space-y-6">
             <div class="bg-gradient-to-br from-orange-50 to-yellow-50 border border-orange-200 rounded-2xl p-6">
                 <div class="flex items-start gap-4 mb-4">
                     <div class="text-4xl">🔄</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">知识点介绍</h3>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-xl font-semibold text-gray-800">知识点介绍</h3>
+                            ${badge ? `<span class="px-2 py-1 bg-white border border-orange-200 rounded-lg text-xs text-orange-700">${badge}</span>` : ''}
+                        </div>
                         <p class="text-gray-700">
-                            排球比赛中的轮转是最基本也是最重要的规则之一。每当己方获得发球权时，全队需要顺时针轮转一个位置。
+                            ${intro}
                         </p>
                     </div>
                 </div>
             </div>
-            
+
             <div>
                 <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
                     <span>📝</span>
                     关键要点
                 </h3>
                 <div class="space-y-3">
-                    ${[
-                        '获得发球权时顺时针轮转',
-                        '前排3人、后排3人的位置关系必须保持',
-                        '发球时所有队员必须在本方场区内',
-                        '发球后可以自由移动到战术位置',
-                        '轮转顺序决定了每个队员的发球次序'
-                    ].map((point, idx) => `
+                    ${keyPoints.map((point, idx) => `
                         <div class="bg-white border border-gray-200 rounded-xl p-4 flex items-start gap-3">
                             <div class="w-6 h-6 bg-volleyball-orange text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
                                 ${idx + 1}
@@ -1808,7 +1838,7 @@ function renderTacticsLearnDialog(title) {
                     `).join('')}
                 </div>
             </div>
-            
+
             <div class="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 rounded-2xl p-5">
                 <h4 class="font-semibold text-green-900 mb-3 flex items-center gap-2">
                     <span>🎁</span>
@@ -1823,13 +1853,13 @@ function renderTacticsLearnDialog(title) {
                     </span>
                 </div>
             </div>
-            
+
             <div class="flex gap-3">
-                <button onclick="closeDialog()" 
+                <button onclick="closeDialog()"
                         class="flex-1 px-6 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-all">
                     稍后学习
                 </button>
-                <button onclick="startTacticsTest()" 
+                <button onclick="startTacticsTest()"
                         class="flex-1 px-6 py-3 bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange text-white rounded-xl hover:shadow-xl transition-all flex items-center justify-center gap-2">
                     开始测试
                     <span>→</span>
@@ -1837,6 +1867,136 @@ function renderTacticsLearnDialog(title) {
             </div>
         </div>
     `;
+}
+
+function getTacticsLearnContent(title) {
+    const defaultContent = {
+        intro: '排球比赛中的轮转是最基本也是最重要的规则之一。每当己方获得发球权时，全队需要顺时针轮转一个位置。',
+        keyPoints: [
+            '获得发球权时顺时针轮转',
+            '前排3人、后排3人的位置关系必须保持',
+            '发球时所有队员必须在本方场区内',
+            '发球后可以自由移动到战术位置',
+            '轮转顺序决定了每个队员的发球次序'
+        ],
+        badge: ''
+    };
+
+    if (title !== '位置与职责') {
+        return defaultContent;
+    }
+
+    const positionId = getCurrentPositionId();
+
+    const roleContent = {
+        outside: {
+            name: '主攻',
+            intro: '主攻是侧翼的主要火力点，需要在稳固一传的同时完成高强度攻防转换，为球队持续得分并在关键分段承担突破任务。',
+            keyPoints: [
+                '侧翼拉开与高点强攻，终结长回合',
+                '接发球和防守覆盖，保护二传出球',
+                '根据拦网布置调整线路，降低失误',
+                '后排 pipe/吊球变化，带动进攻节奏',
+                '和二传沟通节奏，提前呼叫战术'
+            ]
+        },
+        middle: {
+            name: '副攻',
+            intro: '副攻负责中路拦网与快攻突袭，是防守支柱也是牵制点，需要快速启动、精准起跳，在攻防两端抢占先机。',
+            keyPoints: [
+                '拦网优先：盯主攻或随球转移，封死主通道',
+                '快攻跑位与起跳节奏，保持半步领先',
+                '边路协防与补位，缩短横移距离',
+                '与二传建立手势/眼神暗号，快球不掉速',
+                '封拦后及时二次起跳或保护二传落点'
+            ]
+        },
+        setter: {
+            name: '二传',
+            intro: '二传是球队大脑，负责分配进攻点与节奏控制，需要快速判断接一传质量，选择最优线路并隐藏传球意图。',
+            keyPoints: [
+                '接一传后快速到位，保持稳定传球姿态',
+                '依据拦网布置选择快、平、拉开的优先级',
+                '眼神与脚步伪装，减少被读网',
+                '维持与每个攻手的配合高度与节奏差',
+                '防守时保护短球与前场空档，撑起覆盖'
+            ]
+        },
+        opposite: {
+            name: '接应',
+            intro: '接应是球队的终结者与补位发起点，需要在网口提供单人拦网支撑，并承担反击和不利球的稳定得分。',
+            keyPoints: [
+                '右侧强攻与调整攻，处理高球减少失误',
+                '单人拦网守住二传对角与主攻直线',
+                '参与一传/防守的后排支援，提升轮次稳定',
+                '与二传沟通背快、后排快球的使用时机',
+                '发球加强压迫，争取直接得分或破坏一传'
+            ]
+        },
+        libero: {
+            name: '自由人',
+            intro: '自由人是防守与接发球的指挥中枢，需要阅读对手进攻线路，稳定第一传并组织队友的防守站位与轮转衔接。',
+            keyPoints: [
+                '接发球优先稳准，呼叫队友分区，降低失误',
+                '阅读二传习惯与攻手落点，提前站位',
+                '防守后快速传导到位，确保二传可用球',
+                '指挥后排覆盖与自由接应，保持沟通',
+                '发起快传/吊传协助反击，提高转换效率'
+            ]
+        },
+        defensive: {
+            name: '防守队员',
+            intro: '防守队员侧重后排保护与防反连接，需要灵活移动、分担一传，并在转换中为二传或接应创造衔接角度。',
+            keyPoints: [
+                '后排分区明确，优先盯直线或短球空档',
+                '接发球角度控制，保证高弧度可组织',
+                '反击时传导给二传或直接吊传到安全区',
+                '观察对手扣发节奏，调整站位与重心',
+                '持续呼应队友，确保覆盖链不断档'
+            ]
+        }
+    };
+
+    const content = roleContent[positionId] || {
+        name: '当前位置',
+        intro: '围绕你选择的位置，理解职责与配合，确保攻防衔接流畅。',
+        keyPoints: [
+            '明确自己在轮次中的站位与责任',
+            '与二传/自由人保持沟通，减少失误',
+            '根据对手特点调整拦防策略',
+            '转换球时迅速落位，保持节奏',
+            '练习专项技能，补齐短板'
+        ]
+    };
+
+    return {
+        intro: content.intro,
+        keyPoints: content.keyPoints,
+        badge: `当前角色：${content.name}`
+    };
+}
+
+function getCurrentPositionId() {
+    if (AppState.selectedPosition) {
+        return AppState.selectedPosition;
+    }
+
+    const nameToIdMap = {
+        '主攻': 'outside',
+        '主攻手': 'outside',
+        '副攻': 'middle',
+        '副攻手': 'middle',
+        '二传': 'setter',
+        '接应': 'opposite',
+        '自由人': 'libero',
+        '防守队员': 'defensive'
+    };
+
+    if (AppState.user.mainPosition && nameToIdMap[AppState.user.mainPosition]) {
+        return nameToIdMap[AppState.user.mainPosition];
+    }
+
+    return 'libero';
 }
 
 /**

@@ -379,11 +379,30 @@ def get_output_file(filename):
 def get_tactics_questions():
     """获取战术题库"""
     import json
-    tactics_file = Path('data/tactics_questions.json')
-    
+
+    module = request.args.get('module')
+    role = request.args.get('role')
+    file_map = {
+        '位置与职责': Path('data/volley_questions.json'),
+    }
+
+    tactics_file = file_map.get(module, Path('data/tactics_questions.json'))
+
     if tactics_file.exists():
         with open(tactics_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
+        # 确保返回结构统一为 {"questions": [...]}
+        if isinstance(data, list):
+            data = {'questions': data}
+        questions = data.get('questions', [])
+
+        if module == '位置与职责' and role:
+            filtered = [q for q in questions if q.get('role') == role]
+            if filtered:
+                data['questions'] = filtered
+            else:
+                # 如果未找到匹配职位的题目，回退到完整题库以避免空题集
+                data['questions'] = questions
         return jsonify(data)
     else:
         return jsonify({

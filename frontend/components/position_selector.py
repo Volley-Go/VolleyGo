@@ -1,6 +1,6 @@
 """
 位置选择组件
-显示排球场的6个位置，只有自由人可选
+显示排球场的6个位置，所有位置均可选择体验
 """
 import streamlit as st
 
@@ -21,31 +21,31 @@ def render_position_selector():
             'name': '主攻',
             'icon': '⚡',
             'description': '全能型选手，主要进攻点',
-            'enabled': False
+            'enabled': True
         },
         'middle': {
             'name': '副攻',
             'icon': '🧱',
             'description': '快攻和拦网专家',
-            'enabled': False
+            'enabled': True
         },
         'setter': {
             'name': '二传',
             'icon': '🎯',
             'description': '场上指挥官，组织进攻',
-            'enabled': False
+            'enabled': True
         },
         'opposite': {
             'name': '接应',
             'icon': '💪',
             'description': '进攻终结者',
-            'enabled': False
+            'enabled': True
         },
         'defensive': {
             'name': '防守队员',
             'icon': '🦸',
             'description': '后排防守专家',
-            'enabled': False
+            'enabled': True
         }
     }
     
@@ -112,5 +112,5 @@ def render_position_selector():
                 )
     
     st.markdown("---")
-    st.info("💡 提示：目前开放了自由人位置的训练，更多位置即将推出！")
+    st.info("💡 提示：可以尝试任意位置的训练体验，后续还会不断丰富各位置的专属内容！")
 
