@@ -379,11 +379,20 @@ def get_output_file(filename):
 def get_tactics_questions():
     """获取战术题库"""
     import json
-    tactics_file = Path('data/tactics_questions.json')
-    
+
+    module = request.args.get('module')
+    file_map = {
+        '位置与职责': Path('data/volley_questions.json'),
+    }
+
+    tactics_file = file_map.get(module, Path('data/tactics_questions.json'))
+
     if tactics_file.exists():
         with open(tactics_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
+        # 确保返回结构统一为 {"questions": [...]}
+        if isinstance(data, list):
+            data = {'questions': data}
         return jsonify(data)
     else:
         return jsonify({

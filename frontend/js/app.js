@@ -811,6 +811,8 @@ function renderTacticsTab() {
             title: '位置与职责',
             level: '初级',
             description: '排球场上有6个位置，每个位置都有特定的职责。了解各位置的作用是掌握排球战术的基础。...',
+            stars: 2,
+            xp: 50,
             requiredStars: 2,
             requiredLevel: 1
         },

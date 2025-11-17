@@ -7,7 +7,8 @@
  */
 async function startTacticsTestModule() {
     // 获取题库
-    const tacticsData = await api.getTacticsQuestions();
+    const moduleName = AppState.tacticsTest.currentModule || '基础轮转规则';
+    const tacticsData = await api.getTacticsQuestions(moduleName);
     
     if (tacticsData.error) {
         showToast('获取题库失败，请稍后重试', 'error');
@@ -15,11 +16,10 @@ async function startTacticsTestModule() {
     }
     
     // 确定当前模块（默认基础轮转规则）
-    const moduleName = AppState.tacticsTest.currentModule || '基础轮转规则';
     AppState.tacticsTest.currentModule = moduleName;
 
     // 随机选择5道题
-    const allQuestions = tacticsData.questions || [];
+    const allQuestions = normalizeQuestions(tacticsData.questions || [], moduleName);
     const selectedQuestions = selectRandomQuestions(allQuestions, 5);
 
     AppState.tacticsTest = {
@@ -54,6 +54,18 @@ if (typeof window !== 'undefined') {
 function selectRandomQuestions(questions, count) {
     const shuffled = [...questions].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, count);
+}
+
+/**
+ * 统一题目结构，补充分类与解释字段
+ */
+function normalizeQuestions(questions, moduleName) {
+    return questions.map(q => ({
+        ...q,
+        category: q.category || q.role || moduleName,
+        difficulty: q.difficulty || '初阶',
+        explanation: q.explanation || '请复盘答案，理解每个选项的差异。'
+    }));
 }
 
 /**

@@ -108,9 +108,10 @@ class VolleyballAPI {
      * 获取战术题库
      * @returns {Promise<Object>} 题库数据
      */
-    async getTacticsQuestions() {
+    async getTacticsQuestions(moduleName) {
         try {
-            const response = await fetch(`${API_BASE_URL}/tactics/questions`);
+            const params = moduleName ? `?module=${encodeURIComponent(moduleName)}` : '';
+            const response = await fetch(`${API_BASE_URL}/tactics/questions${params}`);
             const data = await response.json();
             return data;
         } catch (error) {
