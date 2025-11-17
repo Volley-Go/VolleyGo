@@ -12,7 +12,7 @@ const AppState = {
         xp: 0,
         rank: '青铜',
         stars: 0,
-        mainPosition: '副攻'
+        mainPosition: '自由人'
     },
     
     // 当前页面
@@ -23,7 +23,7 @@ const AppState = {
     showOnboarding: true,
     
     // 当前选中的位置
-    selectedPosition: null,
+    selectedPosition: 'libero',
     
     // 分析结果
     analysisResult: null,
@@ -39,6 +39,7 @@ const AppState = {
 
     // 解锁的战术学习模块
     unlockedTactics: ['基础轮转规则'],
+    
     // AI教练对话历史
     aiCoachChat: []
 };
@@ -529,7 +530,12 @@ function renderProgressionPath() {
 function selectPosition(positionId) {
     AppState.selectedPosition = positionId;
     AppState.user.mainPosition = positionId;
-    renderOnboarding(); // 重新渲染以更新UI
+
+    if (AppState.showOnboarding) {
+        renderOnboarding();
+    } else {
+        renderMainPage();
+    }
 }
 
 /**
@@ -653,6 +659,28 @@ function renderHeader() {
  * 渲染排球场位置
  */
 function renderVolleyballCourt() {
+    const positionIdMap = {
+        outside: '主攻',
+        middle: '副攻',
+        setter: '二传',
+        opposite: '接应',
+        libero: '自由人',
+        defensive: '防守队员'
+    };
+
+    const currentSelection = AppState.selectedPosition ||
+        Object.keys(positionIdMap).find(key => positionIdMap[key] === AppState.user.mainPosition) ||
+        'libero';
+
+    const positions = [
+        { id: 'outside', name: '主攻', stars: 10, level: 2, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=hitter&backgroundColor=0ea5e9' },
+        { id: 'middle', name: '副攻', stars: 45, level: 4, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=middle&backgroundColor=10b981' },
+        { id: 'setter', name: '二传', stars: 25, level: 3, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=setter&backgroundColor=ffa500' },
+        { id: 'opposite', name: '接应', stars: 70, level: 5, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=opposite&backgroundColor=f59e0b' },
+        { id: 'libero', name: '自由人', xp: '1800/2000 XP', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=libero&backgroundColor=3b82f6' },
+        { id: 'defensive', name: '防守队员', stars: 100, level: 6, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=defender&backgroundColor=14b8a6' }
+    ];
+
     return `
         <div class="bg-white bg-opacity-80 border-2 border-white rounded-3xl p-6 shadow-2xl">
             <div class="flex justify-between items-center mb-4">
@@ -668,48 +696,44 @@ function renderVolleyballCourt() {
             <!-- 排球场图示 -->
             <div class="volleyball-court-bg rounded-2xl p-8 relative" style="min-height: 400px;">
                 <div class="grid grid-cols-3 gap-4">
-                    ${[
-                        {name: '主攻', stars: 10, level: 2, position: 'top-left', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=hitter&backgroundColor=0ea5e9'},
-                        {name: '副攻', stars: 45, level: 4, position: 'top-center', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=middle&backgroundColor=10b981'},
-                        {name: '二传', stars: 25, level: 3, position: 'top-right', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=setter&backgroundColor=ffa500'},
-                        {name: '接应', stars: 70, level: 5, position: 'bottom-left', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=opposite&backgroundColor=f59e0b'},
-                        {name: '自由人', stars: 0, level: 1, xp: '1800/2000 XP', position: 'bottom-center', highlight: true, avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=libero&backgroundColor=3b82f6'},
-                        {name: '防守队员', stars: 100, level: 6, position: 'bottom-right', avatar: 'https://api.dicebear.com/7.x/avataaars-neutral/svg?seed=defender&backgroundColor=14b8a6'}
-                    ].map((pos, idx) => `
-                        <div class="bg-gray-100 bg-opacity-75 border-2 ${pos.highlight ? 'border-white bg-white' : 'border-gray-300'} rounded-2xl p-4 hover-lift cursor-pointer transition-all">
-                            <div class="text-center mb-2">
-                                <h3 class="font-semibold ${pos.highlight ? 'text-gray-800' : 'text-gray-600'}">${pos.name}</h3>
-                            </div>
-                            <div class="flex justify-center gap-2 text-xs text-gray-600 mb-3">
-                                ${pos.xp ? `
-                                    <div class="w-full">
-                                        <div class="h-1.5 bg-gray-200 rounded-full mb-1">
-                                            <div class="h-1.5 bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange rounded-full" style="width: 90%"></div>
+                    ${positions.map(pos => {
+                        const isSelected = currentSelection === pos.id;
+                        return `
+                            <div class="bg-gray-100 bg-opacity-75 border-2 ${isSelected ? 'border-white bg-white shadow-xl ring-2 ring-volleyball-orange' : 'border-gray-300'} rounded-2xl p-4 hover-lift cursor-pointer transition-all" onclick="selectPosition('${pos.id}')">
+                                <div class="text-center mb-2">
+                                    <h3 class="font-semibold ${isSelected ? 'text-gray-800' : 'text-gray-600'}">${pos.name}</h3>
+                                </div>
+                                <div class="flex justify-center gap-2 text-xs text-gray-600 mb-3">
+                                    ${pos.xp ? `
+                                        <div class="w-full">
+                                            <div class="h-1.5 bg-gray-200 rounded-full mb-1">
+                                                <div class="h-1.5 bg-gradient-to-r from-volleyball-orange to-volleyball-dark-orange rounded-full" style="width: 90%"></div>
+                                            </div>
+                                            <p class="text-xs text-center">${pos.xp}</p>
                                         </div>
-                                        <p class="text-xs text-center">${pos.xp}</p>
-                                    </div>
-                                ` : `
-                                    <span>⭐ ${pos.stars}★</span>
-                                    <span>⬆️ Lv.${pos.level}</span>
-                                `}
-                            </div>
-                            <div class="flex justify-center">
-                                <div class="relative w-16 h-16">
-                                    <div class="w-16 h-16 bg-white border-3 border-white rounded-full shadow-lg overflow-hidden">
-                                        <img src="${pos.avatar}" alt="${pos.name}" style="width: 100%; height: 100%; object-fit: cover;" />
-                                    </div>
-                                    ${pos.highlight ? `
-                                        <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-500 border-2 border-white rounded-full shadow-lg flex items-center justify-center">
-                                            <span class="text-white text-xs font-bold">6</span>
+                                    ` : `
+                                        <span>⭐ ${pos.stars}★</span>
+                                        <span>⬆️ Lv.${pos.level}</span>
+                                    `}
+                                </div>
+                                <div class="flex justify-center">
+                                    <div class="relative w-16 h-16">
+                                        <div class="w-16 h-16 bg-white border-3 border-white rounded-full shadow-lg overflow-hidden">
+                                            <img src="${pos.avatar}" alt="${pos.name}" style="width: 100%; height: 100%; object-fit: cover;" />
                                         </div>
-                                        <span class="absolute -top-2 -right-2 px-2 py-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white text-xs rounded-lg shadow-md">
-                                            ★ 主打
-                                        </span>
-                                    ` : ''}
+                                        ${isSelected ? `
+                                            <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-500 border-2 border-white rounded-full shadow-lg flex items-center justify-center">
+                                                <span class="text-white text-xs font-bold">6</span>
+                                            </div>
+                                            <span class="absolute -top-2 -right-2 px-2 py-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white text-xs rounded-lg shadow-md">
+                                                ★ 主打
+                                            </span>
+                                        ` : ''}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </div>
             </div>
         </div>
@@ -824,7 +848,6 @@ function renderTacticsTab() {
         }
     ];
 
-    
     const tactics = baseTactics.map(tactic => ({
         ...tactic,
         locked: !unlockedSet.has(tactic.title)

@@ -45,7 +45,7 @@ def render_position_selector():
             'name': '防守队员',
             'icon': '🦸',
             'description': '后排防守专家',
-            'enabled':  True
+            'enabled': True
         }
     }
     
@@ -113,3 +113,4 @@ def render_position_selector():
     
     st.markdown("---")
     st.info("💡 提示：可以尝试任意位置的训练体验，后续还会不断丰富各位置的专属内容！")
+

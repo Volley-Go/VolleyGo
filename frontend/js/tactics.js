@@ -21,7 +21,7 @@ async function startTacticsTestModule() {
     // 随机选择5道题
     const allQuestions = tacticsData.questions || [];
     const selectedQuestions = selectRandomQuestions(allQuestions, 5);
-    
+
     AppState.tacticsTest = {
         started: true,
         currentQuestion: 0,
@@ -299,6 +299,9 @@ function showTestResults() {
     // 更新用户XP和星星
     AppState.user.xp += xp;
     AppState.user.stars += stars;
+
+    // 根据完成的模块解锁后续内容
+    unlockTacticsModule(test.currentModule);
     
     closeDialog();
     
@@ -428,9 +431,7 @@ function reviewAnswers() {
 function finishTest() {
     const completedModule = AppState.tacticsTest.currentModule;
 
-    if (completedModule === '基础轮转规则' && !AppState.unlockedTactics.includes('位置与职责')) {
-        AppState.unlockedTactics.push('位置与职责');
-    }
+    unlockTacticsModule(completedModule);
 
     // 重置测试状态
     AppState.tacticsTest = {
@@ -449,6 +450,15 @@ function finishTest() {
     
     // 刷新主页面以显示新的XP和星星
     renderMainPage();
+}
+
+/**
+ * 根据已完成的模块解锁后续内容
+ */
+function unlockTacticsModule(completedModule) {
+    if (completedModule === '基础轮转规则' && !AppState.unlockedTactics.includes('位置与职责')) {
+        AppState.unlockedTactics.push('位置与职责');
+    }
 }
 
 /**
