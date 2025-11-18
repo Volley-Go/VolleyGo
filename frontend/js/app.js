@@ -1675,37 +1675,42 @@ function displayAnalysisResults(result) {
         
         <!-- 分项得分 -->
         <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="bg-white rounded-xl p-4 border border-gray-200">
-                <div class="text-sm text-gray-500 mb-1">手臂动作</div>
-                <div class="text-2xl font-bold text-gray-800">${(score.arm_score || 0).toFixed(1)}</div>
-                <div class="w-full h-2 bg-gray-200 rounded-full mt-2">
-                    <div class="h-2 bg-blue-500 rounded-full" style="width: ${score.arm_score || 0}%"></div>
-                </div>
-            </div>
+            ${createDetailedScoreCard(
+                score.arm_score || 0, 
+                score.max_scores?.arm_max || 32, 
+                '手臂动作', 
+                'blue'
+            )}
             
-            <div class="bg-white rounded-xl p-4 border border-gray-200">
-                <div class="text-sm text-gray-500 mb-1">身体姿态</div>
-                <div class="text-2xl font-bold text-gray-800">${(score.body_score || 0).toFixed(1)}</div>
-                <div class="w-full h-2 bg-gray-200 rounded-full mt-2">
-                    <div class="h-2 bg-green-500 rounded-full" style="width: ${score.body_score || 0}%"></div>
-                </div>
-            </div>
+            ${createDetailedScoreCard(
+                score.body_score || 0, 
+                score.max_scores?.body_max || 33, 
+                '身体姿态', 
+                'green'
+            )}
             
-            <div class="bg-white rounded-xl p-4 border border-gray-200">
-                <div class="text-sm text-gray-500 mb-1">位置准确</div>
-                <div class="text-2xl font-bold text-gray-800">${(score.position_score || 0).toFixed(1)}</div>
-                <div class="w-full h-2 bg-gray-200 rounded-full mt-2">
-                    <div class="h-2 bg-purple-500 rounded-full" style="width: ${score.position_score || 0}%"></div>
-                </div>
-            </div>
+            ${createDetailedScoreCard(
+                score.position_score || 0, 
+                score.max_scores?.position_max || 25, 
+                '位置准确', 
+                'purple'
+            )}
             
-            <div class="bg-white rounded-xl p-4 border border-gray-200">
-                <div class="text-sm text-gray-500 mb-1">稳定性</div>
-                <div class="text-2xl font-bold text-gray-800">${(score.stability_score || 0).toFixed(1)}</div>
-                <div class="w-full h-2 bg-gray-200 rounded-full mt-2">
-                    <div class="h-2 bg-orange-500 rounded-full" style="width: ${score.stability_score || 0}%"></div>
-                </div>
-            </div>
+            ${createDetailedScoreCard(
+                score.stability_score || 0, 
+                score.max_scores?.stability_max || 10, 
+                '稳定性', 
+                'orange'
+            )}
+            
+            ${score.ball_score !== undefined && score.ball_score > 0 ? 
+                createDetailedScoreCard(
+                    score.ball_score || 0, 
+                    score.max_scores?.ball_max || 25, 
+                    '人球位置', 
+                    'red'
+                ) : ''
+            }
         </div>
         
         <!-- 姿态图像 -->

@@ -20,6 +20,26 @@ function createScoreCard(score, label, color = 'blue') {
 }
 
 /**
+ * 创建详细评分卡片组件（显示 X/Y 格式）
+ */
+function createDetailedScoreCard(currentScore, maxScore, label, color = 'blue') {
+    const percentage = maxScore > 0 ? (currentScore / maxScore * 100) : 0;
+    
+    return `
+        <div class="bg-white rounded-xl p-4 border border-gray-200 hover-lift transition-all">
+            <div class="text-sm text-gray-500 mb-1">${label}</div>
+            <div class="text-2xl font-bold text-gray-800 mb-2">
+                ${currentScore.toFixed(1)} <span class="text-lg text-gray-400">/ ${maxScore}</span>
+            </div>
+            <div class="w-full h-2 bg-gray-200 rounded-full">
+                <div class="h-2 bg-${color}-500 rounded-full transition-all duration-500" 
+                     style="width: ${percentage.toFixed(1)}%"></div>
+            </div>
+        </div>
+    `;
+}
+
+/**
  * 创建进度条组件
  */
 function createProgressBar(current, total, showText = true) {

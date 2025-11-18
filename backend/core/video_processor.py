@@ -77,7 +77,7 @@ class VideoProcessor:
                 raise ValueError("视频中没有有效帧")
             
             # 找到运动最剧烈的帧
-            max_diff_idx = np.argmax(frame_diffs)
+            max_diff_idx = int(np.argmax(frame_diffs))  # 转换为Python int
             return frames[max_diff_idx]
         
         elif method == 'all':

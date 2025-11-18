@@ -174,8 +174,8 @@ class VolleyballScorerV2:
                 frame_scores.append(0)
         
         # 2. 找到最佳帧
-        best_frame_idx = np.argmax(frame_scores)
-        best_frame_score = frame_scores[best_frame_idx]
+        best_frame_idx = int(np.argmax(frame_scores))  # 转换为Python int
+        best_frame_score = int(frame_scores[best_frame_idx])  # 转换为Python int
         
         # 3. 评估流畅度（相邻帧的变化率）
         smoothness_score = self._calculate_smoothness(landmarks_sequence)
@@ -223,13 +223,13 @@ class VolleyballScorerV2:
             feedback.append('⚠️ 动作某些阶段不够完整')
         
         return {
-            'total_score': total_score,
+            'total_score': int(total_score),
             'sequence_score': int(smoothness_score * 25 + completeness_score * 15),
-            'best_frame_score': best_frame_score,
-            'best_frame_idx': best_frame_idx,
-            'smoothness': smoothness_score,
-            'completeness': completeness_score,
-            'frame_scores': frame_scores,
+            'best_frame_score': int(best_frame_score),
+            'best_frame_idx': int(best_frame_idx),
+            'smoothness': float(smoothness_score),
+            'completeness': float(completeness_score),
+            'frame_scores': [int(s) for s in frame_scores],  # 转换列表中的所有分数
             'feedback': feedback
         }
     
@@ -435,10 +435,10 @@ class VolleyballScorerV2:
                          'left_knee', 'right_knee']
             
             visibilities = [landmarks[point]['visibility'] for point in key_points]
-            avg_visibility = np.mean(visibilities)
+            avg_visibility = float(np.mean(visibilities))  # 转换为Python float
             
             # 稳定性分数限制在10分以内
-            stability_score = min(10, avg_visibility * 10)
+            stability_score = float(min(10, avg_visibility * 10))
             
             if avg_visibility > 0.75:
                 feedback.append('✅ 姿态识别清晰')
@@ -510,8 +510,8 @@ class VolleyballScorerV2:
                 return 0.5
             
             # 计算变化的标准差（越小越流畅）
-            displacement_std = np.std(displacements)
-            displacement_mean = np.mean(displacements)
+            displacement_std = float(np.std(displacements))  # 转换为Python float
+            displacement_mean = float(np.mean(displacements))  # 转换为Python float
             
             # 归一化：变化系数（CV）
             if displacement_mean > 0:
@@ -522,7 +522,7 @@ class VolleyballScorerV2:
             # 转换为分数（CV越小越好）
             # CV < 0.3: 很流畅
             # CV > 1.0: 很不流畅
-            smoothness = max(0, min(1, 1 - cv / 0.8))
+            smoothness = float(max(0, min(1, 1 - cv / 0.8)))
             
             return smoothness
             

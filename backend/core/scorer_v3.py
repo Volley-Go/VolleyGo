@@ -17,17 +17,17 @@ class VolleyballScorerV3:
         self.template = self._load_template(template_path)
         self.detector = PoseDetector()
         
-        # 优化后的标准值
+        # 优化后的标准值（基于专业垫球动作）
         self.standards = {
-            "arm_angle_range": (150, 180),
-            "arm_gap_range": (15, 45),
-            "knee_angle_range": (60, 120),
+            "arm_angle_range": (140, 175),      # 手臂角度：略微弯曲更利于控球
+            "arm_gap_range": (20, 40),          # 双臂间距：收紧标准
+            "knee_angle_range": (80, 110),      # 膝盖角度：标准半蹲姿势
             "wrist_hip_ratio_range": (0.8, 1.5),
             "torso_angle_range": (75, 105),
             # 新增：人球位置标准
-            "ball_vertical_offset_range": (0.03, 0.2),  # 球在手腕上方3-20cm
-            "ball_horizontal_offset_max": 0.15,  # 球在身体中线左右15cm内
-            "ball_contact_distance_max": 0.12,  # 接触距离
+            "ball_vertical_offset_range": (0.05, 0.18),  # 球在手腕上方5-18cm（更实战）
+            "ball_horizontal_offset_max": 0.12,  # 球在身体中线左右12cm内
+            "ball_contact_distance_max": 0.12,   # 接触距离
         }
     
     def _load_template(self, path):
@@ -42,7 +42,7 @@ class VolleyballScorerV3:
     
     def _gaussian_score(self, value, ideal, tolerance, max_score):
         """
-        高斯评分曲线 - 在理想值附近得分最高
+        高斯评分曲线 - 在理想值附近得分最高（优化版：更温和）
         
         Args:
             value: 实际值
@@ -54,7 +54,8 @@ class VolleyballScorerV3:
             得分
         """
         deviation = abs(value - ideal) / tolerance
-        return max_score * np.exp(-0.5 * deviation**2)
+        # 降低衰减系数从0.5到0.3，让衰减更温和
+        return max_score * np.exp(-0.3 * deviation**2)
     
     def _sigmoid_score(self, value, threshold, steepness=5, max_score=100):
         """
@@ -74,7 +75,7 @@ class VolleyballScorerV3:
     
     def _range_gaussian_score(self, value, min_val, max_val, max_score):
         """
-        范围高斯评分 - 在范围内满分，范围外高斯衰减
+        范围高斯评分 - 在范围内满分，范围外高斯衰减（优化版：更温和）
         
         Args:
             value: 实际值
@@ -94,8 +95,9 @@ class VolleyballScorerV3:
         else:
             deviation = (value - max_val) / tolerance
         
-        # 高斯衰减
-        return max(0, max_score * np.exp(-0.5 * deviation**2))
+        # 高斯衰减（降低衰减系数从0.5到0.25，让衰减更温和）
+        # 现在偏差=tolerance时，分数为78%而非61%
+        return max(0, max_score * np.exp(-0.25 * deviation**2))
     
     # ==================== 身高计算 ====================
     
@@ -115,16 +117,18 @@ class VolleyballScorerV3:
             return 1.0
     
     def get_adaptive_standards(self, body_height):
-        """根据身高调整标准值"""
+        """根据身高调整标准值（优化版）"""
         height_factor = body_height / 0.7
         adjusted = self.standards.copy()
         
+        # 高个子：允许膝盖角度稍大，手臂角度稍小
         if height_factor > 1.1:
-            adjusted["arm_angle_range"] = (145, 180)
-            adjusted["knee_angle_range"] = (65, 125)
+            adjusted["arm_angle_range"] = (135, 170)
+            adjusted["knee_angle_range"] = (85, 115)
+        # 矮个子：允许膝盖角度稍小，保持手臂标准
         elif height_factor < 0.9:
-            adjusted["arm_angle_range"] = (150, 180)
-            adjusted["knee_angle_range"] = (55, 115)
+            adjusted["arm_angle_range"] = (140, 175)
+            adjusted["knee_angle_range"] = (75, 105)
         
         return adjusted
     
@@ -163,71 +167,77 @@ class VolleyballScorerV3:
             horizontal_offset = abs(ball_x - body_center_x)
             ball_wrist_distance = np.sqrt((ball_x - wrist_x)**2 + (ball_y - wrist_y)**2)
             
-            # 5. 垂直位置评分（满分12分）- 使用高斯评分
-            ideal_vertical = 0.1  # 理想：球在手腕上方10%
-            tolerance = 0.08
+            # 5. 垂直位置评分（满分10分）- 使用高斯评分
+            ideal_vertical = 0.15  # 理想：球在手腕上方15%
+            tolerance = 0.12       # 增加容忍度（更实战）
             vertical_score = self._gaussian_score(
                 -vertical_offset,  # 转换为正数（球在上方）
                 ideal_vertical,
                 tolerance,
-                max_score=12
+                max_score=10
             )
             
-            if -0.2 <= vertical_offset <= -0.03:  # 球在手腕上方3-20cm
+            if -0.18 <= vertical_offset <= -0.05:  # 球在手腕上方5-18cm
                 feedback.append('✅ 球的高度理想')
             elif vertical_offset > 0:  # 球低于手腕
                 feedback.append('⚠️ 球的位置偏低，应在手腕上方')
                 vertical_score *= 0.5
             else:  # 球过高
-                feedback.append('⚠️ 球的位置偏高，注意降低身体重心')
+                feedback.append('⚠️ 球的位置偏高，注意提前准备')
+                vertical_score *= 0.7
             
-            # 6. 水平对齐评分（满分10分）- 使用高斯评分
+            # 6. 水平对齐评分（满分8分）- 使用高斯评分
             horizontal_score = self._gaussian_score(
                 horizontal_offset,
                 ideal=0,  # 理想：球在身体中线
-                tolerance=0.1,
-                max_score=10
+                tolerance=0.12,  # 增加容忍度（允许适度偏离）
+                max_score=8
             )
             
             if horizontal_offset < 0.08:
                 feedback.append('✅ 球在身体正前方')
-            elif horizontal_offset < 0.15:
+            elif horizontal_offset < 0.12:
+                feedback.append('⚠️ 球略微偏离中线，可调整站位')
+            elif horizontal_offset < 0.18:
                 feedback.append('⚠️ 调整站位，让球更靠近身体中线')
             else:
-                feedback.append('❌ 站位偏离，球应在身体正前方')
+                feedback.append('❌ 站位偏离过大，快速移动到位')
             
-            # 7. 接触距离评分（满分8分）- 使用sigmoid评分
+            # 7. 接触距离评分（满分7分）- 使用sigmoid评分
             # 距离越近越好，但要避免过近（小于0.02）
             if ball_wrist_distance < 0.02:
                 # 太近了，可能已经过了接触点
-                distance_score = 4
+                distance_score = 3.5
                 feedback.append('⚠️ 球已经接近或通过手腕，注意提前准备')
             else:
-                # 使用反sigmoid：距离越小分数越高
+                # 使用反sigmoid：距离越小分数越高（降低陡峭度）
                 distance_score = self._sigmoid_score(
                     -ball_wrist_distance,  # 负值，距离小时值大
-                    threshold=-0.08,
-                    steepness=30,
-                    max_score=8
+                    threshold=-0.10,       # 调整阈值
+                    steepness=20,          # 降低陡峭度（更温和）
+                    max_score=7
                 )
                 
-                if ball_wrist_distance < 0.08:
+                if ball_wrist_distance < 0.10:
                     feedback.append('✅ 接触时机准确')
-                elif ball_wrist_distance < 0.15:
-                    feedback.append('⚠️ 球距离略远，需要移动')
+                elif ball_wrist_distance < 0.18:
+                    feedback.append('⚠️ 球距离略远，建议移动到位')
                 else:
                     feedback.append('❌ 球距离较远，快速移动到位')
             
-            # 8. 球的检测置信度加权
-            confidence_factor = min(1.0, ball_detection.score)
+            # 8. 球的检测置信度加权（优化：降低惩罚）
+            # 使用平方根减轻低置信度的过度惩罚
+            confidence_factor = np.sqrt(min(1.0, ball_detection.score))
             
             total_ball_score = (vertical_score + horizontal_score + distance_score) * confidence_factor
             
             # 添加置信度反馈
-            if ball_detection.score < 0.5:
+            if ball_detection.score < 0.4:
                 feedback.append('⚠️ 球体检测置信度较低，可能影响评分准确性')
+            elif ball_detection.score < 0.6:
+                feedback.append('ℹ️ 球体检测置信度一般')
             
-            return min(30, total_ball_score), feedback
+            return min(25, total_ball_score), feedback
             
         except Exception as e:
             return 0, [f'❌ 人球位置分析异常: {str(e)}']
@@ -267,24 +277,24 @@ class VolleyballScorerV3:
         # 检测是否有球
         has_ball = ball_detection is not None and ball_detection.score > 0.5
         
-        # ========== 动态权重系统 ==========
+        # ========== 动态权重系统（优化版）==========
         if has_ball:
-            # 有球时：降低position权重，增加ball权重
-            # 总分 = 手臂(30) + 身体(25) + 姿态位置(10) + 人球位置(30) + 稳定性(5)
+            # 有球时：强调身体重心（腿功重于手功）
+            # 总分 = 手臂(28) + 身体(30) + 姿态位置(12) + 人球位置(25) + 稳定性(5)
             weights = {
-                'arm': 30,
-                'body': 25,
-                'position': 10,  # 降权
-                'ball': 30,      # 新增
+                'arm': 28,
+                'body': 30,      # 提高身体权重
+                'position': 12,  # 适度提高触球位置权重
+                'ball': 25,      # 降低人球位置权重
                 'stability': 5
             }
             feedback.append('🏐 【智能评分模式：已检测到排球】')
         else:
-            # 无球时：保持原权重
-            # 总分 = 手臂(35) + 身体(30) + 姿态位置(25) + 稳定性(10)
+            # 无球时：同样强调身体重心
+            # 总分 = 手臂(32) + 身体(33) + 姿态位置(25) + 稳定性(10)
             weights = {
-                'arm': 35,
-                'body': 30,
+                'arm': 32,
+                'body': 33,      # 提高身体权重
                 'position': 25,
                 'ball': 0,
                 'stability': 10
@@ -323,14 +333,29 @@ class VolleyballScorerV3:
         scores['stability_score'] = stability_score
         feedback.extend(stability_feedback)
         
-        # 计算总分
+        # 计算总分（确保转换为Python原生类型）
         total_score = int(
             arm_score + body_score + position_score + 
             scores['ball_score'] + stability_score
         )
-        scores['total_score'] = min(100, total_score)  # 限制最高100分
+        scores['total_score'] = int(min(100, total_score))  # 限制最高100分
+        scores['arm_score'] = float(arm_score)
+        scores['body_score'] = float(body_score)
+        scores['position_score'] = float(position_score)
+        scores['ball_score'] = float(scores['ball_score'])
+        scores['stability_score'] = float(stability_score)
         scores['feedback'] = feedback
-        scores['has_ball'] = has_ball
+        scores['has_ball'] = bool(has_ball)
+        
+        # 添加每个部分的满分信息
+        scores['max_scores'] = {
+            'arm_max': int(weights['arm']),
+            'body_max': int(weights['body']),
+            'position_max': int(weights['position']),
+            'ball_max': int(weights['ball']),
+            'stability_max': int(weights['stability']),
+            'total_max': 100
+        }
         
         return scores
     
@@ -380,23 +405,31 @@ class VolleyballScorerV3:
             
             total_arm_score = left_score + right_score + gap_score
             
-            # 生成反馈
-            if left_angle < 140:
-                feedback.append('⚠️ 左臂可以更伸直一些')
-            elif left_angle >= 160:
-                feedback.append('✅ 左臂姿势很好')
+            # 生成反馈（与评分标准一致：140-175°）
+            if left_angle < 130:
+                feedback.append('⚠️ 左臂弯曲过多，影响击球稳定性')
+            elif left_angle < 140:
+                feedback.append('⚠️ 左臂可以稍微伸直一些')
+            elif 140 <= left_angle <= 175:
+                feedback.append('✅ 左臂姿势标准')
+            else:  # > 175
+                feedback.append('⚠️ 左臂过于伸直，建议略微弯曲保持弹性')
             
-            if right_angle < 140:
-                feedback.append('⚠️ 右臂可以更伸直一些')
-            elif right_angle >= 160:
-                feedback.append('✅ 右臂姿势很好')
+            if right_angle < 130:
+                feedback.append('⚠️ 右臂弯曲过多，影响击球稳定性')
+            elif right_angle < 140:
+                feedback.append('⚠️ 右臂可以稍微伸直一些')
+            elif 140 <= right_angle <= 175:
+                feedback.append('✅ 右臂姿势标准')
+            else:  # > 175
+                feedback.append('⚠️ 右臂过于伸直，建议略微弯曲保持弹性')
             
             if 20 <= arm_gap <= 40:
                 feedback.append('✅ 双臂间距标准')
-            elif arm_gap < 15:
-                feedback.append('⚠️ 双臂可以稍微打开一些')
-            elif arm_gap > 50:
-                feedback.append('⚠️ 双臂距离略宽')
+            elif arm_gap < 20:
+                feedback.append('⚠️ 双臂可以稍微打开一些（保持20-40°）')
+            elif arm_gap > 45:
+                feedback.append('⚠️ 双臂距离过宽，收紧至肩宽')
             
             return total_arm_score, feedback
             
@@ -437,20 +470,24 @@ class VolleyballScorerV3:
             
             total_body_score = left_knee_score + right_knee_score + balance_score
             
-            # 生成反馈
-            if 70 <= left_knee_angle <= 110:
-                feedback.append('✅ 左腿弯曲适中')
-            elif left_knee_angle > 140:
-                feedback.append('⚠️ 左腿可以弯曲一些，降低重心')
-            elif left_knee_angle < 50:
-                feedback.append('⚠️ 左腿弯曲过多')
+            # 生成反馈（与评分标准一致：80-110°）
+            if 80 <= left_knee_angle <= 110:
+                feedback.append('✅ 左腿弯曲标准（重心稳定）')
+            elif left_knee_angle > 120:
+                feedback.append('⚠️ 左腿弯曲不足，请降低重心至半蹲')
+            elif left_knee_angle < 70:
+                feedback.append('⚠️ 左腿蹲得过低，重心过低影响移动')
+            else:
+                feedback.append('⚠️ 左腿弯曲略有偏差')
             
-            if 70 <= right_knee_angle <= 110:
-                feedback.append('✅ 右腿弯曲适中')
-            elif right_knee_angle > 140:
-                feedback.append('⚠️ 右腿可以弯曲一些，降低重心')
-            elif right_knee_angle < 50:
-                feedback.append('⚠️ 右腿弯曲过多')
+            if 80 <= right_knee_angle <= 110:
+                feedback.append('✅ 右腿弯曲标准（重心稳定）')
+            elif right_knee_angle > 120:
+                feedback.append('⚠️ 右腿弯曲不足，请降低重心至半蹲')
+            elif right_knee_angle < 70:
+                feedback.append('⚠️ 右腿蹲得过低，重心过低影响移动')
+            else:
+                feedback.append('⚠️ 右腿弯曲略有偏差')
             
             if knee_diff < 15:
                 feedback.append('✅ 双腿平衡稳定')
@@ -514,15 +551,15 @@ class VolleyballScorerV3:
                          'left_knee', 'right_knee']
             
             visibilities = [landmarks[point]['visibility'] for point in key_points]
-            avg_visibility = np.mean(visibilities)
+            avg_visibility = float(np.mean(visibilities))  # 转换为Python float
             
             # 使用sigmoid评分
-            stability_score = self._sigmoid_score(
+            stability_score = float(self._sigmoid_score(
                 avg_visibility,
                 threshold=0.5,
                 steepness=10,
                 max_score=max_score
-            )
+            ))
             
             if avg_visibility > 0.75:
                 feedback.append('✅ 姿态识别清晰')
@@ -534,7 +571,7 @@ class VolleyballScorerV3:
             return stability_score, feedback
             
         except Exception as e:
-            return 0, [f'稳定性评估异常: {str(e)}']
+            return 0.0, [f'稳定性评估异常: {str(e)}']
     
     # ==================== 序列评分 ====================
     
@@ -574,8 +611,8 @@ class VolleyballScorerV3:
                 frame_scores.append(0)
         
         # 找到最佳帧
-        best_frame_idx = np.argmax(frame_scores)
-        best_frame_score = frame_scores[best_frame_idx]
+        best_frame_idx = int(np.argmax(frame_scores))  # 转换为Python int
+        best_frame_score = int(frame_scores[best_frame_idx])  # 转换为Python int
         
         # 获取最佳帧的详细评分
         best_frame_data = frames_data[best_frame_idx]
@@ -585,16 +622,16 @@ class VolleyballScorerV3:
         )
         
         return {
-            'total_score': best_frame_score,
-            'best_frame_score': best_frame_score,
-            'best_frame_idx': best_frame_idx,
-            'has_ball_frames': has_ball_count,
-            'ball_detection_rate': has_ball_count / len(frames_data) if frames_data else 0,
-            'arm_score': best_result.get('arm_score', 0),
-            'body_score': best_result.get('body_score', 0),
-            'position_score': best_result.get('position_score', 0),
-            'ball_score': best_result.get('ball_score', 0),
-            'stability_score': best_result.get('stability_score', 0),
+            'total_score': int(best_frame_score),
+            'best_frame_score': int(best_frame_score),
+            'best_frame_idx': int(best_frame_idx),
+            'has_ball_frames': int(has_ball_count),
+            'ball_detection_rate': float(has_ball_count / len(frames_data)) if frames_data else 0.0,
+            'arm_score': float(best_result.get('arm_score', 0)),
+            'body_score': float(best_result.get('body_score', 0)),
+            'position_score': float(best_result.get('position_score', 0)),
+            'ball_score': float(best_result.get('ball_score', 0)),
+            'stability_score': float(best_result.get('stability_score', 0)),
             'feedback': best_result.get('feedback', [])
         }
     
@@ -610,4 +647,7 @@ class VolleyballScorerV3:
             return 'C', '及格！继续努力！💪'
         else:
             return 'D', '需要改进！多多练习！📚'
+
+
+
 

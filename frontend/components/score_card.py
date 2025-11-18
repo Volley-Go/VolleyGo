@@ -57,15 +57,40 @@ def render_score_card(score_summary):
     # 分项得分
     st.subheader("📊 分项得分")
     
+    # 获取满分信息
+    max_scores = score_summary.get('max_scores', {})
+    arm_max = max_scores.get('arm_max', 32)
+    body_max = max_scores.get('body_max', 33)
+    position_max = max_scores.get('position_max', 25)
+    stability_max = max_scores.get('stability_max', 10)
+    ball_max = max_scores.get('ball_max', 25)
+    
     col1, col2 = st.columns(2)
     
     with col1:
-        st.metric("手臂姿态", f"{score_summary.get('arm_score', 0):.1f}/35")
-        st.metric("触球位置", f"{score_summary.get('position_score', 0):.1f}/25")
+        arm_score = score_summary.get('arm_score', 0)
+        st.metric("手臂姿态", f"{arm_score:.1f}/{arm_max}")
+        st.progress(arm_score / arm_max if arm_max > 0 else 0)
+        
+        position_score = score_summary.get('position_score', 0)
+        st.metric("触球位置", f"{position_score:.1f}/{position_max}")
+        st.progress(position_score / position_max if position_max > 0 else 0)
     
     with col2:
-        st.metric("身体重心", f"{score_summary.get('body_score', 0):.1f}/30")
-        st.metric("整体稳定", f"{score_summary.get('stability_score', 0):.1f}/10")
+        body_score = score_summary.get('body_score', 0)
+        st.metric("身体重心", f"{body_score:.1f}/{body_max}")
+        st.progress(body_score / body_max if body_max > 0 else 0)
+        
+        stability_score = score_summary.get('stability_score', 0)
+        st.metric("整体稳定", f"{stability_score:.1f}/{stability_max}")
+        st.progress(stability_score / stability_max if stability_max > 0 else 0)
+    
+    # 如果有人球位置评分（有球模式）
+    if score_summary.get('ball_score', 0) > 0:
+        st.markdown("---")
+        ball_score = score_summary.get('ball_score', 0)
+        st.metric("人球位置", f"{ball_score:.1f}/{ball_max}")
+        st.progress(ball_score / ball_max if ball_max > 0 else 0)
     
     # 雷达图
     render_radar_chart(score_summary)
@@ -84,12 +109,19 @@ def render_radar_chart(score_summary):
     Args:
         score_summary: 评分摘要
     """
+    # 获取满分信息
+    max_scores = score_summary.get('max_scores', {})
+    arm_max = max_scores.get('arm_max', 32)
+    body_max = max_scores.get('body_max', 33)
+    position_max = max_scores.get('position_max', 25)
+    stability_max = max_scores.get('stability_max', 10)
+    
     categories = ['手臂姿态', '身体重心', '触球位置', '整体稳定']
     values = [
-        (score_summary.get('arm_score', 0) / 35) * 100,
-        (score_summary.get('body_score', 0) / 30) * 100,
-        (score_summary.get('position_score', 0) / 25) * 100,
-        (score_summary.get('stability_score', 0) / 10) * 100,
+        (score_summary.get('arm_score', 0) / arm_max) * 100 if arm_max > 0 else 0,
+        (score_summary.get('body_score', 0) / body_max) * 100 if body_max > 0 else 0,
+        (score_summary.get('position_score', 0) / position_max) * 100 if position_max > 0 else 0,
+        (score_summary.get('stability_score', 0) / stability_max) * 100 if stability_max > 0 else 0,
     ]
     
     fig = go.Figure()
